@@ -1,0 +1,20 @@
+Title,Body,Labels
+FE: Поміняти фавікон та назву застосунку,Змінити favicon.ico та title у layout.tsx,frontend
+FE: Підключити шрифти до проєкту,Додати Google Fonts або локальні шрифти у globals.css,frontend
+FE: Створити глобальні CSS змінні,Визначити кольорову палітру та базові змінні у :root,frontend
+FE: Налаштувати маршрутизацію,Приватні/публічні маршрути через App Router + HOC useAuth,frontend,routing
+FE: Розмітка сторінки логіну/реєстрації,Створити базові форми логіну та реєстрації без логіки,frontend,auth
+FE: Валідація форм логіну/реєстрації,Підключити Formik+Yup, додати перевірку email/паролю,frontend,auth
+FE: Реалізувати логінізацію/реєстрацію,Відправка даних на бек, запис у state (zustand/redux),frontend,auth
+FE: Обробка помилок логіну/реєстрації,Виводити toast/повідомлення при невірних даних,frontend,auth
+FE: Отримання інформації про користувача,Виклик ендпоінта /user/me, збереження у state,frontend,auth
+FE: Логаут користувача,Видалення токена, очищення state, редирект на /auth/login,frontend,auth
+BE: Розгорнути сервер для розробки,Підключити Express, CORS, dotenv, error handler,backend,setup
+BE: Ініціалізувати та підключити БД,Обговорити структуру, налаштувати підключення (MongoDB/Postgres),backend,db
+BE: Створити Swagger документацію,Підключити swagger-ui-express, описати auth/user ендпоінти,backend,docs
+BE: POST /auth/register,Ендпоінт для реєстрації користувача {userName,email,password},backend,auth
+BE: POST /auth/login,Ендпоінт логінізації {email,password},backend,auth
+BE: Middleware авторизації,Прошарок для перевірки токенів (JWT),backend,auth
+BE: GET /user/me,Отримання інформації про поточного користувача,backend,auth
+BE: PATCH /user/update,Оновлення даних користувача (контактна інформація),backend,auth
+BE: POST /auth/logout,Логаут користувача (анулювання токена),backend,auth

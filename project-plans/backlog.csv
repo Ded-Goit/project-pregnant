@@ -1,0 +1,41 @@
+Title,Body,Labels
+Ініціалізація проєкту,Створити Next.js 15 з TypeScript та базову структуру папок,setup
+Налаштувати CSS Modules,Підключити та перевірити роботу CSS Modules,setup
+Підключити Zustand,Налаштувати глобальний state management,infra
+Підключити React Query,Організувати запити та кешування даних,infra
+Реалізувати глобальний Loader,Відображення лоадера під час активних запитів,infra
+Реалізувати ErrorBoundary,Глобальна обробка помилок,infra
+Реалізувати Toast-повідомлення,Використати react-hot-toast,infra
+Захист приватних маршрутів,Реалізувати HOC/Hook для перевірки авторизації,routing
+Створити Layout,Layout з Header, Breadcrumbs, Sidebar та children,layout
+Реалізувати Header,Адаптивний хедер з логотипом та бургер-меню,layout
+Реалізувати Breadcrumbs,Відображення поточного шляху користувача,layout
+Реалізувати Sidebar,Адаптивна навігація для авторизованого/неавторизованого користувача,layout
+DashboardPage - GreetingBlock,Привітання користувача з бекенду,dashboard
+DashboardPage - StatusBlock,Поточний термін вагітності та зворотний відлік,dashboard
+DashboardPage - BabyTodayCard,Ілюстрація + розмір + досягнення тижня,dashboard
+DashboardPage - MomTipCard,Порада для мами з бекенду,dashboard
+DashboardPage - TasksReminderCard,Список завдань + AddTaskModal,dashboard
+DashboardPage - FeelingCheckCard,Самопочуття + AddDiaryEntryModal,dashboard
+JourneyPage - GreetingBlock,Привітання на сторінці подорожі,journey
+JourneyPage - WeekSelector,Вибір тижня вагітності,journey
+JourneyPage - JourneyDetails,Детальний опис обраного тижня з табами,journey
+DiaryPage - GreetingBlock,Привітання на сторінці щоденника,diary
+DiaryPage - DiaryList,Список записів щоденника,diary
+DiaryPage - DiaryEntryCard,Картка запису щоденника,diary
+DiaryPage - DiaryEntryDetails,Деталі одного запису щоденника,diary
+ProfilePage - ProfileAvatar,Відображення аватара та даних користувача,profile
+ProfilePage - ProfileEditForm,Редагування даних користувача (Formik+Yup),profile
+AuthPage - RegistrationForm,Форма реєстрації з валідацією (Formik+Yup),auth
+AuthPage - LoginForm,Форма логіну з валідацією (Formik+Yup),auth
+OnboardingPage - OnboardingForm,Форма введення початкових даних,onboarding
+Modal - AddTaskModal,Модальне вікно для створення/редагування завдання,modal
+Modal - AddTaskForm,Форма додавання/редагування завдання (Formik+Yup),modal
+Modal - AddDiaryEntryModal,Модальне вікно для створення/редагування запису,modal
+Modal - AddDiaryEntryForm,Форма для створення/редагування запису (Formik+Yup),modal
+Modal - ConfirmationModal,Універсальне модальне підтвердження,modal
+GreetingBlock - залежність від часу доби,Додатковий бонус: ранкове/денне/вечірнє/нічне привітання,extra
+ProfileEditForm - перевірка email,Після зміни email надсилати запит на підтвердження пошти,extra
+ProfileEditForm - зміна теми,Зміна кольорової теми в залежності від статі дитини,extra
+RegistrationForm - зміна теми,Зміна кольорової теми після вибору статі,extra
+GoogleAuthBtn,Реалізувати авторизацію через Google,extra

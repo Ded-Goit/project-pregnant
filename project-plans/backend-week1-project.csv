@@ -1,0 +1,10 @@
+Title,Status,Assignee,Labels
+Розгорнути сервер для розробки (Express, CORS, error handler),To Do,,Backend
+Ініціалізувати та підключити БД до проєкту,To Do,,Backend
+Створити документацію ендпоінтів (Swagger),To Do,,Backend
+POST /auth/register – реєстрація користувача,To Do,,Backend
+POST /auth/login – логінізація користувача,To Do,,Backend
+Middleware авторизації (JWT),To Do,,Backend
+GET /user/me – отримання даних користувача,To Do,,Backend
+PATCH /user/update – оновлення даних користувача,To Do,,Backend
+POST /auth/logout – вихід з профілю,To Do,,Backend
