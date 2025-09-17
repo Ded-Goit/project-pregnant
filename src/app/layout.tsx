@@ -29,7 +29,7 @@ const latoLocal = localFont({
       style: 'normal',
     },
     {
-      path: '/fonts/latosemibold.ttf.ttf',
+      path: '/fonts/latosemibold.ttf',
       weight: '600',
       style: 'normal',
     },
