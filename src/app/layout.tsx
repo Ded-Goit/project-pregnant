@@ -24,12 +24,12 @@ const comfortaa = Comfortaa({
 const latoLocal = localFont({
   src: [
     {
-      path: '/fonts/lato_medium.ttf',
+      path: '/fonts/latomedium.ttf',
       weight: '500',
       style: 'normal',
     },
     {
-      path: '/fonts/lato_semibold.ttf.ttf',
+      path: '/fonts/latosemibold.ttf.ttf',
       weight: '600',
       style: 'normal',
     },
