@@ -1,0 +1,8 @@
+.dashboardWrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  background-color: aquamarine;
+}
