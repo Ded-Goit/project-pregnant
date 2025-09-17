@@ -1,0 +1,41 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+
+.flower {
+  width: 40px;
+  height: 40px;
+  display: inline-block;
+  animation:
+    pulse 1.2s infinite alternate,
+    colorShift 6s ease-in-out infinite;
+  transform-origin: center;
+}
+
+/* Пульсація */
+@keyframes pulse {
+  0% {
+    transform: scale(0.6) translateY(0px);
+    opacity: 0.6;
+  }
+  100% {
+    transform: scale(1.2) translateY(-10px);
+    opacity: 1;
+  }
+}
+
+/* Переливання кольору */
+@keyframes colorShift {
+  0% {
+    filter: hue-rotate(0deg);
+  }
+  50% {
+    filter: hue-rotate(180deg);
+  }
+  100% {
+    filter: hue-rotate(360deg);
+  }
+}
