@@ -1,42 +1,215 @@
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@import 'normalize.css';
+
+/* === Reset Block  === */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
-html,
-body {
-  max-width: 100vw;
-  overflow-x: hidden;
-}
-
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+/* Базові елементи */
+html {
+  scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-* {
-  box-sizing: border-box;
-  padding: 0;
+body {
+  min-height: 100vh;
+  line-height: 1.5;
+  font-family: var(--font-family);
+  font-weight: var(--fw-regular);
+  background-color: var(--color-scheme-background);
+  color: var(--color-scheme-text);
+  text-rendering: optimizeLegibility;
+}
+
+/* Списки */
+ul,
+ol {
+  list-style: none;
+}
+
+/* Посилання */
+a {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+/* Зображення та медіа */
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/* Формові елементи */
+button,
+input,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+  border: none;
+  outline: none;
+  background: none;
+}
+
+button {
+  cursor: pointer;
+}
+
+/* Таблиці */
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+}
+
+/* Headings */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--second-family);
+  font-weight: var(--fw-bold);
+  font-weight: inherit;
+  font-size: inherit;
+}
+
+/* Інші */
+blockquote,
+figure {
   margin: 0;
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
+/* === Breakpoints (mobile-first) === */
+
+@media (min-width: 768px) {
+  h1 {
+    font-size: 36px;
+  }
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
+@media (min-width: 1440px) {
+  h1 {
+    font-size: 48px;
   }
+}
+
+/* === Fonts Variables === */
+:root {
+  /* Google Fonts (400, 700, 900) + Local Fonts (500, 600) */
+  --font-family: var(--font-lato-google), var(--font-lato-local), sans-serif;
+  --second-family: var(--font-comfortaa), cursive;
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-semibold: 600;
+  --fw-bold: 700;
+}
+
+/* === Base Neutral Colors === */
+:root {
+  --color-neutral-darkest: #000;
+  --color-neutral-darker: #191919;
+  --color-neutral-dark: #4c4c4c;
+  --color-neutral: #7f7f7f;
+  --color-neutral-light: #b2b2b2;
+  --color-neutral-lighter: #d8d8d8;
+  --color-neutral-lightest: #f2f2f2;
+  --color-white: #fff;
+
+  /* Transparency helpers */
+  --opacity-transparent: rgba(255, 255, 255, 0);
+  --opacity-white-5: rgba(255, 255, 255, 0.05);
+  --opacity-white-10: rgba(255, 255, 255, 0.1);
+  --opacity-white-15: rgba(255, 255, 255, 0.15);
+  --opacity-white-20: rgba(255, 255, 255, 0.2);
+  --opacity-white-30: rgba(255, 255, 255, 0.3);
+  --opacity-white-40: rgba(255, 255, 255, 0.4);
+  --opacity-white-50: rgba(255, 255, 255, 0.5);
+  --opacity-white-60: rgba(255, 255, 255, 0.6);
+
+  --opacity-neutral-darkest-5: rgba(0, 0, 0, 0.05);
+  --opacity-neutral-darkest-10: rgba(0, 0, 0, 0.1);
+  --opacity-neutral-darkest-15: rgba(0, 0, 0, 0.15);
+  --opacity-neutral-darkest-20: rgba(0, 0, 0, 0.2);
+  --opacity-neutral-darkest-30: rgba(0, 0, 0, 0.3);
+  --opacity-neutral-darkest-40: rgba(0, 0, 0, 0.4);
+  --opacity-neutral-darkest-50: rgba(0, 0, 0, 0.5);
+  --opacity-neutral-darkest-60: rgba(0, 0, 0, 0.6);
+}
+
+/* === Color Palettes === */
+:root {
+  /* Pink palette */
+  --color-pastel-pink-lightest: #fff9fa;
+  --color-pastel-pink-lighter: #fff4f6;
+  --color-pastel-pink-light: #ffdae0;
+  --color-pastel-pink: #ffcbd3;
+  --color-pastel-pink-dark: #cca2a8;
+  --color-pastel-pink-darker: #665154;
+  --color-pastel-pink-darkest: #4c3c3f;
+
+  /* Oasis palette (Yellow) */
+  --color-oasis-lightest: #fefdf9;
+  --color-oasis-lighter: #fefbf4;
+  --color-oasis-light: #fef1db;
+  --color-oasis: #feeccc;
+  --color-oasis-dark: #cbbca3;
+  --color-oasis-darker: #655e51;
+  --color-oasis-darkest: #4c463d;
+
+  /* French Pass palette (Blue) */
+  --color-french-pass-lightest: #fbfefe;
+  --color-french-pass-lighter: #e5fafe;
+  --color-french-pass-light: #c4f2fe;
+  --color-french-pass: #adeffe;
+  --color-french-pass-dark: #98c1cb;
+  --color-french-pass-darker: #4c6065;
+  --color-french-pass-darkest: #39484c;
+
+  /* Extra */
+  --color-red: #c60000;
+}
+
+/* === Theme Aliases === */
+
+/* 🌞 Default (Yellow / Oasis theme) */
+[data-theme='default'] {
+  --color-scheme-background: var(--color-white);
+  --color-scheme-text: var(--color-neutral-darkest);
+  --color-scheme-border: var(--opacity-neutral-darkest-15);
+  --color-scheme-foreground: var(--color-oasis-lighter);
+  --color-scheme-foreground-alt: var(--color-oasis-light);
+  --color-scheme-accent: var(--color-oasis);
+}
+
+/* 💗 Pink theme */
+[data-theme='pink'] {
+  --color-scheme-background: var(--color-white);
+  --color-scheme-text: var(--color-neutral-darkest);
+  --color-scheme-border: var(--opacity-neutral-darkest-15);
+  --color-scheme-foreground: var(--color-pastel-pink-lighter);
+  --color-scheme-foreground-alt: var(--color-pastel-pink-light);
+  --color-scheme-accent: var(--color-pastel-pink);
+}
+
+/* 💙 Blue theme */
+[data-theme='blue'] {
+  --color-scheme-background: var(--color-white);
+  --color-scheme-text: var(--color-neutral-darkest);
+  --color-scheme-border: var(--opacity-neutral-darkest-15);
+  --color-scheme-foreground: var(--color-french-pass-lighter);
+  --color-scheme-foreground-alt: var(--color-french-pass-light);
+  --color-scheme-accent: var(--color-french-pass);
 }
