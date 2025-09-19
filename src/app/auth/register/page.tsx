@@ -109,8 +109,8 @@ export default function RegistrationForm() {
           </Form>
         )}
       </Formik>
-      <p>
-        Вже маєте аккаунт? <Link>Увійти</Link>
+      <p className={styles.text}>
+        Вже маєте аккаунт?<Link>Увійти</Link>
       </p>
     </section>
   );
