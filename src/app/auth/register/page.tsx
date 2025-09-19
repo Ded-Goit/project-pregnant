@@ -7,11 +7,18 @@ import { useAuthStore } from '@/hooks/useAuthStore';
 import { useRouter } from 'next/navigation';
 import styles from './register.module.css';
 import { useId } from 'react';
+import Link from '@/components/UI/Link';
 
 const RegisterSchema = Yup.object().shape({
-  name: Yup.string().required('Обов’язково'),
-  email: Yup.string().email('Невірний email').required('Обов’язково'),
-  password: Yup.string().min(6, 'Мінімум 6 символів').required('Обов’язково'),
+  name: Yup.string().max(32, 'Максимум 32 символи').required('Обов’язково'),
+  email: Yup.string()
+    .email('Невірний email')
+    .max(64, 'Максимум 64 символи')
+    .required('Обов’язково'),
+  password: Yup.string()
+    .min(8, 'Мінімум 8 символів')
+    .max(128, 'Максимум 128 символів')
+    .required('Обов’язково'),
 });
 
 export default function RegistrationForm() {
@@ -37,39 +44,63 @@ export default function RegistrationForm() {
           }
         }}
       >
-        {({ isSubmitting }) => (
+        {({ isSubmitting, errors, touched }) => (
           <Form className={styles.form}>
+            {/* Name */}
             <label className={styles.label} htmlFor={`${fieldId}-username`}>
               Ім’я*
               <Field
-                type="text"
-                name="name"
-                placeholder="Ваше імʼя"
                 id={`${fieldId}-username`}
+                name="name"
+                type="text"
+                placeholder="Ваше імʼя"
+                className={`${styles.field} ${
+                  touched.name && errors.name ? styles.errorField : ''
+                }`}
               />
-              <ErrorMessage name="name" component="div" />
+              <ErrorMessage
+                name="name"
+                component="span"
+                className={styles.error}
+              />
             </label>
 
+            {/* Email */}
             <label className={styles.label} htmlFor={`${fieldId}-email`}>
               Пошта*
               <Field
-                type="email"
-                name="email"
-                placeholder="hello@leleka.com"
                 id={`${fieldId}-email`}
+                name="email"
+                type="email"
+                placeholder="hello@leleka.com"
+                className={`${styles.field} ${
+                  touched.email && errors.email ? styles.errorField : ''
+                }`}
               />
-              <ErrorMessage name="email" component="div" />
+              <ErrorMessage
+                name="email"
+                component="span"
+                className={styles.error}
+              />
             </label>
 
+            {/* Password */}
             <label className={styles.label} htmlFor={`${fieldId}-password`}>
               Пароль*
               <Field
-                type="password"
-                name="password"
-                placeholder="Пароль"
                 id={`${fieldId}-password`}
+                name="password"
+                type="password"
+                placeholder="Пароль"
+                className={`${styles.field} ${
+                  touched.password && errors.password ? styles.errorField : ''
+                }`}
               />
-              <ErrorMessage name="password" component="div" />
+              <ErrorMessage
+                name="password"
+                component="span"
+                className={styles.error}
+              />
             </label>
 
             <button type="submit" disabled={isSubmitting}>
@@ -78,7 +109,9 @@ export default function RegistrationForm() {
           </Form>
         )}
       </Formik>
-      <p>Вже маєте аккаунт?</p>
+      <p>
+        Вже маєте аккаунт? <Link>Увійти</Link>
+      </p>
     </section>
   );
 }
