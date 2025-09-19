@@ -6,6 +6,7 @@ import api from '@/lib/api';
 import { useAuthStore } from '@/hooks/useAuthStore';
 import { useRouter } from 'next/navigation';
 import styles from './register.module.css';
+import { useId } from 'react';
 
 const RegisterSchema = Yup.object().shape({
   name: Yup.string().required('Обов’язково'),
@@ -16,12 +17,11 @@ const RegisterSchema = Yup.object().shape({
 export default function RegistrationForm() {
   const { setUser } = useAuthStore();
   const router = useRouter();
+  const fieldId = useId();
 
   return (
-    <div className={styles.dashboardWrapper}>
-      <h1 className={styles.title}>
-        Реєстрація сторінка реєстрації з компонентами
-      </h1>
+    <section className={styles.section}>
+      <h1 className={styles.title}>Реєстрація</h1>
       <Formik
         initialValues={{ name: '', email: '', password: '' }}
         validationSchema={RegisterSchema}
@@ -38,19 +38,47 @@ export default function RegistrationForm() {
         }}
       >
         {({ isSubmitting }) => (
-          <Form>
-            <Field type="text" name="name" placeholder="Ім’я" />
-            <ErrorMessage name="name" component="div" />
-            <Field type="email" name="email" placeholder="Email" />
-            <ErrorMessage name="email" component="div" />
-            <Field type="password" name="password" placeholder="Пароль" />
-            <ErrorMessage name="password" component="div" />
+          <Form className={styles.form}>
+            <label className={styles.label} htmlFor={`${fieldId}-username`}>
+              Ім’я*
+              <Field
+                type="text"
+                name="name"
+                placeholder="Ваше імʼя"
+                id={`${fieldId}-username`}
+              />
+              <ErrorMessage name="name" component="div" />
+            </label>
+
+            <label className={styles.label} htmlFor={`${fieldId}-email`}>
+              Пошта*
+              <Field
+                type="email"
+                name="email"
+                placeholder="hello@leleka.com"
+                id={`${fieldId}-email`}
+              />
+              <ErrorMessage name="email" component="div" />
+            </label>
+
+            <label className={styles.label} htmlFor={`${fieldId}-password`}>
+              Пароль*
+              <Field
+                type="password"
+                name="password"
+                placeholder="Пароль"
+                id={`${fieldId}-password`}
+              />
+              <ErrorMessage name="password" component="div" />
+            </label>
+
             <button type="submit" disabled={isSubmitting}>
               Зареєструватися
             </button>
           </Form>
         )}
       </Formik>
-    </div>
+      <p>Вже маєте аккаунт?</p>
+    </section>
   );
 }

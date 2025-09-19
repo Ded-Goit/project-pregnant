@@ -1,8 +1,32 @@
-.dashboardWrapper {
+.section {
+  width: 375px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.title {
+  margin-top: 0;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 32px;
+  text-align: center;
+
+  font-weight: var(--fw-bold);
+  font-size: 36px;
+
+  line-height: 1.2;
+  letter-spacing: 0.01em;
+  background-color: var(--color-scheme-text);
+}
+
+.form {
   display: flex;
   flex-direction: column;
 }
 
-.title {
-  background-color: aquamarine;
+.label {
+  display: flex;
+  flex-direction: column;
+
+  font-size: 14px;
 }
