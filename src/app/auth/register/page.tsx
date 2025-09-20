@@ -37,7 +37,7 @@ export default function RegistrationForm() {
             try {
               const { data } = await api.post('/auth/register', values);
               setUser(data);
-              router.push('/');
+              router.push('/profile/edit');
             } catch {
               setErrors({ email: 'Невірні дані', password: ' ' });
             } finally {
