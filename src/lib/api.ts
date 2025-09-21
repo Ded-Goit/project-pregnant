@@ -20,6 +20,11 @@ export interface RefreshResponse {
   accessToken: string;
 }
 
+export interface LoginRequest {
+  email: string;
+  password: string;
+}
+
 const nextServer = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api',
   withCredentials: true,
@@ -34,7 +39,7 @@ nextServer.interceptors.request.use((config) => {
 });
 
 export const register = async (payload: RegisterRequest) => {
-  const { data } = await nextServer.post('/auth/register', payload);
+  const { data } = await nextServer.post<User>('/auth/register', payload);
   return data;
 };
 
@@ -45,6 +50,11 @@ export const refresh = async () => {
 
 export const getMe = async () => {
   const { data } = await nextServer<User>('/auth/me');
+  return data;
+};
+
+export const login = async (payload: LoginRequest) => {
+  const { data } = await nextServer.post<User>(`/auth/login`, payload);
   return data;
 };
 

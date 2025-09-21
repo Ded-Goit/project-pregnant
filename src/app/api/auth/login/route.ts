@@ -3,11 +3,12 @@ import { api } from '../../api';
 import { cookies } from 'next/headers';
 import { parse } from 'cookie';
 
-export async function POST(request: NextRequest) {
+export async function post(request: NextRequest) {
   const body = await request.json();
-  const response = await api.post('/auth/register', body);
+  const response = await api.post('/auth/login', body);
 
-  const cookieData = await cookies();
+  const cookiesData = await cookies();
+
   const setCookie = response.headers['set-cookie'];
 
   if (setCookie) {
@@ -26,10 +27,11 @@ export async function POST(request: NextRequest) {
       };
 
       if (parsedCookie.accessToken) {
-        cookieData.set('accessToken', parsedCookie.accessToken, options);
+        cookiesData.set('accessToken', parsedCookie.accessToken, options);
       }
+
       if (parsedCookie.refreshToken) {
-        cookieData.set('refreshToken', parsedCookie.refreshToken, options);
+        cookiesData.set('refreshToken', parsedCookie.refreshToken, options);
       }
     }
   }

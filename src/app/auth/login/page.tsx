@@ -2,7 +2,7 @@
 
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import { register } from '@/lib/api';
+import { login } from '@/lib/api';
 import { useAuthStore } from '@/hooks/useAuthStore';
 import { useRouter } from 'next/navigation';
 import styles from './login.module.css';
@@ -34,7 +34,7 @@ export default function LoginForm() {
           validationSchema={LoginSchema}
           onSubmit={async (values, { setSubmitting, setErrors }) => {
             try {
-              const { data } = await register(values);
+              const data = await login(values);
               setUser(data);
               router.push('/profile/edit');
             } catch {

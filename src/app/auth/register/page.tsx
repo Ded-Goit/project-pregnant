@@ -35,7 +35,7 @@ export default function RegistrationForm() {
           validationSchema={RegisterSchema}
           onSubmit={async (values, { setSubmitting, setErrors }) => {
             try {
-              const { data } = await register(values);
+              const data = await register(values);
               setUser(data);
               router.push('/profile/edit');
             } catch {
