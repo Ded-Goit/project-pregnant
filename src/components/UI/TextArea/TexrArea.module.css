@@ -1,0 +1,27 @@
+/* Базові стилі для текстової області */
+.textArea {
+  padding: 12px 16px;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  background-color: var(--color-neutral-lightest);
+  font-family: var(--font-family);
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--color-neutral-darkest);
+  resize: vertical; /* Дозволяє зміну розміру тільки по вертикалі */
+  transition: all 0.2s ease;
+  min-height: 100px; /* Мінімальна висота */
+}
+
+/* Стилі для плейсхолдера */
+.textArea::placeholder {
+  color: var(--color-neutral);
+}
+
+/* Стилі для стану Focus/Hover */
+.textArea:focus,
+.textArea:hover {
+  outline: none;
+  border-color: var(--color-pastel-pink);
+  box-shadow: 0 0 0 2px var(--color-pastel-pink-lighter);
+}

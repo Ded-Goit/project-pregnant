@@ -1,0 +1,38 @@
+/* Базові стилі для тегів */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 10px;
+  height: 30px;
+  border: 1px solid transparent;
+  border-radius: 100px;
+  background-color: var(--opacity-neutral-darkest-5);
+  font-family: var(--font-family);
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 160%;
+  color: var(--color-neutral-darkest);
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+/* Стилі для тегу з іконкою */
+.tagWithIcon {
+  padding-right: 4px;
+}
+
+/* Стилі для іконки */
+.icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  fill: var(--color-neutral-darkest);
+}
+
+/* Стилі для hover */
+.tag:hover {
+  background-color: var(--opacity-neutral-darkest-15);
+}
