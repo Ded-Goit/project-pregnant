@@ -16,15 +16,19 @@ export interface User {
   updatedAt: string;
 }
 
+export interface RefreshResponse {
+  accessToken: string;
+}
+
 const nextServer = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api',
   withCredentials: true,
 });
 
 nextServer.interceptors.request.use((config) => {
-  const { user } = useAuthStore.getState();
-  if (user?.token) {
-    config.headers.Authorization = `Bearer ${user.token}`;
+  const { accessToken } = useAuthStore.getState();
+  if (accessToken) {
+    config.headers.Authorization = `Bearer ${accessToken}`;
   }
   return config;
 });
@@ -32,6 +36,11 @@ nextServer.interceptors.request.use((config) => {
 export const register = async (payload: RegisterRequest) => {
   const { data } = await nextServer.post('/auth/register', payload);
   return data;
+};
+
+export const refresh = async () => {
+  const { data } = await nextServer<RefreshResponse>('/auth/refresh');
+  return data.accessToken;
 };
 
 export default nextServer;

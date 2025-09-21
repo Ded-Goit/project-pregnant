@@ -25,10 +25,12 @@ export async function POST(request: NextRequest) {
         secure: true,
       };
 
-      if (parsedCookie.accessToken)
+      if (parsedCookie.accessToken) {
         cookieData.set('accessToken', parsedCookie.accessToken, options);
-      if (parsedCookie.refreshToken)
+      }
+      if (parsedCookie.refreshToken) {
         cookieData.set('refreshToken', parsedCookie.refreshToken, options);
+      }
     }
   }
 
