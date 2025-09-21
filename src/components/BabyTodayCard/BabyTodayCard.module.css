@@ -6,3 +6,168 @@
 .title {
   background-color: rgb(179, 201, 214);
 }
+
+.babyTodayCard {
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  border-radius: 32px;
+  width: 335px;
+  height: 616px;
+  background: var(--color-oasis-lighter);
+  margin-bottom: 24px;
+
+  @media (min-width: 768px) {
+    width: 704px;
+    height: 373px;
+  }
+  @media (min-width: 1440px) {
+    width: 642px;
+    height: 420px;
+  }
+}
+
+.babyTodayTitle {
+  width: 287px;
+  height: 28px;
+  font: 700 20px / 140% var(--second-family);
+  letter-spacing: 0.01em;
+  color: var(--color-scheme-text);
+
+  @media (min-width: 768px) {
+    width: 656px;
+    font-size: 24px;
+  }
+
+  @media (min-width: 1440px) {
+    width: 594px;
+    height: 34px;
+  }
+}
+
+.babyTodayContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  margin-top: 16px;
+
+  @media (min-width: 768px) {
+    flex-direction: row;
+    width: 656px;
+    height: 194px;
+  }
+
+  @media (min-width: 1440px) {
+    width: 594px;
+  }
+}
+
+.babyTodayImage {
+  width: 287px;
+  height: 216px;
+
+  @media (min-width: 768px) {
+    width: 257px;
+    height: 194px;
+  }
+}
+
+.sizeDescription {
+  width: 287px;
+  height: 121px;
+  overflow-y: auto;
+
+  @media (min-width: 768px) {
+    width: 383px;
+    height: 70%;
+  }
+
+  @media (min-width: 1440px) {
+    width: 321px;
+  }
+}
+
+.sizeDescription::-webkit-scrollbar {
+  width: 10px;
+  height: 50px;
+}
+
+.sizeDescription::-webkit-scrollbar-track {
+  background: var(--opacity-neutral-darkest-20);
+  border-radius: 4px;
+  width: 6px;
+}
+
+.sizeDescription::-webkit-scrollbar-thumb {
+  width: 10px;
+  height: 56px;
+  background-color: var(--color-oasis);
+  border-radius: 4px;
+  border: 2px solid var(--color-oasis);
+  background-clip: content-box;
+}
+
+.sizeDescriptionTitle {
+  font: 700 14px / 150% var(--second-family);
+  letter-spacing: 0.01em;
+  color: var(--color-scheme-text);
+  margin-bottom: 0.2em;
+
+  @media (min-width: 1440px) {
+    font-size: 16px;
+  }
+}
+
+.sizeDescriptionText {
+  font: 400 14px / 150% var(--font-family);
+
+  @media (min-width: 1440px) {
+    font-size: 16px;
+  }
+}
+
+.keyAchievementWrapper {
+  width: 287px;
+  height: 147px;
+  overflow-y: auto;
+  margin-top: 24px;
+
+  @media (min-width: 768px) {
+    width: 656px;
+    height: 63px;
+  }
+
+  @media (min-width: 1440px) {
+    width: 594px;
+    height: 96px;
+  }
+}
+
+.keyAchievement {
+  font: 400 14px / 150% var(--font-family);
+
+  @media (min-width: 1440px) {
+    font-size: 16px;
+  }
+}
+
+.keyAchievementWrapper::-webkit-scrollbar {
+  width: 10px;
+  height: 50px;
+}
+
+.keyAchievementWrapper::-webkit-scrollbar-track {
+  background: var(--opacity-neutral-darkest-20);
+  border-radius: 4px;
+  width: 6px;
+}
+
+.keyAchievementWrapper::-webkit-scrollbar-thumb {
+  width: 10px;
+  height: 56px;
+  background-color: var(--color-oasis);
+  border-radius: 4px;
+  border: 2px solid var(--color-oasis);
+  background-clip: content-box;
+}
