@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import './globals.css';
-import { AuthProvider } from '@/components/providers/AuthProvider';
+import { AuthProvider } from '@/components/Providers/AuthProvider';
 import localFont from 'next/font/local';
 import { Lato, Comfortaa } from 'next/font/google';
 

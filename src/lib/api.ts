@@ -43,4 +43,9 @@ export const refresh = async () => {
   return data.accessToken;
 };
 
+export const getMe = async () => {
+  const { data } = await nextServer<User>('/auth/me');
+  return data;
+};
+
 export default nextServer;
