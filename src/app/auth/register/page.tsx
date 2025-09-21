@@ -2,7 +2,7 @@
 
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import api from '@/lib/api';
+import { register } from '@/lib/api';
 import { useAuthStore } from '@/hooks/useAuthStore';
 import { useRouter } from 'next/navigation';
 import styles from './register.module.css';
@@ -35,11 +35,11 @@ export default function RegistrationForm() {
           validationSchema={RegisterSchema}
           onSubmit={async (values, { setSubmitting, setErrors }) => {
             try {
-              const { data } = await api.post('/auth/register', values);
+              const { data } = await register(values);
               setUser(data);
               router.push('/profile/edit');
             } catch {
-              setErrors({ email: 'Невірні дані', password: ' ' });
+              setErrors({ email: 'Невірні дані', password: 'Невірні дані' });
             } finally {
               setSubmitting(false);
             }
