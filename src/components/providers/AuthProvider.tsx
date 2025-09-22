@@ -2,22 +2,26 @@
 
 import { ReactNode, useEffect } from 'react';
 import { useAuthStore } from '@/hooks/useAuthStore';
-import api from '@/lib/api';
+import { getMe, refresh } from '@/lib/api';
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const { setUser } = useAuthStore();
+  const setUser = useAuthStore((state) => state.setUser);
+  const logout = useAuthStore((state) => state.logout);
 
   useEffect(() => {
-    async function fetchUser() {
-      try {
-        const { data } = await api.get('/auth/me');
-        setUser(data);
-      } catch {
-        console.log('⚠️ Бекенд ще не піднятий, працюємо в демо-режимі');
+    const fetchUser = async () => {
+      const isAuth = await refresh();
+
+      if (isAuth) {
+        const user = await getMe();
+        setUser(user);
+      } else {
+        logout();
       }
-    }
+    };
+
     fetchUser();
-  }, [setUser]);
+  }, [logout, setUser]);
 
   return <>{children}</>;
 }
