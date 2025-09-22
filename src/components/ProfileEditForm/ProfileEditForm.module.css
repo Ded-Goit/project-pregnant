@@ -1,8 +1,208 @@
 .component {
   display: flex;
   flex-direction: column;
+  background: var(--color-white);
+  border: 1px solid var(--color-scheme-border);
+  border-radius: 20px;
+  padding: 24px;
+  flex: 1;
+  min-width: 0;
+  box-shadow: 0 2px 8px var(--opacity-neutral-darkest-10);
 }
 
 .title {
   background-color: rgb(179, 201, 214);
+  width: 100%;
+  padding: 12px;
+  text-align: center;
+  border-radius: 8px;
+  font-size: 14px;
+  color: var(--color-neutral-dark);
+  margin-bottom: 24px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.label {
+  font-weight: var(--fw-semibold);
+  color: var(--color-neutral-darkest);
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+
+.input,
+.select {
+  padding: 16px;
+  border: 2px solid var(--color-neutral-lighter);
+  border-radius: 12px;
+  font-size: 16px;
+  background: var(--color-white);
+  transition: all 0.3s ease;
+  width: 100%;
+  font-family: inherit;
+}
+
+.input:focus,
+.select:focus {
+  outline: none;
+  border-color: var(--color-scheme-accent);
+  box-shadow: 0 0 0 3px var(--opacity-neutral-darkest-5);
+}
+
+.inputError {
+  border-color: var(--color-red) !important;
+  box-shadow: 0 0 0 3px rgba(198, 0, 0, 0.1) !important;
+}
+
+.input::placeholder {
+  color: var(--color-neutral-light);
+}
+
+.input:disabled,
+.select:disabled {
+  background: var(--color-neutral-lightest);
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.error {
+  color: var(--color-red);
+  font-size: 12px;
+  font-weight: var(--fw-medium);
+  margin-top: 4px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.buttons {
+  display: flex;
+  gap: 16px;
+  margin-top: 32px;
+  flex-wrap: wrap;
+}
+
+.cancelButton,
+.submitButton {
+  padding: 16px 32px;
+  border-radius: 12px;
+  font-weight: var(--fw-semibold);
+  transition: all 0.3s ease;
+  flex: 1;
+  min-width: 160px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 16px;
+  border: 2px solid transparent;
+  font-family: var(--second-family);
+}
+
+.cancelButton {
+  background: var(--color-neutral-lightest);
+  color: var(--color-neutral-dark);
+  border-color: var(--color-neutral-lighter);
+}
+
+.cancelButton:hover:not(:disabled) {
+  background: var(--color-neutral-lighter);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px var(--opacity-neutral-darkest-10);
+}
+
+.submitButton {
+  background: var(--color-scheme-accent);
+  color: var(--color-neutral-darkest);
+  border-color: var(--color-scheme-accent);
+}
+
+.submitButton:hover:not(:disabled) {
+  background: var(--color-scheme-foreground-alt);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px var(--opacity-neutral-darkest-15);
+}
+
+.cancelButton:disabled,
+.submitButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.spinner {
+  width: 18px;
+  height: 18px;
+  border: 2px solid currentColor;
+  border-top: 2px solid transparent;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@media (max-width: 374px) {
+  .component {
+    padding: 20px;
+  }
+  
+  .input,
+  .select {
+    padding: 14px;
+    font-size: 16px;
+  }
+  
+  .buttons {
+    flex-direction: column;
+  }
+  
+  .cancelButton,
+  .submitButton {
+    width: 100%;
+    min-width: auto;
+    padding: 14px 24px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1439px) {
+  .component {
+    max-width: 500px;
+    padding: 32px;
+  }
+}
+
+@media (min-width: 1440px) {
+  .component {
+    padding: 40px;
+  }
+  
+  .form {
+    gap: 28px;
+  }
+  
+  .input,
+  .select {
+    padding: 18px;
+    font-size: 17px;
+  }
+  
+  .cancelButton,
+  .submitButton {
+    padding: 18px 36px;
+    font-size: 17px;
+  }
 }

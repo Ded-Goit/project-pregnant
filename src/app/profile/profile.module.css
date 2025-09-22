@@ -1,8 +1,145 @@
 .pageWrapper {
   display: flex;
   flex-direction: column;
+  padding: 16px;
+  max-width: 1440px;
+  margin: 0 auto;
+  min-height: 100vh;
 }
 
 .title {
   background-color: aquamarine;
+  font-family: var(--second-family);
+  font-size: 24px;
+  font-weight: var(--fw-bold);
+  color: var(--color-scheme-text);
+  margin-bottom: 24px;
+  text-align: center;
+  padding: 16px;
+  border-radius: 8px;
+}
+
+.profileContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.profileInfo {
+  background: var(--color-white);
+  border: 1px solid var(--color-scheme-border);
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: 0 2px 8px var(--opacity-neutral-darkest-10);
+}
+
+.infoSection {
+  margin-bottom: 24px;
+}
+
+.sectionTitle {
+  font-size: 20px;
+  font-weight: var(--fw-bold);
+  color: var(--color-neutral-darkest);
+  margin-bottom: 16px;
+  font-family: var(--second-family);
+}
+
+.infoItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--color-neutral-lightest);
+}
+
+.infoItem:last-child {
+  border-bottom: none;
+}
+
+.infoLabel {
+  font-weight: var(--fw-semibold);
+  color: var(--color-neutral-dark);
+}
+
+.infoValue {
+  color: var(--color-neutral);
+}
+
+.editButton {
+  background: var(--color-scheme-accent);
+  color: var(--color-neutral-darkest);
+  padding: 16px 32px;
+  border-radius: 12px;
+  font-weight: var(--fw-semibold);
+  transition: all 0.3s ease;
+  width: 100%;
+  text-align: center;
+  border: 2px solid transparent;
+  font-family: var(--second-family);
+}
+
+.editButton:hover {
+  background: var(--color-scheme-foreground-alt);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px var(--opacity-neutral-darkest-15);
+}
+
+.loading,
+.error {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  font-size: 18px;
+  color: var(--color-neutral);
+}
+
+.error {
+  color: var(--color-red);
+}
+
+@media (min-width: 768px) {
+  .pageWrapper {
+    padding: 24px;
+  }
+  
+  .title {
+    font-size: 28px;
+    text-align: left;
+    margin-bottom: 32px;
+  }
+  
+  .profileContainer {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 32px;
+  }
+  
+  .profileInfo {
+    flex: 1;
+    min-width: 0;
+  }
+}
+
+@media (min-width: 1024px) {
+  .pageWrapper {
+    padding: 32px;
+  }
+  
+  .title {
+    font-size: 32px;
+  }
+}
+
+@media (min-width: 1440px) {
+  .title {
+    font-size: 36px;
+  }
+  
+  .pageWrapper {
+    padding: 40px;
+  }
 }
