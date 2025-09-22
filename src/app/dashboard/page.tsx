@@ -61,7 +61,7 @@ export default function DashboardPage() {
         setIsAuthenticated(auth);
 
         const response = await axios.get(
-          auth ? '/api/weeks/dashboard' : '/api/weeks/public/dashboard'
+          auth ? '/api/week/dashboard' : '/api/week/public/dashboard'
         );
         console.log('Отримані дані:', response.data);
 
