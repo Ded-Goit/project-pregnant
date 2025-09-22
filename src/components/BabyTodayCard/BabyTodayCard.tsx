@@ -2,7 +2,7 @@
 
 //import dynamic from 'next/dynamic';
 import styles from './BabyTodayCard.module.css';
-import React, { useEffect, useState } from 'react';
+// import React, { useEffect, useState } from 'react';
 
 /*
 const FeelingCheckCard = dynamic(
@@ -20,12 +20,22 @@ const FeelingCheckCard = dynamic(
 // }
 
 interface BabyTodayCardData {
-  imageUrl: string;
-  sizeDescription: string;
-  keyAchievement: string;
+  image: string;
+  babySize: number;
+  babyWeight: number;
+  babyActivity: string;
+  babyDevelopment: string;
+  // sizeDescription: string;
+  // keyAchievement: string;
 }
 
-export default function BabyTodayCard() {
+export default function BabyTodayCard({
+  image,
+  babySize,
+  babyWeight,
+  babyActivity,
+  babyDevelopment,
+}: BabyTodayCardData) {
   // const [data, setData] = useState<BabyTodayCardData | null>(null);
   // const [loading, setLoading] = useState(true);
   // const [error, setError] = useState<string | null>(null);
@@ -63,42 +73,34 @@ export default function BabyTodayCard() {
       <h3 className={styles.babyTodayTitle}>Малюк сьогодні</h3>
       {/* <img src={data.imageUrl} alt="Ілюстрація розміру дитини" /> */}
       <div className={styles.babyTodayContent}>
-        <img
-          className={styles.babyTodayImage}
-          src="/frame_14.png"
-          alt="Ілюстрація розміру дитини"
-        />
+        {image ? (
+          <img
+            className={styles.babyTodayImage}
+            src={image}
+            alt="Ілюстрація розміру дитини"
+          />
+        ) : null}
         {/* <p>{data.sizeDescription}</p> */}
         <div className={styles.sizeDescription}>
           <p className={styles.sizeDescriptionTitle}>
             Розмір:{' '}
-            <span className={styles.sizeDescriptionText}>Приблизно 12 см</span>
+            <span className={styles.sizeDescriptionText}>{babySize}</span>
           </p>
 
           <p className={styles.sizeDescriptionTitle}>
             Вага:{' '}
-            <span className={styles.sizeDescriptionText}>
-              Близько 45 грамів.
-            </span>
+            <span className={styles.sizeDescriptionText}>{babyWeight} г</span>
           </p>
 
           <p className={styles.sizeDescriptionTitle}>
             Активність:{' '}
-            <span className={styles.sizeDescriptionText}>
-              М'язи обличчя вже працюють! Малюк вчиться хмуритися, мружитись і
-              навіть може зловити гикавку.
-            </span>
+            <span className={styles.sizeDescriptionText}>{babyActivity}</span>
           </p>
         </div>
       </div>
       {/* <strong>{data.keyAchievement}</strong> */}
       <div className={styles.keyAchievementWrapper}>
-        <p className={styles.keyAchievement}>
-          У цей час тіло малюка починає вкриватися лануго — надзвичайно ніжним
-          пушком, який зберігатиме тепло. Його шийка стає міцнішою, а рухи — все
-          більш скоординованими. Хоч ви ще не відчуваєте цих кульбітів, знайте:
-          всередині вас відбувається справжнє диво!
-        </p>
+        <p className={styles.keyAchievement}>{babyDevelopment}</p>
       </div>
     </section>
   );

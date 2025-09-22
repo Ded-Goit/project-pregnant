@@ -13,13 +13,12 @@
   padding: 24px;
   border-radius: 32px;
   width: 335px;
-  height: 616px;
+  height: auto;
   background: var(--color-oasis-lighter);
   margin-bottom: 24px;
 
   @media (min-width: 768px) {
     width: 704px;
-    height: 373px;
   }
   @media (min-width: 1440px) {
     width: 642px;
@@ -48,7 +47,7 @@
 .babyTodayContent {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: stretch;
   gap: 16px;
   margin-top: 16px;
 
@@ -75,8 +74,7 @@
 
 .sizeDescription {
   width: 287px;
-  height: 121px;
-  overflow-y: auto;
+  height: auto;
 
   @media (min-width: 768px) {
     width: 383px;
@@ -85,6 +83,7 @@
 
   @media (min-width: 1440px) {
     width: 321px;
+    overflow-y: auto;
   }
 }
 
@@ -129,8 +128,8 @@
 
 .keyAchievementWrapper {
   width: 287px;
-  height: 147px;
-  overflow-y: auto;
+  height: auto;
+
   margin-top: 24px;
 
   @media (min-width: 768px) {
@@ -141,6 +140,7 @@
   @media (min-width: 1440px) {
     width: 594px;
     height: 96px;
+    overflow-y: auto;
   }
 }
 

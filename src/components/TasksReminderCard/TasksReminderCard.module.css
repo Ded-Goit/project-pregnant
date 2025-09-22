@@ -4,7 +4,7 @@
   border-radius: 32px;
   padding: 24px;
   width: 335px;
-  height: 688px;
+  height: auto;
   background-color: var(--color-oasis-lighter);
   margin-bottom: 32px;
 
@@ -38,8 +38,12 @@
 }
 
 .taskListWrapper {
-  height: 95%;
-  overflow-y: auto;
+  height: auto;
+
+  @media (min-width: 1440px) {
+    height: 90%;
+    overflow-y: auto;
+  }
 }
 
 .taskListWrapper::-webkit-scrollbar {

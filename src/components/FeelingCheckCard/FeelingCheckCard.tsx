@@ -1,15 +1,10 @@
 'use client';
 
-//import dynamic from 'next/dynamic';
 import styles from './FeelingCheckCard.module.css';
 import React, { useState } from 'react';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import AddDiaryEntryModal from '../AddDiaryEntryModal/AddDiaryEntryModal';
-
-/*
-const FeelingCheckCard = dynamic(
-  () => import('@/components/dashboard/feeling-check-card')
-);*/
+import Button from '../UI/Buttons/Buttons';
 
 interface FeelingCheckCardProps {
   isAuthenticated: boolean;
@@ -19,13 +14,13 @@ export default function FeelingCheckCard({
   isAuthenticated,
 }: FeelingCheckCardProps) {
   const [modalOpen, setModalOpen] = useState(false);
-  // const router = useRouter();
+  const router = useRouter();
 
   const handleButtonClick = () => {
-    if (isAuthenticated) {
-      setModalOpen(true);
+    if (!isAuthenticated) {
+      router.push('/auth/register');
     } else {
-      // router.push('/auth/register');
+      setModalOpen(true);
     }
   };
 
@@ -41,9 +36,9 @@ export default function FeelingCheckCard({
         {' '}
         Занотуйте незвичні відчуття у тілі.
       </p>
-      <button className={styles.feelingCheckBtn} onClick={handleButtonClick}>
+      <Button variant="primary" size="large" onClick={handleButtonClick}>
         Зробити запис у щоденник
-      </button>
+      </Button>
 
       {modalOpen && (
         <AddDiaryEntryModal

@@ -8,15 +8,19 @@ const FeelingCheckCard = dynamic(
   () => import('@/components/dashboard/feeling-check-card')
 );*/
 
-import React, { useEffect, useState } from 'react';
+// import React, { useEffect, useState } from 'react';
 
-// interface StatusBlockProps {}
+interface StatusBlockProps {
+  weekNumber: number;
+  daysLeft: number;
+}
 
-export default function StatusBlock() {
-  const [week, setWeek] = useState<number | null>(1);
-  const [daysLeft, setDaysLeft] = useState<number | null>(250);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+export default function StatusBlock({
+  weekNumber,
+  daysLeft,
+}: StatusBlockProps) {
+  // const [loading, setLoading] = useState(true);
+  // const [error, setError] = useState<string | null>(null);
 
   // useEffect(() => {
   //   fetch('/api/user/pregnancy-status')
@@ -53,7 +57,7 @@ export default function StatusBlock() {
     <section className={styles.statusBlock}>
       <div className={styles.status}>
         <h3 className={styles.statusTitle}>Тиждень</h3>
-        <p className={styles.statusItem}>{week}</p>
+        <p className={styles.statusItem}>{weekNumber}</p>
       </div>
       <div className={styles.status}>
         <h3 className={styles.statusTitle}>Днів до зустрічі</h3>

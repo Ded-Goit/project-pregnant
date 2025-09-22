@@ -2,7 +2,7 @@
 
 //import dynamic from 'next/dynamic';
 import styles from './MomTipCard.module.css';
-import React, { useEffect, useState } from 'react';
+// import React, { useEffect, useState } from 'react';
 
 /*
 const FeelingCheckCard = dynamic(
@@ -11,13 +11,16 @@ const FeelingCheckCard = dynamic(
 
 interface MomTipCardData {
   categoryIconUrl: string;
-  tipText: string;
+  momDailyTips: string;
 }
 
-export default function MomTipCard() {
-  const [data, setData] = useState<MomTipCardData | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+export default function MomTipCard({
+  categoryIconUrl,
+  momDailyTips,
+}: MomTipCardData) {
+  // const [data, setData] = useState<MomTipCardData | null>(null);
+  // const [loading, setLoading] = useState(true);
+  // const [error, setError] = useState<string | null>(null);
 
   // useEffect(() => {
   //   fetch('/api/mom/tip-today')
@@ -53,16 +56,20 @@ export default function MomTipCard() {
     <section className={styles.momTipCard}>
       <h3 className={styles.momTipTitle}>Порада для мами</h3>
       <div className={styles.momTipContent}>
-        <img
+        {categoryIconUrl ? (
+          <img
+            src="/fork_spoon.png"
+            alt="Іконка категорії поради"
+            style={{ width: '24px', height: '24px' }}
+          />
+        ) : null}
+        {/* <img
           src="/fork_spoon.png"
           alt="Іконка категорії поради"
           style={{ width: '24px', height: '24px' }}
-        />
+        /> */}
         {/* Example tip text */}
-        <p className={styles.momTipText}>
-          Не забувайте про зволоження шкіри живота та стегон спеціальними
-          олійками, щоб попередити появу розтяжок.
-        </p>
+        <p className={styles.momTipText}>{momDailyTips}</p>
         {/* <img src={data.categoryIconUrl} alt="Іконка категорії поради" /> */}
         {/* <p>{data.tipText}</p> */}
       </div>

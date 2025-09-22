@@ -2,9 +2,9 @@
 
 //import dynamic from 'next/dynamic';
 import styles from './TasksReminderCard.module.css';
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import { useRouter } from 'next/router';
+import React, { useState } from 'react'; /*, useEffect*/
+// import axios from 'axios';
+// import { useRouter } from 'next/navigation';
 import AddTaskModal from '../AddTaskModal/AddTaskModal';
 import { Task } from '../AddTaskForm/AddTaskForm';
 
@@ -20,9 +20,9 @@ interface TasksReminderCardProps {
 export default function TasksReminderCard({
   isAuthenticated,
 }: TasksReminderCardProps) {
-  const [tasks, setTasks] = useState<Task[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  // const [tasks, setTasks] = useState<Task[]>([]);
+  // const [loading, setLoading] = useState(true);
+  // const [error, setError] = useState<string | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
 
   // const router = useRouter();
@@ -67,15 +67,15 @@ export default function TasksReminderCard({
 
   const closeAddTaskModal = () => setModalOpen(false);
 
-  const addTaskToList = (task: Task) => {
-    setTasks((prev) => {
-      const updatedTasks = [...prev, task];
-      updatedTasks.sort(
-        (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
-      );
-      return updatedTasks;
-    });
-  };
+  // const addTaskToList = (task: Task) => {
+  //   setTasks((prev) => {
+  //     const updatedTasks = [...prev, task];
+  //     updatedTasks.sort(
+  //       (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
+  //     );
+  //     return updatedTasks;
+  //   });
+  // };
 
   // if (loading)
   //   return (
@@ -179,34 +179,33 @@ export default function TasksReminderCard({
             </label>
           </li>
         </ul>
+
+        {/* {tasks.length === 0 && <p>Немає активних завдань</p>}
+
+        <ul>
+          {tasks.map(({ id, text, completed }) => (
+            <li key={id}>
+              <label>
+                <input
+                  type="checkbox"
+                  checked={completed}
+                  onChange={(e) => {
+                    if (typeof id === 'string') {
+                      handleCheckboxChange(id, e.target.checked);
+                    }
+                  }}
+                />
+                {text}
+              </label>
+            </li>
+          ))}
+        </ul> */}
       </div>
-
-      {/* {tasks.length === 0 && <p>Немає активних завдань</p>}
-
-      <ul>
-        {tasks.map(({ id, text, completed }) => (
-          <li key={id}>
-            <label>
-              <input
-                type="checkbox"
-                checked={completed}
-                onChange={(e) => {
-                  if (typeof id === 'string') {
-                    handleCheckboxChange(id, e.target.checked);
-                  }
-                }}
-              />
-              {text}
-            </label>
-          </li>
-        ))}
-      </ul> */}
-
       {modalOpen && (
         <AddTaskModal
           onClose={closeAddTaskModal}
           onSubmit={async (task: Task) => {
-            addTaskToList(task);
+            // addTaskToList(task);
             closeAddTaskModal();
           }}
         />

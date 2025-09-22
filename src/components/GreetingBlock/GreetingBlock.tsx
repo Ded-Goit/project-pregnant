@@ -1,13 +1,19 @@
 'use client';
 
+import axios from 'axios';
 //import dynamic from 'next/dynamic';
 import styles from './GreetingBlock.module.css';
 import React, { useEffect, useState } from 'react';
 
+axios.defaults.baseURL = 'https://project-pregnant-back.onrender.com';
 /*
 const FeelingCheckCard = dynamic(
   () => import('@/components/dashboard/feeling-check-card')
 );*/
+
+interface GreetingBlockProps {
+  userName: string;
+}
 
 function getGreeting(): string {
   const now = new Date();
@@ -31,25 +37,20 @@ export default function GreetingBlock() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // useEffect(() => {
-  //   fetch('/api/user/profile')
-  //     .then((res) => {
-  //       if (!res.ok) {
-  //         throw new Error('Помилка при завантаженні імені');
-  //       }
-  //       return res.json();
-  //     })
-  //     .then((data) => {
-  //       if (data.name) {
-  //         setUserName(data.name);
-  //       }
-  //       setLoading(false);
-  //     })
-  //     .catch((err) => {
-  //       setError(err.message);
-  //       setLoading(false);
-  //     });
-  // }, []);
+  useEffect(() => {
+    axios
+      .get('/api/user/profile')
+      .then((response) => {
+        if (response.data.name) {
+          setUserName(response.data.name);
+        }
+        setLoading(false);
+      })
+      .catch((err) => {
+        setError(err.message || 'Помилка при завантаженні імені');
+        setLoading(false);
+      });
+  }, []);
 
   return (
     <section className={styles.greetingBlock}>
