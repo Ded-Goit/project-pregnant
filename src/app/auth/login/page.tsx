@@ -9,6 +9,7 @@ import styles from './login.module.css';
 import { useId } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import Button from '@/components/UI/Buttons/Buttons';
 
 const LoginSchema = Yup.object().shape({
   email: Yup.string()
@@ -78,9 +79,9 @@ export default function LoginForm() {
                   className={styles.error}
                 />
 
-                <button type="submit" disabled={isSubmitting}>
+                <Button type="submit" disabled={isSubmitting}>
                   Увійти
-                </button>
+                </Button>
               </Form>
             )}
           </Formik>

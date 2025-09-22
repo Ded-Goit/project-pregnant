@@ -106,11 +106,9 @@ export default function RegistrationForm() {
                   />
                 </label>
 
-                <Button type="submit"> Зареєструватися</Button>
-
-                {/* <button type="submit" disabled={isSubmitting}>
+                <Button type="submit" disabled={isSubmitting}>
                   Зареєструватися
-                </button> */}
+                </Button>
               </Form>
             )}
           </Formik>
