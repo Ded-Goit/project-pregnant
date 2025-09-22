@@ -12,6 +12,12 @@
   }
 }
 
+@media screen and (min-width: 1440px) {
+  .section {
+    padding: 177px 0;
+  }
+}
+
 .container {
   display: flex;
   flex-direction: column;

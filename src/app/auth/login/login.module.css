@@ -1,3 +1,7 @@
+.wrapper {
+  display: flex;
+}
+
 .section {
   padding: 221px 0;
 }
@@ -5,6 +9,12 @@
 @media screen and (min-width: 768px) {
   .section {
     padding: 280px 0;
+  }
+}
+
+@media screen and (min-width: 1440px) {
+  .section {
+    padding: 266px 0;
   }
 }
 
@@ -80,4 +90,22 @@
   font-size: 14px;
   text-align: center;
   width: 222px;
+}
+
+.link {
+  line-height: 1.6;
+  text-decoration: underline;
+  text-decoration-skip-ink: none;
+  text-underline-offset: 3px;
+}
+
+.vision {
+  display: none;
+}
+
+@media screen and (min-width: 1440px) {
+  .vision {
+    display: block;
+    padding: 0;
+  }
 }

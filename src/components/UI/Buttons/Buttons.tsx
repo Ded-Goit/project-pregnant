@@ -9,13 +9,14 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 export default function Button({
   variant = 'primary',
   size = 'large',
+  children,
   ...props
 }: ButtonProps) {
   const buttonClasses = `${styles.button} ${styles[variant]} ${styles[size]}`;
 
   return (
     <button className={buttonClasses} {...props}>
-      {props.children}
+      {children}
     </button>
   );
 }

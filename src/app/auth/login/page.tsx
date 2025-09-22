@@ -7,6 +7,8 @@ import { useAuthStore } from '@/hooks/useAuthStore';
 import { useRouter } from 'next/navigation';
 import styles from './login.module.css';
 import { useId } from 'react';
+import Link from 'next/link';
+import Image from 'next/image';
 
 const LoginSchema = Yup.object().shape({
   email: Yup.string()
@@ -25,65 +27,79 @@ export default function LoginForm() {
   const fieldId = useId();
 
   return (
-    <section className={styles.section}>
-      <div className={styles.container}>
-        <h1 className={styles.title}>Вхід</h1>
-        <Formik
-          initialValues={{ email: '', password: '' }}
-          validationSchema={LoginSchema}
-          onSubmit={async (values, { setSubmitting, setErrors }) => {
-            try {
-              const data = await login(values);
-              setUser(data);
-              router.push('/profile/edit');
-            } catch {
-              setErrors({ email: 'Невірні дані', password: 'Невірні дані' });
-            } finally {
-              setSubmitting(false);
-            }
-          }}
-        >
-          {({ isSubmitting, errors, touched }) => (
-            <Form className={styles.form}>
-              <Field
-                id={`${fieldId}-email`}
-                name="email"
-                type="email"
-                placeholder="hello@leleka.com"
-                className={`${styles.field} ${
-                  touched.email && errors.email ? styles.errorField : ''
-                }`}
-              />
-              <ErrorMessage
-                name="email"
-                component="span"
-                className={styles.error}
-              />
+    <div className={styles.wrapper}>
+      <section className={styles.section}>
+        <div className={styles.container}>
+          <h1 className={styles.title}>Вхід</h1>
+          <Formik
+            initialValues={{ email: '', password: '' }}
+            validationSchema={LoginSchema}
+            onSubmit={async (values, { setSubmitting, setErrors }) => {
+              try {
+                const data = await login(values);
+                setUser(data);
+                router.push('/profile/edit');
+              } catch {
+                setErrors({ email: 'Невірні дані', password: 'Невірні дані' });
+              } finally {
+                setSubmitting(false);
+              }
+            }}
+          >
+            {({ isSubmitting, errors, touched }) => (
+              <Form className={styles.form}>
+                <Field
+                  id={`${fieldId}-email`}
+                  name="email"
+                  type="email"
+                  placeholder="hello@leleka.com"
+                  className={`${styles.field} ${
+                    touched.email && errors.email ? styles.errorField : ''
+                  }`}
+                />
+                <ErrorMessage
+                  name="email"
+                  component="span"
+                  className={styles.error}
+                />
 
-              <Field
-                id={`${fieldId}-password`}
-                name="password"
-                type="password"
-                placeholder="Пароль"
-                className={`${styles.field} ${
-                  touched.password && errors.password ? styles.errorField : ''
-                }`}
-              />
-              <ErrorMessage
-                name="password"
-                component="span"
-                className={styles.error}
-              />
+                <Field
+                  id={`${fieldId}-password`}
+                  name="password"
+                  type="password"
+                  placeholder="Пароль"
+                  className={`${styles.field} ${
+                    touched.password && errors.password ? styles.errorField : ''
+                  }`}
+                />
+                <ErrorMessage
+                  name="password"
+                  component="span"
+                  className={styles.error}
+                />
 
-              <button type="submit" disabled={isSubmitting}>
-                Увійти
-              </button>
-            </Form>
-          )}
-        </Formik>
+                <button type="submit" disabled={isSubmitting}>
+                  Увійти
+                </button>
+              </Form>
+            )}
+          </Formik>
 
-        <p className={styles.text}>Немає аккаунту?</p>
-      </div>
-    </section>
+          <p className={styles.text}>
+            Немає аккаунту?
+            <Link href="/auth/register" className={styles.link}>
+              Зареєструватися
+            </Link>
+          </p>
+        </div>
+      </section>
+      <Image
+        className={styles.vision}
+        src="/auth/login.webp"
+        alt=""
+        width={720}
+        height={900}
+      />
+    </div>
   );
 }
