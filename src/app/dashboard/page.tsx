@@ -30,6 +30,26 @@ const FeelingCheckCard = dynamic(
   () => import('@/components/FeelingCheckCard/FeelingCheckCard')
 );
 
+const BabyTodayCard = dynamic(
+  () => import('@/components/BabyTodayCard/BabyTodayCard')
+);
+
+const MomTipCard = dynamic(() => import('@/components/MomTipCard/MomTipCard'));
+const TasksReminderCard = dynamic(
+  () => import('@/components/TasksReminderCard/TasksReminderCard')
+);
+
+const FeelingCheckCard = dynamic(
+  () => import('@/components/FeelingCheckCard/FeelingCheckCard')
+);
+
+// export default function DashboardPage() {
+//   return (
+//     <div className={styles.pageWrapper}>
+//       <h1 className={styles.title}>БЛОКИ сторінки Мій День</h1>
+//     </div>
+//   );
+// }
 export default function DashboardPage() {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false); // тут ваша логіка аутентифікації
   // const [userName, setUserName] = useState<string>('Пані');
