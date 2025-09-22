@@ -4,6 +4,7 @@ import { AuthProvider } from '@/components/providers/AuthProvider';
 import localFont from 'next/font/local';
 import { Lato, Comfortaa } from 'next/font/google';
 import Preloader from '@/components/preloader/Preloader';
+// import Preloader from '@/components/preloader/Preloader';
 
 // Fonts...
 const latoGoogle = Lato({

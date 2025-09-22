@@ -7,7 +7,6 @@ import { useAuthStore } from '@/hooks/useAuthStore';
 import { useRouter } from 'next/navigation';
 import styles from './login.module.css';
 import { useId } from 'react';
-import Link from '@/components/UI/Link';
 
 const LoginSchema = Yup.object().shape({
   email: Yup.string()
@@ -83,9 +82,7 @@ export default function LoginForm() {
           )}
         </Formik>
 
-        <p className={styles.text}>
-          Немає аккаунту?<Link>Зареєструватися</Link>
-        </p>
+        <p className={styles.text}>Немає аккаунту?</p>
       </div>
     </section>
   );
