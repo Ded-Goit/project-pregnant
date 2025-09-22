@@ -30,19 +30,6 @@ const FeelingCheckCard = dynamic(
   () => import('@/components/FeelingCheckCard/FeelingCheckCard')
 );
 
-const BabyTodayCard = dynamic(
-  () => import('@/components/BabyTodayCard/BabyTodayCard')
-);
-
-const MomTipCard = dynamic(() => import('@/components/MomTipCard/MomTipCard'));
-const TasksReminderCard = dynamic(
-  () => import('@/components/TasksReminderCard/TasksReminderCard')
-);
-
-const FeelingCheckCard = dynamic(
-  () => import('@/components/FeelingCheckCard/FeelingCheckCard')
-);
-
 // export default function DashboardPage() {
 //   return (
 //     <div className={styles.pageWrapper}>
