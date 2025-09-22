@@ -7,7 +7,6 @@ import { useAuthStore } from '@/hooks/useAuthStore';
 import { useRouter } from 'next/navigation';
 import styles from './register.module.css';
 import { useId } from 'react';
-import Link from '@/components/UI/Link';
 
 const RegisterSchema = Yup.object().shape({
   name: Yup.string().max(32, 'Максимум 32 символи').required('Обов’язково'),
@@ -108,9 +107,7 @@ export default function RegistrationForm() {
           )}
         </Formik>
 
-        <p className={styles.text}>
-          Вже маєте аккаунт?<Link>Увійти</Link>
-        </p>
+        <p className={styles.text}>Вже маєте аккаунт? Увійти</p>
       </div>
     </section>
   );

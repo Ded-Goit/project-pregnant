@@ -1,10 +1,11 @@
 import type { Metadata } from 'next';
 import './globals.css';
-import { AuthProvider } from '@/components/Providers/AuthProvider';
+import { AuthProvider } from '@/components/providers/AuthProvider';
 import localFont from 'next/font/local';
 import { Lato, Comfortaa } from 'next/font/google';
+import Preloader from '@/components/preloader/Preloader';
 
-//  Google Fonts (Lato: 400, 700, 900)
+// Fonts...
 const latoGoogle = Lato({
   subsets: ['latin'],
   weight: ['400', '700', '900'],
@@ -12,7 +13,6 @@ const latoGoogle = Lato({
   display: 'swap',
 });
 
-//  Google Fonts (Comfortaa: 700)
 const comfortaa = Comfortaa({
   subsets: ['latin'],
   weight: ['700'],
@@ -20,19 +20,10 @@ const comfortaa = Comfortaa({
   display: 'swap',
 });
 
-//  Local Fonts (Lato 500, 600)
 const latoLocal = localFont({
   src: [
-    {
-      path: '../fonts/latomedium.ttf',
-      weight: '500',
-      style: 'normal',
-    },
-    {
-      path: '../fonts/latosemibold.ttf',
-      weight: '600',
-      style: 'normal',
-    },
+    { path: '../fonts/latomedium.ttf', weight: '500', style: 'normal' },
+    { path: '../fonts/latosemibold.ttf', weight: '600', style: 'normal' },
   ],
   variable: '--font-lato-local',
   display: 'swap',
@@ -41,9 +32,7 @@ const latoLocal = localFont({
 export const metadata: Metadata = {
   title: 'Pregnancy App',
   description: 'Щоденник вагітності',
-  icons: {
-    icon: '/favicon.ico',
-  },
+  icons: { icon: '/favicon.ico' },
 };
 
 export default function RootLayout({
@@ -57,6 +46,7 @@ export default function RootLayout({
       className={`${latoGoogle.variable} ${latoLocal.variable} ${comfortaa.variable}`}
     >
       <body>
+        <Preloader />
         <AuthProvider>{children}</AuthProvider>
       </body>
     </html>
