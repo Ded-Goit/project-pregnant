@@ -3,7 +3,7 @@ import { api } from '../../api';
 import { cookies } from 'next/headers';
 import { parse } from 'cookie';
 
-export async function post(request: NextRequest) {
+export async function POST(request: NextRequest) {
   const body = await request.json();
   const response = await api.post('/auth/login', body);
 
