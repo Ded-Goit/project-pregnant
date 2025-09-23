@@ -19,11 +19,7 @@ export default function GreetingBlock() {
   useEffect(() => {
     async function fetchUser() {
       try {
-        const res = await api.get("/users/currentUser", {
-        headers: {
-          Authorization: "Bearer BT08U8oqqkWh5w5Aet2+EVayfVE9w1n23lCqoyDV"
-        }
-      });
+        const res = await api.get("/users/currentUser");
         setUserName(res.data.data.name);
       } catch {
         setUserName("майбутня мама")

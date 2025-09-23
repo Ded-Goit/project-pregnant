@@ -4,6 +4,7 @@ import styles from './WeekSelector.module.css';
 import React, { useRef, useEffect, useState } from "react";
 import api from "@/lib/api";
 import toast, { Toaster } from "react-hot-toast";
+import { useAuthStore } from '@/hooks/useAuthStore';
 
 type Props = {
   total?: number;
@@ -14,20 +15,28 @@ export default function WeekSelector({ total= 42, startAt=1 }: Props) {
   const [currentWeek, setCurrentWeek] = useState<number | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
 
+    const { user } = useAuthStore();
+
   useEffect(() => {
     async function loadWeek() {
       try {
-        const fakeWeek = 14; 
-      setCurrentWeek(fakeWeek);
-        // const res = await api.get("/weekNumber"); 
-        // setCurrentWeek(res.data.currentWeek);
+        let route = "";
+
+      if (user) {
+        route = "/dashboard"; 
+      } else {
+        route = "/public/dashboard"; 
+      }
+
+      const res = await api.get(route);
+      setCurrentWeek(res.data.weekNumber);
       } catch (err) {
         toast.error("Не вдалося завантажити поточний тиждень");
       }
     }
 
     loadWeek();
-  }, []);
+  }, [user]);
 
   useEffect(() => {
     if (!currentWeek) return;
