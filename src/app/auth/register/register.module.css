@@ -1,8 +1,10 @@
 .wrapper {
   display: flex;
+  justify-content: center;
 }
 
 .section {
+  width: 100%;
   padding: 139px 0;
 }
 
