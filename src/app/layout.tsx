@@ -72,7 +72,7 @@ export const metadata: Metadata = {
     images: ['/og-image.png'],
   },
   icons: {
-    icon: '/favicon.ico',
+    icon: '/favicon.png',
     apple: '/apple-touch-icon.png',
   },
   metadataBase: new URL('https://project-pregnant.vercel.app'),
