@@ -44,7 +44,7 @@ export const register = async (payload: RegisterRequest) => {
 };
 
 export const refresh = async () => {
-  const { data } = await nextServer<RefreshResponse>('/auth/refresh');
+  const { data } = await nextServer.post<RefreshResponse>('/auth/refresh');
   return data.accessToken;
 };
 
