@@ -1,19 +1,53 @@
 'use client';
 
-//import dynamic from 'next/dynamic';
 import styles from './FeelingCheckCard.module.css';
+import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import AddDiaryEntryModal from '../AddDiaryEntryModal/AddDiaryEntryModal';
+import Button from '../UI/Buttons/Buttons';
 
-/*
-const FeelingCheckCard = dynamic(
-  () => import('@/components/dashboard/feeling-check-card')
-);*/
+interface FeelingCheckCardProps {
+  isAuthenticated: boolean;
+}
 
-export default function FeelingCheckCard() {
+export default function FeelingCheckCard({
+  isAuthenticated,
+}: FeelingCheckCardProps) {
+  const [modalOpen, setModalOpen] = useState(false);
+  const router = useRouter();
+
+  const handleButtonClick = () => {
+    if (!isAuthenticated) {
+      router.push('/auth/register');
+    } else {
+      setModalOpen(true);
+    }
+  };
+
+  const closeModal = () => setModalOpen(false);
+
   return (
-    <div className={styles.component}>
-      <h1 className={styles.title}>
-        Відображає блок для рефлексії самопочуття.
-      </h1>
-    </div>
+    <section className={styles.feelingCheckCard}>
+      <h3 className={styles.feelingCheckTitle}>Як ви себе почуваєте?</h3>
+      <p className={styles.feelingCheckRecommendation}>
+        Рекомендація на сьогодні:
+      </p>
+      <p className={styles.feelingCheckNote}>
+        {' '}
+        Занотуйте незвичні відчуття у тілі.
+      </p>
+      <Button variant="primary" size="large" onClick={handleButtonClick}>
+        Зробити запис у щоденник
+      </Button>
+
+      {modalOpen && (
+        <AddDiaryEntryModal
+          onClose={closeModal}
+          // onSubmit={(entry) => {
+          //   closeModal();
+          // }}
+        />
+      )}
+    </section>
   );
 }
