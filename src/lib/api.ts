@@ -10,6 +10,7 @@ api.interceptors.request.use((config) => {
   if (user?.token) {
     config.headers.Authorization = `Bearer ${user.token}`;
   }
+  console.log(api.defaults.baseURL)
   return config;
 });
 

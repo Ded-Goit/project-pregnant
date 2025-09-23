@@ -1,8 +1,11 @@
-.component {
-  display: flex;
-  flex-direction: column;
-}
-
-.title {
-  background-color: rgb(179, 201, 214);
+.text {
+  font-family: var(--second-family);
+font-weight: 700;
+font-size: 32px;
+line-height: 140%;
+letter-spacing: 0.01em;
+color: var(--color-scheme-text);
+padding-bottom: 24px;
+padding-top: 16px;
+margin-left: 32px;
 }

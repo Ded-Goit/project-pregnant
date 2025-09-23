@@ -6,3 +6,96 @@
 .title {
   background-color: rgb(179, 201, 214);
 }
+/* Обгортка для контролю скролу */
+.wrapper {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Горизонтальний контейнер карток */
+.container {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+
+/* Окрема картка */
+.card {
+  flex: 0 0 auto; /* не стискається, має фіксований розмір */
+  border-radius: 32px;
+  background: var(--color-pastel-pink-lighter);
+  color: var(--color-scheme-text);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  cursor: pointer;
+  outline: none;
+  border: 0px solid var(--opacity-neutral-darkest-15);
+  padding: 16px;
+  width: 97px;
+  height: 101px;
+}
+
+/* цифрова частина */
+.number {
+ font-family: var(--second-family);
+font-weight: 700;
+font-size: 32px;
+line-height: 140%;
+letter-spacing: 0.01em;
+text-align: center;
+}
+
+/* підпис "тиждень" */
+.label {
+  font-family: var(--font-family);
+font-weight: 400;
+font-size: 16px;
+line-height: 150%;
+text-align: center;
+color: var(--color-scheme-text);
+}
+
+/* адаптив: на малих екранах трохи менше картки */
+@media (max-width: 480px) {
+  .card {
+    width: 64px;
+    height: 64px;
+    min-width: 64px;
+    border-radius: 10px;
+  }
+  .number {
+    font-size: 18px;
+  }
+  .label {
+    font-size: 11px;
+  }
+}
+
+/* приклад стану "поточна" (етикетка — можна застосувати динамічно) */
+.current {
+  border: 4px solid var(--opacity-neutral-darkest-15);
+  border-radius: 32px;
+  padding: 16px;
+  width: 97px;
+  height: 101px;
+  background: var(--color-pastel-pink-light);
+}
+
+/* приклад стану "майбутня" (неактивна) */
+.future {
+  border: 0px solid var(--opacity-neutral-darkest-15);
+  border-radius: 32px;
+  padding: 16px;
+  width: 97px;
+  height: 101px;
+  background: var(--color-neutral-lightest);
+  opacity: 0.6;
+  cursor: not-allowed;
+}
