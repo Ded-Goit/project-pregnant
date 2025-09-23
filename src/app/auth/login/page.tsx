@@ -39,7 +39,7 @@ export default function LoginForm() {
               try {
                 const data = await login(values);
                 setUser(data);
-                router.push('/profile/edit');
+                router.push('/');
               } catch {
                 setErrors({ email: 'Невірні дані', password: 'Невірні дані' });
               } finally {
