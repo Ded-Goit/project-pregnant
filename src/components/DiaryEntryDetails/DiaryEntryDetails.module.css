@@ -5,4 +5,73 @@
 
 .title {
   background-color: rgb(179, 201, 214);
+
+   margin: 0; 
+   font-size: 20px; 
+   font-weight: 600;
+}
+
+
+.header { 
+  padding: 16px; 
+  border-bottom: 1px solid #e4e4e7; 
+}
+
+.header h2 { 
+  margin: 0; 
+  font-size: 20px; 
+  font-weight: 600; 
+}
+
+.wrap { 
+  background: #fde6eb; 
+  border-radius: 16px; 
+  height: 100%; 
+  display: flex; 
+  flex-direction: column; 
+}
+
+.headerInner { 
+  display: flex; 
+  align-items: 
+  flex-start; 
+  justify-content: space-between; 
+  gap: 12px; 
+  padding: 16px; 
+}
+
+.meta { 
+  margin: 4px 0 0; 
+  color: #71717a; 
+  font-size: 14px; 
+}
+
+.actions { 
+  display: flex; 
+  gap: 8px; 
+}
+
+.content { 
+  flex: 1; 
+  min-height: 0; 
+  overflow: auto; 
+  padding: 0 20px 20px; 
+}
+
+.tags { 
+  display: flex; 
+  gap: 8px; 
+  flex-wrap: wrap; 
+  margin-top: 4px; 
+}
+
+.text { 
+  white-space: pre-wrap; 
+  color: #1f2937; 
+  margin-top: 12px; 
+}
+
+.placeholder { 
+  text-align: center; 
+  color: #71717a; 
 }
