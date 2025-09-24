@@ -32,7 +32,7 @@ const nextServer = axios.create({
 
 nextServer.interceptors.request.use((config) => {
   const { accessToken } = useAuthStore.getState();
-  if (accessToken) {
+  if (accessToken && config.headers) {
     config.headers.Authorization = `Bearer ${accessToken}`;
   }
   return config;

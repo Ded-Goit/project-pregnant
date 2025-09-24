@@ -5,7 +5,19 @@ import { parse } from 'cookie';
 
 export async function POST() {
   const cookieData = await cookies();
+  const accessToken = cookieData.get('accessToken')?.value;
   const refreshToken = cookieData.get('refreshToken')?.value;
+
+  if (accessToken) {
+    try {
+      const response = await api.get('/auth/me', {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      });
+      return NextResponse.json(response.data);
+    } catch {
+      // якщо токен невалідний, падаємо далі на refresh
+    }
+  }
 
   if (refreshToken) {
     try {
