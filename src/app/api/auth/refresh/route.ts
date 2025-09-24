@@ -67,5 +67,13 @@ export async function POST() {
     }
   }
 
-  return NextResponse.json({ status: 500, message: 'Щось пішло не так' });
+  return NextResponse.json(
+    {
+      status: 401,
+      message: 'Користвувач не авторизований',
+    },
+    {
+      status: 401,
+    }
+  );
 }
