@@ -1,8 +1,26 @@
-.component {
+/* .component {
   display: flex;
   flex-direction: column;
+} */
+
+/* .title {
+  background-color: rgb(179, 201, 214);
+} */
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 16px 20px;
 }
 
-.title {
-  background-color: rgb(179, 201, 214);
+@media (min-width: 768px) {
+  .header {
+    margin: 16px 32px;
+  }
+}
+
+@media (min-width: 1440px) {
+  .header {
+    display: none;
+  }
 }
