@@ -3,6 +3,10 @@ import './globals.css';
 import { AuthProvider } from '@/components/providers/AuthProvider';
 import localFont from 'next/font/local';
 import { Lato, Comfortaa } from 'next/font/google';
+// import Header from '@/components/Header/Header';
+// import Breadcrumbs from '@/components/Breadcrumbs/Breadcrumbs';
+// import SideBar from '@/components/SideBar/SideBar';
+import LayoutClient from '@/components/LayoutClient';
 
 //  Google Fonts (Lato: 400, 700, 900)
 const latoGoogle = Lato({
@@ -57,7 +61,9 @@ export default function RootLayout({
       className={`${latoGoogle.variable} ${latoLocal.variable} ${comfortaa.variable}`}
     >
       <body>
-        <AuthProvider>{children}</AuthProvider>
+        <AuthProvider>
+          <LayoutClient>{children}</LayoutClient>
+        </AuthProvider>
       </body>
     </html>
   );
