@@ -15,6 +15,7 @@
     "classnames": "^2.5.1",
     "cookie": "^1.0.2",
     "formik": "^2.4.6",
+    "lottie": "^0.0.1",
     "lottie-react": "^2.4.1",
     "next": "15.5.3",
     "normalize.css": "^8.0.1",

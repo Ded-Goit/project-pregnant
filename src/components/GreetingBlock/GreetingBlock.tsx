@@ -1,9 +1,7 @@
 'use client';
 
 import axios from 'axios';
-//import dynamic from 'next/dynamic';
 import styles from './GreetingBlock.module.css';
-// import React, { useEffect, useState } from 'react';
 
 axios.defaults.baseURL = 'https://project-pregnant-back.onrender.com';
 /*
@@ -46,46 +44,11 @@ export default function GreetingBlock() {
 
   return (
     <div className={styles.container}>
-        <p className={styles.text}>
-          {getGreeting()}, {userName}!
-        </p>
+      <p className={styles.text}>
+        {getGreeting()}, {userName}!
+      </p>
 
       <Toaster position="top-right" reverseOrder={false} />
     </div>
-
-interface GreetingBlockProps {
-  userName: string;
+  )
 }
-
-function getGreeting(): string {
-  const now = new Date();
-  const hour = now.getHours();
-
-  if (hour >= 6 && hour <= 11) {
-    return 'Доброго ранку';
-  } else if (hour >= 12 && hour <= 17) {
-    return 'Доброго дня';
-  } else if (hour >= 18 && hour <= 23) {
-    return 'Доброго вечора';
-  } else {
-    return 'Доброї ночі';
-  }
-}
-
-export default function GreetingBlock({ userName }: GreetingBlockProps) {
-  const greeting = getGreeting();
-
- 
-
-  return (
-    <section className={styles.greetingBlock}>
-      <h2>
-        {greeting}, {userName}!
-      </h2>
-      {/* {loading && <p>Завантаження...</p>} */}
-      {/* {error && <p style={{ color: 'red' }}>Помилка: {error}</p>} */}
-    </section>
-
-  );
-}
-

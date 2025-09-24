@@ -1,4 +1,3 @@
-
 .text {
   font-family: var(--second-family);
   font-weight: 700;
@@ -14,29 +13,5 @@
 @media screen and (min-width: 1440px) {
   .text {
     font-size: 32px;
-
-.greetingBlock {
-  width: 311px;
-  height: 34px;
-  font-weight: 700;
-  font-family: (--second-family);
-  font-size: 24px;
-  line-height: 140%;
-  letter-spacing: 0.01em;
-  color: var(--color-scheme-text);
-  text-align: center;
-
-  @media (min-width: 768px) {
-    width: 704px;
-    text-align: left;
-    padding-left: 16px;
-  }
-  @media (min-width: 1440px) {
-    width: 1280px;
-    height: 45px;
-    font-size: 32px;
-    padding-left: 32px;
-    margin-bottom: 16px;
-
   }
 }

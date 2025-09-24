@@ -35,7 +35,6 @@ nextServer.interceptors.request.use((config) => {
   if (accessToken) {
     config.headers.Authorization = `Bearer ${accessToken}`;
   }
-  console.log(api.defaults.baseURL)
   return config;
 });
 
