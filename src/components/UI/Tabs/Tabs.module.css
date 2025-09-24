@@ -1,0 +1,42 @@
+.tabsWrapper {
+  display: flex;
+  align-items: center;
+  border: 1px solid transparent;
+  border-radius: 100px;
+  padding: 4px;
+  width: 572px;
+  height: 54px;
+  background-color: var(--color-scheme-foreground);
+}
+
+.tab {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 24px;
+  border: 1px solid transparent;
+  border-radius: 100px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  height: 46px; /* Загальна висота для обох вкладок */
+}
+
+/* Стилі для неактивної вкладки */
+.tab.inactive {
+  background-color: transparent;
+  font-weight: 400; /* Регулярний */
+  color: var(--color-scheme-text);
+  line-height: 150%;
+}
+
+/* Стилі для активної вкладки */
+.tab.active {
+  background-color: var(--color-scheme-foreground-alt);
+  font-weight: 500; /* Напівжирний */
+  color: var(--color-scheme-text);
+  line-height: 160%;
+}
+
+.tab:hover {
+  opacity: 0.8;
+}

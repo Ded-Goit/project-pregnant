@@ -1,8 +1,66 @@
-.component {
+.statusBlock {
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
+  padding: 16px 0px 0px;
+  width: 335px;
+  height: 127px;
+  margin-bottom: 16px;
+
+  @media (min-width: 768px) {
+    width: 768px;
+    height: 121px;
+    padding: 16px 32px 0;
+  }
+  @media (min-width: 1440px) {
+    width: 642px;
+    height: 127px;
+    padding: 0;
+    gap: 32px;
+    margin-bottom: 32px;
+  }
 }
 
-.title {
-  background-color: rgb(179, 201, 214);
+.status {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  gap: 4px;
+  border: 0px solid var(--opacity-neutral-darkest-15);
+  border-radius: 32px;
+  padding: 16px;
+  width: 159px;
+  height: 105px;
+  background: var(--color-oasis-lighter);
+
+  @media (min-width: 768px) {
+    width: 336px;
+  }
+  @media (min-width: 1440px) {
+    width: 305px;
+    height: 127px;
+  }
+}
+
+.statusTitle {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 150%;
+  font-family: var(--font-family);
+
+  color: var(--color-neutral-darkest);
+
+  @media (min-width: 1440px) {
+  }
+}
+
+.statusItem {
+  font-weight: 700;
+  font-size: 40px;
+  line-height: 120%;
+  font-family: var(--second-family);
+  letter-spacing: 0.01em;
+  color: var(--color-scheme-text);
+
+  @media (min-width: 1440px) {
+  }
 }

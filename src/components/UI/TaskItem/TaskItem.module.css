@@ -1,0 +1,64 @@
+/* Контейнер для елемента завдання */
+.taskItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
+}
+
+/* Стилі для чекбокса */
+.checkbox {
+  width: 20px;
+  height: 20px;
+  border: 1px solid var(--color-neutral-darkest);
+  border-radius: 4px;
+  background-color: var(--color-white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* Стилі для виконаного чекбокса */
+.checkbox.checked {
+  background-color: var(--color-neutral-darkest);
+  border-color: var(--color-neutral-darkest);
+}
+
+/* Стилі для галочки (знак виконання) */
+.checkmark {
+  color: var(--color-white);
+  font-size: 14px;
+}
+
+/* Стилі для тексту завдання */
+.text {
+  font-family: var(--font-family);
+  font-weight: 400;
+  font-size: 16px;
+  color: var(--color-neutral-darkest);
+  line-height: 1.5;
+}
+
+/* Стилі для виконаного тексту */
+.text.checked {
+  text-decoration: line-through;
+  color: var(--opacity-neutral-darkest-60);
+}
+
+/* Стилі для дати */
+.date {
+  font-family: var(--font-family);
+  font-weight: 400;
+  font-size: 12px;
+  color: var(--color-neutral-darkest);
+  opacity: 0.6;
+}
+
+/* Стилі для контейнера при наведенні курсора */
+.taskItem:hover {
+  background-color: var(--opacity-neutral-darkest-5);
+}
