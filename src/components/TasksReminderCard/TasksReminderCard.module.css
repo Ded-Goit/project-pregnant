@@ -1,8 +1,139 @@
-.component {
-  display: flex;
-  flex-direction: column;
+.tasksReminderCard {
+  position: relative;
+  border: 0px solid var(--color-scheme-border);
+  border-radius: 32px;
+  padding: 24px;
+  width: 335px;
+  height: auto;
+  background-color: var(--color-oasis-lighter);
+  margin-bottom: 32px;
+
+  @media (min-width: 768px) {
+    width: 704px;
+    height: 671px;
+  }
+  @media (min-width: 1440px) {
+    width: 390px;
+    height: 499px;
+  }
 }
 
-.title {
-  background-color: rgb(179, 201, 214);
+.addTaskButton {
+  position: absolute;
+  top: 32px;
+  right: 32px;
+  width: 24px;
+  height: 24px;
+  background-color: transparent;
+}
+
+.tasksReminderTitle {
+  font: 700 20px / 140% var(--second-family);
+  letter-spacing: 0.01em;
+  color: var(--color-scheme-text);
+
+  @media (min-width: 1440px) {
+    font-size: 24px;
+  }
+}
+
+.taskListWrapper {
+  height: auto;
+
+  @media (min-width: 1440px) {
+    height: 90%;
+    overflow-y: auto;
+  }
+}
+
+.taskListWrapper::-webkit-scrollbar {
+  width: 10px;
+  height: 50px;
+}
+
+.taskListWrapper::-webkit-scrollbar-track {
+  background: var(--opacity-neutral-darkest-20);
+  border-radius: 4px;
+  width: 6px;
+}
+
+.taskListWrapper::-webkit-scrollbar-thumb {
+  width: 10px;
+  height: 56px;
+  background-color: var(--color-oasis);
+  border-radius: 4px;
+  border: 2px solid var(--color-oasis);
+  background-clip: content-box;
+}
+
+.tasksList {
+  margin-top: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.taskDate {
+  font: 400 12px / 160% var(--font-family);
+  color: var(--color-neutral-darkest);
+  padding-left: 32px;
+}
+
+.taskLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  font-size: 16px;
+  user-select: none;
+
+  @media (min-width: 1440px) {
+    font-size: 14px;
+  }
+}
+
+.taskLabel input[type='checkbox'] {
+  display: none;
+}
+
+.customCheckbox {
+  flex: 0 0 18px;
+  width: 18px;
+  height: 18px;
+  border: 1px solid var(--opacity-transparent);
+  border-radius: 4px;
+  background: var(--opacity-neutral-darkest-5);
+  position: relative;
+  box-sizing: border-box;
+  transition:
+    border-color 0.2s,
+    background 0.2s;
+}
+
+.checkmark {
+  color: #222;
+  transition:
+    text-decoration 0.2s,
+    color 0.2s;
+}
+
+.taskLabel input[type='checkbox']:checked + .customCheckbox::after {
+  content: '';
+  position: absolute;
+  left: 5px;
+  top: 2px;
+  width: 6px;
+  height: 10px;
+  border: solid #fff;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.taskLabel input[type='checkbox']:checked + .customCheckbox {
+  background: #222;
+  border-color: #fff;
+}
+
+.taskLabel input[type='checkbox']:checked ~ .checkmark {
+  text-decoration: line-through;
 }
