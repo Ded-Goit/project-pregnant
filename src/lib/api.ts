@@ -26,6 +26,7 @@ export interface LoginRequest {
 }
 
 const nextServer = axios.create({
+  // baseURL: '/api',
   baseURL: 'https://project-pregnant.vercel.app/api',
   withCredentials: true,
 });
@@ -49,7 +50,7 @@ export const refresh = async () => {
 };
 
 export const getMe = async () => {
-  const { data } = await nextServer<User>('/auth/me');
+  const { data } = await nextServer<User>('/users/currentUser');
   return data;
 };
 

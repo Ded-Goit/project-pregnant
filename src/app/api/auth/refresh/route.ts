@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { api } from '../../api';
 import { cookies } from 'next/headers';
 import { parse } from 'cookie';
+import { AxiosError } from 'axios';
 
 export async function POST() {
   const cookieData = await cookies();
@@ -10,7 +11,7 @@ export async function POST() {
 
   if (accessToken) {
     try {
-      const response = await api.get('/auth/me', {
+      const response = await api.get('/users/currentUser', {
         headers: { Authorization: `Bearer ${accessToken}` },
       });
       return NextResponse.json(response.data);
@@ -55,10 +56,16 @@ export async function POST() {
       }
 
       return NextResponse.json(response.data);
-    } catch {
-      return NextResponse.json({ status: 401, message: 'Не авторизовано' });
+    } catch (error) {
+      const err = error as AxiosError;
+
+      if (err.response) {
+        return NextResponse.json(err.response.data, {
+          status: err.response.status,
+        });
+      }
     }
   }
 
-  return NextResponse.json({ status: 401, message: 'Не авторизовано' });
+  return NextResponse.json({ status: 500, message: 'Щось пішло не так' });
 }
