@@ -1,20 +1,29 @@
 'use client';
 
-//import dynamic from 'next/dynamic';
 import styles from './Header.module.css';
+import Image from 'next/image';
+import Link from 'next/link';
 
-/*
-const FeelingCheckCard = dynamic(
-  () => import('@/components/dashboard/feeling-check-card')
-);*/
-
-export default function Header() {
+export default function Header({ onMenuClick }: { onMenuClick: () => void }) {
   return (
-    <div className={styles.component}>
-      <h1 className={styles.title}>
-        Компонент відображається тільки на мобільній версії та планшеті. На
-        десктопній версії хедер відсутній.
-      </h1>
-    </div>
+    <header className={styles.header}>
+      <Link href="/">
+        <Image
+          src="/icons/company_logo.svg"
+          alt="company logo"
+          width={84}
+          height={36}
+        />
+      </Link>
+
+      <button onClick={onMenuClick}>
+        <Image
+          src="/icons/burger_menu.svg"
+          alt="company logo"
+          width={32}
+          height={32}
+        />
+      </button>
+    </header>
   );
 }
