@@ -1,12 +1,6 @@
 'use client';
 
-//import dynamic from 'next/dynamic';
 import styles from './AddTaskModal.module.css';
-
-/*
-const FeelingCheckCard = dynamic(
-  () => import('@/components/dashboard/feeling-check-card')
-);*/
 
 import React, { useEffect } from 'react';
 import AddTaskForm, { Task } from '../AddTaskForm/AddTaskForm';
@@ -22,7 +16,7 @@ interface AddTaskModalProps {
 export default function AddTaskModal({
   isEdit = false,
   onClose,
-  // onSubmit,
+  onSubmit,
   initialText,
 }: AddTaskModalProps) {
   useEffect(() => {
@@ -51,13 +45,11 @@ export default function AddTaskModal({
         >
           <Image src="/close.png" alt="Close" width={24} height={24} />
         </button>
-        <h2 className={styles.modalTitle}>
-          {isEdit ? 'Редагувати завдання' : 'Нове завдання'}
-        </h2>
+        <h2 className={styles.modalTitle}>Нове завдання</h2>
         <AddTaskForm
           initialText={initialText}
           onSubmit={(task: Task) => {
-            // onSubmit(task);
+            onSubmit?.(task);
             onClose();
           }}
         />
