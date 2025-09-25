@@ -39,13 +39,20 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    const { data, status } = response;
-    if (data) return NextResponse.json(data, { status });
+    const { data } = response;
+
+    if (data) {
+      return NextResponse.json(
+        {
+          ...data.data,
+        },
+        { status: data.status }
+      );
+    }
   } catch (error) {
     const err = error as AxiosError;
 
     if (err.response) {
-      console.log('999999999999999999999999999', err.response);
       return NextResponse.json(err.response.data, {
         status: err.response.status,
       });

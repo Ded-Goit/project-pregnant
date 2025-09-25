@@ -1,4 +1,4 @@
-import { User } from '@/lib/api';
+import { User } from '@/lib/clientApi';
 import { create } from 'zustand';
 
 interface AuthState {

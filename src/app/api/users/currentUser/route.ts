@@ -6,7 +6,7 @@ export async function GET() {
   const cookieData = await cookies();
 
   try {
-    const { data } = await api('/auth/me', {
+    const { data } = await api('/users/currentUser', {
       headers: { Cookie: cookieData.toString() },
     });
 
