@@ -7,7 +7,7 @@ import axios from 'axios';
 // import { useRouter } from 'next/navigation';
 // import { useAuthStore } from '@/hooks/useAuthStore';
 import AddTaskModal from '../AddTaskModal/AddTaskModal';
-import { Task } from '../AddTaskForm/AddTaskForm';
+import { Task } from '../../types/note';
 import Image from 'next/image';
 import Button from '../UI/Buttons/Buttons';
 

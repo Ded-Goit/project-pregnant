@@ -1,9 +1,9 @@
 'use client';
 
 import styles from './WeekSelector.module.css';
-import React, { useRef, useEffect, useState } from "react";
-import api from "@/lib/api";
-import toast, { Toaster } from "react-hot-toast";
+import React, { useRef, useEffect, useState } from 'react';
+import api from '@/lib/api';
+import toast, { Toaster } from 'react-hot-toast';
 import { useAuthStore } from '@/hooks/useAuthStore';
 
 type Props = {
@@ -11,27 +11,27 @@ type Props = {
   startAt?: number;
 };
 
-export default function WeekSelector({ total= 42, startAt=1 }: Props) {
+export default function WeekSelector({ total = 42, startAt = 1 }: Props) {
   const [currentWeek, setCurrentWeek] = useState<number | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
 
-    const { user } = useAuthStore();
+  const { user } = useAuthStore();
 
   useEffect(() => {
     async function loadWeek() {
       try {
-        let route = "";
+        let route = '';
 
-      if (user) {
-        route = "/dashboard"; 
-      } else {
-        route = "/public/dashboard"; 
-      }
+        if (user) {
+          route = '/dashboard';
+        } else {
+          route = '/public/dashboard';
+        }
 
-      const res = await api.get(route);
-      setCurrentWeek(res.data.weekNumber);
-      } catch (err) {
-        toast.error("Не вдалося завантажити поточний тиждень");
+        const res = await api.get(route);
+        setCurrentWeek(res.data.weekNumber);
+      } catch {
+        toast.error('Не вдалося завантажити поточний тиждень');
       }
     }
 
@@ -43,7 +43,10 @@ export default function WeekSelector({ total= 42, startAt=1 }: Props) {
     const el = containerRef.current;
     const currentCard = el?.querySelector(`[data-week="${currentWeek}"]`);
     if (currentCard) {
-      (currentCard as HTMLElement).scrollIntoView({ behavior: "smooth", inline: "center" });
+      (currentCard as HTMLElement).scrollIntoView({
+        behavior: 'smooth',
+        inline: 'center',
+      });
     }
   }, [currentWeek]);
 
@@ -51,7 +54,12 @@ export default function WeekSelector({ total= 42, startAt=1 }: Props) {
 
   return (
     <div className={styles.wrapper}>
-      <div className={styles.container} ref={containerRef} role="list" aria-label="Weeks">
+      <div
+        className={styles.container}
+        ref={containerRef}
+        role="list"
+        aria-label="Weeks"
+      >
         {items.map((n) => {
           let className = styles.card;
           if (currentWeek !== null) {
@@ -59,7 +67,13 @@ export default function WeekSelector({ total= 42, startAt=1 }: Props) {
             else if (n > currentWeek) className += ` ${styles.future}`;
           }
           return (
-            <div key={n} className={className} data-week={n} role="listitem" tabIndex={0}>
+            <div
+              key={n}
+              className={className}
+              data-week={n}
+              role="listitem"
+              tabIndex={0}
+            >
               <div className={styles.number}>{n}</div>
               <div className={styles.label}>Тиждень</div>
             </div>

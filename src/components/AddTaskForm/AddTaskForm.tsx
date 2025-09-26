@@ -9,7 +9,7 @@ import type { Task } from '../../types/note';
 import { saveTask } from '../../lib/clientApi';
 
 interface AddTaskFormProps {
-  initialTask?: Task;
+  initialText?: Task;
   onSubmit: (task: Task) => void;
 }
 
@@ -24,22 +24,22 @@ const validationSchema = Yup.object().shape({
 });
 
 export default function AddTaskForm({
-  initialTask,
+  initialText,
   onSubmit,
 }: AddTaskFormProps) {
   return (
     <div>
       <Formik
         initialValues={{
-          text: initialTask?.text || '',
-          date: initialTask?.date || new Date().toISOString().slice(0, 10),
+          text: initialText?.text || '',
+          date: initialText?.date || new Date().toISOString().slice(0, 10),
         }}
         validationSchema={validationSchema}
         onSubmit={async (values, { setSubmitting, setStatus }) => {
           try {
-            const savedTask = await saveTask(initialTask?.id, {
+            const savedTask = await saveTask(initialText?.id, {
               ...values,
-              completed: initialTask?.completed ?? false,
+              completed: initialText?.completed ?? false,
             });
             setSubmitting(false);
             onSubmit(savedTask);
