@@ -1,34 +1,75 @@
 'use client';
 
+'use client';
+
 import React from 'react';
-// import styles from './ConfirmationModal.module.css';
+import styles from './ConfirmationModal.module.css';
+
+/**
+ * Пропсы тоже делаю опциональными, чтобы не падало там,
+ * где пробрасывают только onClose.
+ */
+type Props = {
+  open?: boolean;
+  title?: string;
+  message?: string;
+  onClose?: () => void;
+  onConfirm?: () => void;
+};
 
 export default function ConfirmationModal({
-  open, onClose, onConfirm, text = 'Ви впевнені?'
-}: {
-  open: boolean;
-  onClose: () => void;
-  onConfirm: () => void;
-  text?: string;
-}) {
+  open = true,
+  title = 'Підтвердження',
+  message = 'Видалити цей запис назавжди?',
+  onClose,
+  onConfirm,
+}: Props) {
   if (!open) return null;
+
   return (
-    <div className="modal-backdrop" onClick={onClose}>
-      <div className="modal" onClick={(e) => e.stopPropagation()}>
-        <header>
-          <h3 className="text-lg font-semibold">Підтвердження</h3>
-          <button className="btn" onClick={onClose}>Закрити</button>
+    <div className={styles.backdrop} onClick={onClose}>
+      <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
+        <header className={styles.header}>
+          <h3>{title}</h3>
+          <button className={styles.btn} onClick={onClose} type="button">Закрити</button>
         </header>
-        <div className="body"><p>{text}</p></div>
-        <div className="actions">
-          <button className="btn" onClick={onClose}>Скасувати</button>
-          <button className="btn btn-danger" onClick={onConfirm}>Видалити</button>
+
+        <div className={styles.body}>
+          <p>{message}</p>
+        </div>
+
+        <div className={styles.actions}>
+          <button className={styles.btn} onClick={onClose} type="button">Скасувати</button>
+          <button className={`${styles.btn} ${styles.btnDanger}`} onClick={onConfirm} type="button">
+            Видалити
+          </button>
         </div>
       </div>
     </div>
   );
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// import styles from './ConfirmationModal.module.css';
 //import dynamic from 'next/dynamic';
 
 /*const GreetingBlock = dynamic(

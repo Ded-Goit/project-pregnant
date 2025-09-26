@@ -1,113 +1,132 @@
 'use client';
 
-import React, { useEffect, useMemo, useState } from 'react';
-import axios from 'axios';
-import { useRouter } from 'next/navigation';
-import GreetingBlock from "../../components/GreetingBlock/GreetingBlock";
-import DiaryList from "../../components/DiaryList/DiaryList";
-import DiaryEntryDetails from "../../components/DiaryEntryDetails/DiaryEntryDetails";
-import AddDiaryEntryModal from "../../components/AddDiaryEntryModal/AddDiaryEntryModal";
-import ConfirmationModal from "../../components/ConfirmationModal/ConfirmationModal";
-import type { DiaryEntry } from "../../components/DiaryEntryCard/DiaryEntryCard";
-import styles from "./diary.module.css";
+import s from './diary.module.css';
+import React from 'react';
 
-axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_BASE || 'https://project-pregnant-back.onrender.com';
 
-export default function DiaryPage() {
-  const [entries, setEntries] = useState<DiaryEntry[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+type Entry = { id:string; title:string; createdAt:string; tags:string[]; content:string };
 
-  const [selectedId, setSelectedId] = useState<string | null>(null);
-  const [modalOpen, setModalOpen] = useState(false);
-  const [editInitial, setEditInitial] = useState<DiaryEntry | null>(null);
-  const [confirmOpen, setConfirmOpen] = useState(false);
-  const [toDelete, setToDelete] = useState<DiaryEntry | null>(null);
+const ENTRIES: Entry[] = [
+  { id:'1', title:'Дивне бажання', createdAt:'2025-07-09T00:00:00.000Z', tags:['Натхнення','дивні бажання'], content:'...' },
+];
 
-  const router = useRouter();
+const SELECTED: Entry = {
+  id:'s1',
+  title:'Дивне бажання',
+  createdAt:'2025-07-09T00:00:00.000Z',
+  tags:['Натхнення','дивні бажання'],
+  content:`Це сталося! Сьогодні ввечері...`,
+};
 
-  const isDesktop = useMemo(
-    () => (typeof window !== 'undefined' ? window.matchMedia('(min-width: 1024px)').matches : true),
-    []
-  );
+export default function DiaryPage(){
+  return (
+    <div className={s.layout}>
+      {/* Sidebar */}
+      <aside className={s.sidebar}>
+        <div className={s.brand}>
+          <div style={{width:28,height:28,borderRadius:14,background:'var(--color-scheme-accent)'}} aria-hidden />
+          <span>Лелека</span>
+        </div>
 
-  useEffect(() => {
-    axios.get('/api/diary')
-      .then((r) => setEntries(r.data || []))
-      .catch((e) => setError(e?.message || 'Помилка завантаження'))
-      .finally(() => setLoading(false));
-  }, []);
+        <nav className={s.navBox}>
+          <a className={s.navItem} href="#"> Мій день</a>
+          <a className={s.navItem} href="#"> Подорож</a>
+          <a className={s.navItem} href="#"> Щоденник</a>
+          <a className={s.navItem} href="#"> Профіль</a>
+        </nav>
 
-  const selected = useMemo(
-    () => entries.find(e => e.id === selectedId) || entries[0] || null,
-    [entries, selectedId]
-  );
+        <div className={s.emailBox}>
+          <div style={{width:36,height:36,borderRadius:18,background:'#ddd'}} aria-hidden />
+          <div>
+            <div style={{fontWeight:600}}>Ганна</div>
+            <div style={{fontSize:12,color:'var(--color-neutral)'}}>hanna@gmail.com</div>
+          </div>
+          <button style={{width:28,height:28,borderRadius:999,border:'1px solid var(--color-scheme-border)'}}>↗</button>
+        </div>
+      </aside>
 
-  function openNew(){ setEditInitial(null); setModalOpen(true); }
-  function openEdit(entry: DiaryEntry){ setEditInitial(entry); setModalOpen(true); }
-  function requestDelete(entry: DiaryEntry){ setToDelete(entry); setConfirmOpen(true); }
+      {/* Main */}
+      <main className={s.main}>
+        <header className={s.pageHeader}>
+          <div className={s.breadcrumbs}>
+            Лелека <span>›</span> <span className={s.current}>Щоденник</span>
+          </div>
+          <h1 className={s.greeting}>Доброго ранку, Ганна!</h1>
+        </header>
 
-  async function handleSubmit(payload: { title: string; content: string; tags: string[] }){
-    if(editInitial){
-      const r = await axios.put(`/api/diary/${editInitial.id}`, payload);
-      const upd = r.data as DiaryEntry;
-      setEntries(prev => prev.map(e => e.id === upd.id ? upd : e));
-    } else {
-      const r = await axios.post('/api/diary', payload);
-      const created = r.data as DiaryEntry;
-      setEntries(prev => [created, ...prev]);
-      setSelectedId(created.id);
-    }
-    setModalOpen(false); setEditInitial(null);
-  }
+        <div className={s.contentRow}>
+          {/* Список */}
+          <section className={s.listCard}>
+            <div className={s.listHeader}>
+              <h2 className={s.listTitle}>Ваші записи</h2>
+              <div className={s.listTools}>
+                <span>Новий запис</span>
+                <button style={{width:28,height:28,borderRadius:999,border:'1px solid var(--color-scheme-border)'}}>＋</button>
+              </div>
+            </div>
 
-  async function handleConfirmDelete(){
-    if(!toDelete) return;
-    await axios.delete(`/api/diary/${toDelete.id}`);
-    setEntries(prev => prev.filter(e => e.id !== toDelete.id));
-    setConfirmOpen(false); setToDelete(null);
-    setSelectedId(prev => prev === toDelete!.id ? null : prev);
-  }
+            <div className={s.listBody}>
+              {ENTRIES.map((e) => (
+                <article key={e.id} className={s.entryCard}>
+                  <div className={s.entryHead}>
+                    <h3 className={s.entryTitle}>Дивне бажання</h3>
+                    <span className={s.entryDate}>
+                      {new Date(e.createdAt).toLocaleDateString('uk-UA',{year:'numeric',month:'long',day:'numeric'})}
+                    </span>
+                  </div>
+                  <div className={s.entryTags}>
+                    {e.tags.map((t,i)=>(<span key={i} className={s.chip}>{t}</span>))}
+                  </div>
+                </article>
+              ))}
+            </div>
+          </section>
 
-  if (loading) return <div className="container">Завантаження…</div>;
-  if (error) return <div className="container" style={{ color: 'red' }}>{error}</div>;
+          {/* Детали */}
+          <section className={s.detailsCard}>
+            <div className={s.detailsInner}>
+              <div className={s.detailsTop}>
+                <div>
+                  <h3 className={s.detailsTitle}>{SELECTED.title}</h3>
+                  <div className={s.detailsDate}>
+                    {new Date(SELECTED.createdAt).toLocaleDateString('uk-UA',{year:'numeric',month:'long',day:'numeric'})}
+                  </div>
+                </div>
+                <div className={s.detailsActions}>
+                  <button style={{width:28,height:28,borderRadius:999,border:'1px solid var(--color-scheme-border)'}}>🖉</button>
+                  <button style={{width:28,height:28,borderRadius:999,border:'1px solid var(--color-scheme-border)'}}>🗑</button>
+                </div>
+              </div>
 
-  if (!isDesktop) {
-    // Mobile/Tablet: only list at /diary
-    return (
-      <div className="container">
-        <div className="row">
-          <div className={styles.greetingFixed}><GreetingBlock userName="Пані" /></div>
-          <section className="card">
-            <DiaryList entries={entries} onNew={openNew} onSelect={(id)=>router.push(`/diary/${id}`)} />
+              <div className={s.detailsBody}>
+                <div className={s.entryTags}>
+                  {SELECTED.tags.map((t,i)=>(<span key={i} className={s.chip}>{t}</span>))}
+                </div>
+                <article className={s.detailsText}>{SELECTED.content}</article>
+              </div>
+            </div>
           </section>
         </div>
-        <AddDiaryEntryModal open={modalOpen} onClose={()=>setModalOpen(false)} initial={editInitial ?? undefined} onSubmit={handleSubmit} />
-      </div>
-    );
-  }
-
-  // Desktop: all blocks with fixed heights
-  return (
-    <div className="container">
-      <div className="row">
-        <div className={styles.greetingFixed}><GreetingBlock userName="Пані" /></div>
-        <div className="row row-lg">
-          <div className={styles.panelFixed} style={{ gridColumn: 'span 5' }}>
-            <DiaryList entries={entries} onNew={openNew} onSelect={setSelectedId} />
-          </div>
-          <div className={styles.panelFixed} style={{ gridColumn: 'span 7' }}>
-            <DiaryEntryDetails entry={selected || null} onEdit={()=>selected && openEdit(selected)} onDelete={()=>selected && requestDelete(selected)} />
-          </div>
-        </div>
-      </div>
-
-      <AddDiaryEntryModal open={modalOpen} onClose={()=>setModalOpen(false)} initial={editInitial ?? undefined} onSubmit={handleSubmit} />
-      <ConfirmationModal open={confirmOpen} onClose={()=>setConfirmOpen(false)} onConfirm={handleConfirmDelete} text="Видалити цей запис назавжди?" />
+      </main>
     </div>
   );
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// import styles from "./diary.module.css";
 //import dynamic from 'next/dynamic';
 
 /*const GreetingBlock = dynamic(

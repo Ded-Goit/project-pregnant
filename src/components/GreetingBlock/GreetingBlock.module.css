@@ -22,3 +22,5 @@
     margin-bottom: 16px;
   }
 }
+
+.root { font-family: var(--second-family); font-size: 26px; font-weight: var(--fw-bold); color: var(--color-neutral-darkest); margin: 0; }

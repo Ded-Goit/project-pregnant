@@ -1,41 +1,61 @@
 'use client';
 
 import React from 'react';
-import DiaryEntryCard, { DiaryEntry } from '@/components/DiaryEntryCard/DiaryEntryCard';
 import styles from './DiaryList.module.css';
+import DiaryEntryCard, { type DiaryEntry } from '../DiaryEntryCard/DiaryEntryCard';
 
-export default function DiaryList({
-  entries,
-  onNew,
-  onSelect,
-}: {
+type Props = {
   entries: DiaryEntry[];
-  onNew?: () => void;
-  onSelect?: (id: string) => void;
-}) {
+  onAddClick?: () => void;
+  onSelect?: (id: string) => void; // клик по карточке
+};
+
+export default function DiaryList({ entries, onAddClick, onSelect }: Props) {
   return (
-    <section className="card" style={{ display: 'flex', flexDirection: 'column', minHeight: 0 }}>
-      <header className={styles.header}>
-        <h2>Щоденник</h2>
-        <button className="btn btn-primary" onClick={onNew}>Новий запис</button>
-      </header>
-      <div className={styles.body}>
-        {entries.length === 0 ? (
-          <div className={styles.empty}>Поки що немає жодного запису.</div>
-        ) : (
-          <div className={styles.grid}>
-            {entries.map((e) => (
-              <DiaryEntryCard key={e.id} entry={e} onClick={onSelect} />
-            ))}
-          </div>
-        )}
+    <>
+      <div className={styles.header}>
+        <h2 className={styles.title}>Ваші записи</h2>
+        <div className={styles.tools}>
+          <span>Новий запис</span>
+          <button
+            aria-label="Додати"
+            className="roundBtn"
+            onClick={onAddClick}
+            type="button"
+          >
+            ＋
+          </button>
+        </div>
       </div>
-    </section>
+
+      <div className={styles.body}>
+        {entries.map((e) => (
+          <DiaryEntryCard key={e.id} entry={e} onClick={onSelect} />
+        ))}
+      </div>
+    </>
   );
 }
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// import styles from './DiaryList.module.css';
 //import dynamic from 'next/dynamic';
 
 /*

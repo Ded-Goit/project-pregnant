@@ -7,37 +7,7 @@
   background-color: rgb(179, 201, 214);
 }
 
-.header { 
-  display: flex; 
-  align-items: center; 
-  justify-content: space-between; 
-  gap: 12px; padding: 16px; 
-  border-bottom: 1px solid #e4e4e7; 
-}
-
-.header h2 { 
-  margin: 0; 
-  font-size: 20px; 
-  font-weight: 600; 
-}
-
-.body { 
-  min-height: 0; 
-  overflow: auto; 
-  padding: 16px; 
-}
-
-.grid { 
-  display: grid; 
-  grid-template-columns: 1fr; 
-  gap: 12px; 
-}
-
-.empty { 
-  border: 1px solid #e4e4e7; 
-  background: #fafafa; 
-  border-radius: 16px; 
-  padding: 24px; 
-  text-align: center; 
-  color: #71717a; 
-}
+.header { display:flex; align-items:center; justify-content:space-between; height:64px; }
+.title { margin:0; font-size:18px; font-weight:var(--fw-bold); }
+.tools { display:flex; align-items:center; gap:8px; color:var(--color-neutral-dark); }
+.body { display:grid; row-gap:16px; overflow:auto; }
