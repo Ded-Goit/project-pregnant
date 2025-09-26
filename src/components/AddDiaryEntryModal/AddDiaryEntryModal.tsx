@@ -3,13 +3,10 @@
 //import dynamic from 'next/dynamic';
 import styles from './AddDiaryEntryModal.module.css';
 import React, { useEffect } from 'react';
-import { DiaryEntry } from '../AddDiaryEntryForm/AddDiaryEntryForm'; /*AddDiaryEntryForm,*/
+import AddDiaryEntryForm, {
+  DiaryEntry,
+} from '../AddDiaryEntryForm/AddDiaryEntryForm';
 import Image from 'next/image';
-
-/*
-const FeelingCheckCard = dynamic(
-  () => import('@/components/dashboard/feeling-check-card')
-);*/
 
 interface AddDiaryEntryModalProps {
   isEdit?: boolean;
@@ -20,9 +17,9 @@ interface AddDiaryEntryModalProps {
 
 export default function AddDiaryEntryModal({
   isEdit = false,
-  // initialEntry,
+  initialEntry,
   onClose,
-  // onSubmit,
+  onSubmit,
 }: AddDiaryEntryModalProps) {
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
@@ -53,13 +50,13 @@ export default function AddDiaryEntryModal({
         <h2 className={styles.modalTitle}>
           {isEdit ? 'Редагувати запис' : 'Новий запис'}
         </h2>
-        {/* <AddDiaryEntryForm
+        <AddDiaryEntryForm
           initialEntry={initialEntry}
           onSubmit={async (entry) => {
-            await onSubmit(entry);
+            await onSubmit?.(entry);
             onClose();
           }}
-        /> */}
+        />
       </div>
     </div>
   );

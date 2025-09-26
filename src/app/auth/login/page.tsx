@@ -10,6 +10,7 @@ import { useId } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import Button from '@/components/UI/Buttons/Buttons';
+import GoogleLoginButton from '@/components/GoogleLoginButton/GoogleLoginButton';
 
 const LoginSchema = Yup.object().shape({
   email: Yup.string()
@@ -85,7 +86,7 @@ export default function LoginForm() {
               </Form>
             )}
           </Formik>
-
+          <GoogleLoginButton />
           <p className={styles.text}>
             Немає аккаунту?
             <Link href="/auth/register" className={styles.link}>

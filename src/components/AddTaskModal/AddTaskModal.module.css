@@ -49,8 +49,12 @@
 }
 
 .modalTitle {
-  margin-bottom: '20px';
-  text-align: 'center';
-  font-size: '20px';
-  font-weight: 'bold';
+  font: 700 36px / 120% var(--second-family);
+  letter-spacing: 0.01em;
+  text-align: center;
+  color: var(--color-scheme-text);
+
+  @media (min-width: 1440px) {
+    font-size: 48px;
+  }
 }
