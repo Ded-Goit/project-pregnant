@@ -8,13 +8,61 @@ const FeelingCheckCard = dynamic(
   () => import('@/components/dashboard/feeling-check-card')
 );*/
 
-export default function StatusBlock() {
+// import React, { useEffect, useState } from 'react';
+
+interface StatusBlockProps {
+  weekNumber: number;
+  daysLeft: number;
+}
+
+export default function StatusBlock({
+  weekNumber,
+  daysLeft,
+}: StatusBlockProps) {
+  // const [loading, setLoading] = useState(true);
+  // const [error, setError] = useState<string | null>(null);
+
+  // useEffect(() => {
+  //   fetch('/api/user/pregnancy-status')
+  //     .then((res) => {
+  //       if (!res.ok) {
+  //         throw new Error('Помилка завантаження статусу вагітності');
+  //       }
+  //       return res.json();
+  //     })
+  //     .then((data) => {
+  //       setWeek(data.week);
+  //       setDaysLeft(data.daysLeft);
+  //       setLoading(false);
+  //     })
+  //     .catch((err) => {
+  //       setError(err.message);
+  //       setLoading(false);
+  //     });
+  // }, []);
+
+  // if (loading) {
+  //   return <section className="block status-block">Завантаження...</section>;
+  // }
+
+  // if (error) {
+  //   return (
+  //     <section className="block status-block">
+  //       <p>Помилка: {error}</p>
+  //     </section>
+  //   );
+  // }
+
   return (
-    <div className={styles.component}>
-      <h1 className={styles.title}>
-        Компонент, що відображає персоналізоване привітання. Буде
-        перевикористовуватись на інших сторінках.
-      </h1>
-    </div>
+    <section className={styles.statusBlock}>
+      <div className={styles.status}>
+        <h3 className={styles.statusTitle}>Тиждень</h3>
+        <p className={styles.statusItem}>{weekNumber}</p>
+      </div>
+      <div className={styles.status}>
+        <h3 className={styles.statusTitle}>Днів до зустрічі</h3>
+        <p className={styles.statusItem}>~{daysLeft}</p>
+      </div>
+    </section>
   );
 }

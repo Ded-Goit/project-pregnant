@@ -1,19 +1,59 @@
 'use client';
 
-//import dynamic from 'next/dynamic';
 import styles from './AddTaskModal.module.css';
 
-/*
-const FeelingCheckCard = dynamic(
-  () => import('@/components/dashboard/feeling-check-card')
-);*/
+import React, { useEffect } from 'react';
+import AddTaskForm, { Task } from '../AddTaskForm/AddTaskForm';
+import Image from 'next/image';
 
-export default function AddTaskModal() {
+interface AddTaskModalProps {
+  isEdit?: boolean;
+  onClose: () => void;
+  onSubmit?: (task: Task) => void;
+  initialText?: string;
+}
+
+export default function AddTaskModal({
+  isEdit = false,
+  onClose,
+  onSubmit,
+  initialText,
+}: AddTaskModalProps) {
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        onClose();
+      }
+    };
+    document.addEventListener('keydown', handleEscape);
+    return () => document.removeEventListener('keydown', handleEscape);
+  }, [onClose]);
+
+  const handleBackdropClick = (e: React.MouseEvent) => {
+    if (e.target === e.currentTarget) {
+      onClose();
+    }
+  };
+
   return (
-    <div className={styles.component}>
-      <h1 className={styles.title}>
-        Блок `Модальне вікно створення/редагування завдання` | AddTaskModal
-      </h1>
+    <div className={styles.modalBackdrop} onClick={handleBackdropClick}>
+      <div className={styles.modalContent}>
+        <button
+          onClick={onClose}
+          className={styles.closeButton}
+          aria-label="Close modal"
+        >
+          <Image src="/close.png" alt="Close" width={24} height={24} />
+        </button>
+        <h2 className={styles.modalTitle}>Нове завдання</h2>
+        <AddTaskForm
+          initialText={initialText}
+          onSubmit={(task: Task) => {
+            onSubmit?.(task);
+            onClose();
+          }}
+        />
+      </div>
     </div>
   );
 }

@@ -1,8 +1,62 @@
-.component {
+.modalBackdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--opacity-neutral-darkest-50);
   display: flex;
-  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
 }
 
-.title {
-  background-color: rgb(179, 201, 214);
+.modalContent {
+  background-color: var(--color-white);
+  border-radius: 40px;
+  padding: 48px 20px;
+  width: 334px;
+  height: 695px;
+  /* max-width: 768px; */
+  position: relative;
+
+  @media (min-width: 768px) {
+    width: 704px;
+    height: 755px;
+    padding: 64px 32px;
+  }
+  @media (min-width: 1440px) {
+    width: 768px;
+    height: 785px;
+    padding: 64px;
+  }
+}
+
+.closeButton {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  width: 24px;
+  height: 24px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+
+  @media (min-width: 768px) {
+    top: 36px;
+    right: 36px;
+  }
+}
+
+.modalTitle {
+  font: 700 36px / 120% var(--second-family);
+  letter-spacing: 0.01em;
+  text-align: center;
+  color: var(--color-scheme-text);
+  /* margin-bottom: 20px; */
+  /* height: 43px; */
+
+  @media (min-width: 1440px) {
+    font-size: 48px;
+  }
 }
