@@ -13,39 +13,47 @@ export async function POST() {
   }
 
   if (refreshToken) {
-    const response = await api('/auth/refresh', {
-      headers: { Cookie: cookieData.toString() },
-    });
+    try {
+      const response = await api.post(
+        '/auth/refresh',
+        {},
+        {
+          headers: { Cookie: cookieData.toString() },
+        }
+      );
 
-    const setCookies = response.headers['set-cookie'];
+      const setCookies = response.headers['set-cookie'];
 
-    if (setCookies) {
-      const cookiesArray = Array.isArray(setCookies)
-        ? setCookies
-        : [setCookies];
+      if (setCookies) {
+        const cookiesArray = Array.isArray(setCookies)
+          ? setCookies
+          : [setCookies];
 
-      for (const newCookieString of cookiesArray) {
-        const parsedCookie = parse(newCookieString);
-        const options = {
-          path: parsedCookie.Path,
-          maxAge: Number(parsedCookie['Max-Age']),
-          expires: parsedCookie.Expires
-            ? new Date(parsedCookie.Expires)
-            : undefined,
-          httpOnly: true,
-          secure: true,
-        };
+        for (const newCookieString of cookiesArray) {
+          const parsedCookie = parse(newCookieString);
+          const options = {
+            path: parsedCookie.Path,
+            maxAge: Number(parsedCookie['Max-Age']),
+            expires: parsedCookie.Expires
+              ? new Date(parsedCookie.Expires)
+              : undefined,
+            httpOnly: true,
+            secure: true,
+          };
 
-        if (parsedCookie.accessToken) {
-          cookieData.set('accessToken', parsedCookie.accessToken, options);
+          if (parsedCookie.accessToken) {
+            cookieData.set('accessToken', parsedCookie.accessToken, options);
+          }
+
+          if (parsedCookie.refreshToken) {
+            cookieData.set('refreshToken', parsedCookie.refreshToken, options);
+          }
         }
 
-        if (parsedCookie.refreshToken) {
-          cookieData.set('refreshToken', parsedCookie.refreshToken, options);
-        }
+        return NextResponse.json({ success: true });
       }
-
-      return NextResponse.json({ success: true });
+    } catch (error) {
+      console.log('11111111111111111111', error);
     }
   }
 
