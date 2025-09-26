@@ -1,21 +1,13 @@
 'use client';
 
 import styles from './AddDiaryEntryForm.module.css';
-
 import React, { useState, useRef, useEffect } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import axios from 'axios';
 import Button from '../UI/Buttons/Buttons';
-
-// Тип даних запису
-export interface DiaryEntry {
-  id?: string;
-  title: string;
-  categories: string[];
-  content: string;
-  createdAt?: string;
-}
+import type { DiaryEntry } from '../../types/note';
+import { saveDiaryEntry } from '../../lib/clientApi';
+import { getErrorMessage } from '../../lib/errorUtils';
 
 interface AddDiaryEntryFormProps {
   initialEntry?: DiaryEntry;
@@ -36,11 +28,20 @@ const validationSchema = Yup.object().shape({
     .min(3, 'Заголовок має бути не менше 3 символів')
     .max(255, 'Заголовок занадто довгий')
     .required('Обов’язкове поле'),
-  categories: Yup.array().min(1, 'Оберіть щонайменше одну категорію'),
+  categories: Yup.array()
+    .of(Yup.string())
+    .min(1, 'Оберіть щонайменше одну категорію'),
   content: Yup.string()
     .min(5, 'Запис має бути не менше 5 символів')
     .required('Обов’язкове поле'),
 });
+
+// Компонент для помилок
+const ErrorText = ({ children }: { children: React.ReactNode }) => (
+  <div style={{ color: 'red', fontSize: '0.9rem', marginTop: '4px' }}>
+    {children}
+  </div>
+);
 
 export default function AddDiaryEntryForm({
   initialEntry,
@@ -49,7 +50,6 @@ export default function AddDiaryEntryForm({
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  // Обробник кліку поза компонентом
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (
@@ -59,12 +59,9 @@ export default function AddDiaryEntryForm({
         setDropdownOpen(false);
       }
     }
-
     document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [dropdownRef]);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   return (
     <div>
@@ -75,21 +72,14 @@ export default function AddDiaryEntryForm({
           content: initialEntry?.content || '',
         }}
         validationSchema={validationSchema}
+        enableReinitialize
         onSubmit={async (values, { setSubmitting, setStatus }) => {
           try {
-            const response = initialEntry?.id
-              ? await axios.put(`/api/diary/${initialEntry.id}`, values)
-              : await axios.post('/api/diary', values);
+            const savedEntry = await saveDiaryEntry(initialEntry?.id, values);
             setSubmitting(false);
-            onSubmit(response.data);
+            onSubmit(savedEntry);
           } catch (error) {
-            if (axios.isAxiosError(error)) {
-              setStatus(
-                error.response?.data?.message || 'Помилка при збереженні'
-              );
-            } else {
-              setStatus('Сталася невідома помилка');
-            }
+            setStatus(getErrorMessage(error));
             setSubmitting(false);
           }
         }}
@@ -119,10 +109,9 @@ export default function AddDiaryEntryForm({
                   name="title"
                   placeholder="Введіть заголовок запису "
                 />
-                <ErrorMessage
-                  name="title"
-                  render={(msg) => <div style={{ color: 'red' }}>{msg}</div>}
-                />
+                <ErrorMessage name="title">
+                  {(msg) => <ErrorText>{msg}</ErrorText>}
+                </ErrorMessage>
               </div>
 
               <div className={styles.fieldContainer} ref={dropdownRef}>
@@ -137,6 +126,15 @@ export default function AddDiaryEntryForm({
                   }
                   tabIndex={0}
                   onClick={() => setDropdownOpen(!dropdownOpen)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Escape') {
+                      setDropdownOpen(false);
+                    }
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      setDropdownOpen((prev) => !prev);
+                    }
+                  }}
                   role="button"
                   aria-haspopup="listbox"
                   aria-expanded={dropdownOpen}
@@ -147,7 +145,11 @@ export default function AddDiaryEntryForm({
                 </div>
 
                 {dropdownOpen && (
-                  <div className={styles.dropDown} role="listbox">
+                  <div
+                    className={styles.dropDown}
+                    role="listbox"
+                    aria-multiselectable="true"
+                  >
                     {categoriesOptions.map((category) => (
                       <label className={styles.taskLabel} key={category}>
                         <input
@@ -162,10 +164,9 @@ export default function AddDiaryEntryForm({
                   </div>
                 )}
 
-                <ErrorMessage
-                  name="categories"
-                  render={(msg) => <div style={{ color: 'red' }}>{msg}</div>}
-                />
+                <ErrorMessage name="categories">
+                  {(msg) => <ErrorText>{msg}</ErrorText>}
+                </ErrorMessage>
               </div>
 
               <div>
@@ -180,13 +181,12 @@ export default function AddDiaryEntryForm({
                   rows={4}
                   placeholder="Запишіть, як ви себе відчуваєте"
                 />
-                <ErrorMessage
-                  name="content"
-                  render={(msg) => <div style={{ color: 'red' }}>{msg}</div>}
-                />
+                <ErrorMessage name="content">
+                  {(msg) => <ErrorText>{msg}</ErrorText>}
+                </ErrorMessage>
               </div>
 
-              {status && <div style={{ color: 'red' }}>{status}</div>}
+              {status && <ErrorText>{status}</ErrorText>}
 
               <Button
                 type="submit"

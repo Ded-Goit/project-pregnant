@@ -3,35 +3,28 @@
 import dynamic from 'next/dynamic';
 import styles from './dashboard.module.css';
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-// import SpinnerFlowersLine from '@/components/SpinnerFlowersLine/SpinnerFlowersLine';
-
-axios.defaults.baseURL = 'https://project-pregnant-back.onrender.com';
+import { getDashboardData } from '../../lib/clientApi';
+import type { DashboardResponse } from '../../types/note';
 
 const GreetingBlock = dynamic(
   () => import('@/components/GreetingBlock/GreetingBlock')
 );
-
 const StatusBlock = dynamic(
   () => import('@/components/StatusBlock/StatusBlock')
 );
-
 const BabyTodayCard = dynamic(
   () => import('@/components/BabyTodayCard/BabyTodayCard')
 );
-
 const MomTipCard = dynamic(() => import('@/components/MomTipCard/MomTipCard'));
-
 const TasksReminderCard = dynamic(
   () => import('@/components/TasksReminderCard/TasksReminderCard')
 );
-
 const FeelingCheckCard = dynamic(
   () => import('@/components/FeelingCheckCard/FeelingCheckCard')
 );
 
 export default function DashboardPage() {
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false); // тут ваша логіка аутентифікації
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [userName, setUserName] = useState<string>('Пані');
 
   const [weekNumber, setWeekNumber] = useState<number>(5);
@@ -48,32 +41,28 @@ export default function DashboardPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Визначте свій спосіб перевірки авторизації користувача
-        // Нижче просто приклад жорсткого коду
-        const auth = false; // або отримати з контексту, cookie тощо
+        // Тут має бути ваша логіка визначення аутентифікації
+        const auth = false; // Наприклад, отримати з контексту або cookie
         setIsAuthenticated(auth);
 
-        const response = await axios.get(
-          auth ? '/api/weeks/dashboard' : '/api/weeks/public/dashboard'
-        );
-        console.log('Отримані дані:', response.data);
+        const data: DashboardResponse = await getDashboardData(auth);
 
-        if (response.data) {
-          setUserName(response.data.name);
-          setWeekNumber(response.data.weekNumber);
-          setDaysLeft(response.data.daysLeft);
-          setImage(response.data.baby.image);
-          setBabySize(response.data.baby.babySize);
-          setBabyWeight(response.data.baby.babyWeight);
-          setBabyActivity(response.data.baby.babyActivity);
-          setBabyDevelopment(response.data.baby.babyDevelopment);
-          setMomDailyTips(response.data.baby.momDailyTips);
-          setCategoryIconUrl(response.data.baby.categoryIconUrl);
+        if (data) {
+          setUserName(data.name);
+          setWeekNumber(data.weekNumber);
+          setDaysLeft(data.daysLeft);
+          setImage(data.baby.image);
+          setBabySize(data.baby.babySize);
+          setBabyWeight(data.baby.babyWeight);
+          setBabyActivity(data.baby.babyActivity);
+          setBabyDevelopment(data.baby.babyDevelopment);
+          setMomDailyTips(data.baby.momDailyTips);
+          setCategoryIconUrl(data.baby.categoryIconUrl);
         } else {
-          setUserName('Пані'); // якщо ім'я не прийшло
+          setUserName('Пані');
         }
       } catch {
-        setUserName('Пані'); // обробка помилки, якщо не вдалось запитати
+        setUserName('Пані');
       }
     };
 

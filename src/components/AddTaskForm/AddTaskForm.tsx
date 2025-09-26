@@ -1,23 +1,14 @@
 'use client';
 
-//import dynamic from 'next/dynamic';
 import styles from './AddTaskForm.module.css';
 import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import axios from 'axios';
 import Button from '../UI/Buttons/Buttons';
-
-// Тип завдання
-export interface Task {
-  id?: string;
-  text: string;
-  date: string;
-  completed?: boolean;
-}
+import type { Task } from '../../types/note';
+import { saveTask } from '../../lib/clientApi';
 
 interface AddTaskFormProps {
-  initialText?: string;
   initialTask?: Task;
   onSubmit: (task: Task) => void;
 }
@@ -46,18 +37,25 @@ export default function AddTaskForm({
         validationSchema={validationSchema}
         onSubmit={async (values, { setSubmitting, setStatus }) => {
           try {
-            const response = initialTask?.id
-              ? await axios.put(`/api/tasks/${initialTask.id}`, {
-                  ...values,
-                  completed: initialTask.completed ?? false,
-                })
-              : await axios.post('/api/tasks', { ...values, completed: false });
+            const savedTask = await saveTask(initialTask?.id, {
+              ...values,
+              completed: initialTask?.completed ?? false,
+            });
             setSubmitting(false);
-            // Передаємо повний Task у onSubmit
-            onSubmit(response.data);
+            onSubmit(savedTask);
           } catch (error: unknown) {
-            if (axios.isAxiosError(error) && error.response?.data?.message) {
-              setStatus(error.response.data.message);
+            if (
+              error &&
+              typeof error === 'object' &&
+              'response' in error &&
+              error.response &&
+              typeof error.response === 'object' &&
+              'data' in error.response &&
+              error.response.data &&
+              typeof error.response.data === 'object' &&
+              'message' in error.response.data
+            ) {
+              setStatus((error.response.data as { message?: string }).message);
             } else {
               setStatus('Помилка при збереженні');
             }
