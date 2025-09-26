@@ -2,16 +2,19 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import ProfileEditForm from '@/components/ProfileEditForm/ProfileEditForm';
+import Link from 'next/link';
+import ProfileEditForm, {
+  ProfileFormData,
+} from '@/components/ProfileEditForm/ProfileEditForm';
 import { useAuthStore } from '@/hooks/useAuthStore';
 import styles from './profileedit.module.css';
 
-interface ProfileFormData {
-  name: string;
-  email: string;
-  childGender?: string;
-  dueDate?: string;
-}
+// Іконка хлібних крихт
+const ChevronRightIcon = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z" />
+  </svg>
+);
 
 export default function ProfileEditPage() {
   const router = useRouter();
@@ -33,7 +36,7 @@ export default function ProfileEditPage() {
     try {
       setError(null);
 
-      // Імітація запиту до API - замініть на реальний запит
+      // Імітація запиту до API
       await new Promise((resolve) => setTimeout(resolve, 1000));
 
       // Оновлюємо дані в store
@@ -76,19 +79,34 @@ export default function ProfileEditPage() {
     name: authUser.name || '',
     email: authUser.email || '',
     childGender: authUser.gender || '',
-    dueDate: '',
+    dueDate: '2025-07-16',
   };
 
   return (
     <div className={styles.pageWrapper}>
-      <h1 className={styles.title}>Редагування профілю</h1>
+      {/* Breadcrumbs */}
+      <nav className={styles.breadcrumbs}>
+        <Link href="/dashboard" className={styles.breadcrumbLink}>
+          Головна
+        </Link>
+        <ChevronRightIcon />
+        <Link href="/profile" className={styles.breadcrumbLink}>
+          Профіль
+        </Link>
+        <ChevronRightIcon />
+        <span className={styles.breadcrumbCurrent}>Редагування профілю</span>
+      </nav>
 
-      {error && <div className={styles.errorMessage}>{error}</div>}
+      <div className={styles.container}>
+        <h1 className={styles.title}>Редагування профілю</h1>
 
-      <ProfileEditForm
-        initialData={formInitialData}
-        onSubmit={handleProfileUpdate}
-      />
+        {error && <div className={styles.errorMessage}>{error}</div>}
+
+        <ProfileEditForm
+          initialData={formInitialData}
+          onSubmit={handleProfileUpdate}
+        />
+      </div>
     </div>
   );
 }

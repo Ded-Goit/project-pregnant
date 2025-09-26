@@ -4,23 +4,19 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import ProfileAvatar from '@/components/ProfileAvatar/ProfileAvatar';
-import ProfileEditForm from '@/components/ProfileEditForm/ProfileEditForm';
+import ProfileEditForm, {
+  ProfileFormData,
+} from '@/components/ProfileEditForm/ProfileEditForm';
 import { useAuthStore } from '@/hooks/useAuthStore';
-import { nextServer } from '@/lib/api';
+import Button from '@/components/UI/Buttons/Buttons';
 import styles from './profile.module.css';
 
+// Іконка хлібних крихт
 const ChevronRightIcon = () => (
   <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
     <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z" />
   </svg>
 );
-
-interface ProfileFormData {
-  name: string;
-  email: string;
-  childGender?: string;
-  dueDate?: string;
-}
 
 export default function ProfilePage() {
   const router = useRouter();
@@ -28,30 +24,38 @@ export default function ProfilePage() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    if (!authUser || !accessToken) {
-      router.push('/login');
-      return;
-    }
-    setIsLoading(false);
-  }, [authUser, accessToken, router]);
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [authUser, accessToken]);
+
+  // Тестові дані для демонстрації з фото
+  const testUser = {
+    _id: '1',
+    name: 'Ганна',
+    email: 'hanna@gmail.com',
+    gender: 'female',
+    avatar: '/Avatar Image_result.jpg',
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+  };
 
   const handleAvatarUpdate = async (file: File): Promise<string> => {
     try {
-      const formData = new FormData();
-      formData.append('avatar', file);
-
-      const response = await nextServer.post('/users/avatar', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      const avatarUrl = URL.createObjectURL(file);
 
       if (authUser) {
-        const updatedUser = { ...authUser, avatar: response.data.avatarUrl };
+        const updatedUser = {
+          ...authUser,
+          avatar: avatarUrl,
+        };
         setAuthUser(updatedUser);
       }
 
-      return response.data.avatarUrl;
+      return avatarUrl;
     } catch (error) {
       console.error('Помилка завантаження фото:', error);
       throw error;
@@ -62,24 +66,26 @@ export default function ProfilePage() {
     formData: ProfileFormData
   ): Promise<void> => {
     try {
-      const response = await nextServer.put('/users/currentUser', formData);
+      await new Promise((resolve) => setTimeout(resolve, 1000));
 
-      const updatedUser = {
-        ...authUser!,
-        ...response.data,
-      };
+      if (authUser) {
+        const updatedUser = {
+          ...authUser,
+          name: formData.name,
+          email: formData.email,
+          gender: formData.childGender || authUser.gender,
+          updatedAt: new Date().toISOString(),
+        };
+        setAuthUser(updatedUser);
+      }
 
-      setAuthUser(updatedUser);
-      console.log('Профіль успішно оновлено');
+      alert('Профіль успішно оновлено!');
     } catch (error) {
       console.error('Помилка оновлення профілю:', error);
+      alert('Помилка оновлення профілю. Спробуйте ще раз.');
       throw error;
     }
   };
-
-  if (!authUser || !accessToken) {
-    return null;
-  }
 
   if (isLoading) {
     return (
@@ -89,45 +95,45 @@ export default function ProfilePage() {
     );
   }
 
+  const displayUser = authUser || testUser;
+
   const formInitialData: ProfileFormData = {
-    name: authUser.name || '',
-    email: authUser.email || '',
-    childGender: authUser.gender || '',
-    dueDate: '',
+    name: displayUser.name || '',
+    email: displayUser.email || '',
+    childGender: displayUser.gender || '',
+    dueDate: '2025-07-16',
   };
 
   return (
     <div className={styles.pageWrapper}>
-      {/* Sidebar буде в основному layout */}
+      {/* Breadcrumbs */}
+      <nav className={styles.breadcrumbs}>
+        <span className={styles.breadcrumbText}>Лелека</span>
+        <ChevronRightIcon />
+        <span className={styles.breadcrumbCurrent}>Профіль</span>
+      </nav>
 
-      <main className={styles.mainContent}>
-        {/* Page Header з Breadcrumbs */}
-        <header className={styles.pageHeader}>
-          <nav className={styles.breadcrumbs}>
-            <Link href="/dashboard" className={styles.breadcrumbLink}>
-              Головна
-            </Link>
-            <ChevronRightIcon />
-            <span className={styles.breadcrumbCurrent}>Профіль</span>
-          </nav>
-        </header>
-
-        {/* Основной контент */}
-        <div className={styles.container}>
+      <div className={styles.container}>
+        <div className={styles.header}>
           <h1 className={styles.title}>Профіль</h1>
-
-          <div className={styles.profileContainer}>
-            <ProfileAvatar
-              user={authUser}
-              onAvatarChange={handleAvatarUpdate}
-            />
-            <ProfileEditForm
-              initialData={formInitialData}
-              onSubmit={handleProfileUpdate}
-            />
-          </div>
+          <Link href="/profile/edit">
+            <Button variant="primary" size="large">
+              Редагувати профіль
+            </Button>
+          </Link>
         </div>
-      </main>
+
+        <div className={styles.profileContent}>
+          <ProfileAvatar
+            user={displayUser}
+            onAvatarChange={handleAvatarUpdate}
+          />
+          <ProfileEditForm
+            initialData={formInitialData}
+            onSubmit={handleProfileUpdate}
+          />
+        </div>
+      </div>
     </div>
   );
 }

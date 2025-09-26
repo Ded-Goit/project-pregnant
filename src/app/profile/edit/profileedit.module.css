@@ -1,22 +1,51 @@
 .pageWrapper {
-  display: flex;
-  flex-direction: column;
-  padding: 16px;
+  min-height: 100vh;
+  background-color: var(--color-scheme-background);
+  padding: 20px;
   max-width: 1440px;
   margin: 0 auto;
-  min-height: 100vh;
+}
+
+.breadcrumbs {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: var(--color-neutral);
+  margin-bottom: 20px;
+  padding: 0 20px;
+}
+
+.breadcrumbLink {
+  color: var(--color-scheme-accent);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.breadcrumbLink:hover {
+  color: var(--color-scheme-foreground-alt);
+  text-decoration: underline;
+}
+
+.breadcrumbCurrent {
+  color: var(--color-neutral-dark);
+  font-weight: var(--fw-medium);
+}
+
+.container {
+  background: var(--color-white);
+  border-radius: 20px;
+  padding: 32px;
+  box-shadow: 0 2px 10px var(--opacity-neutral-darkest-10);
 }
 
 .title {
-  background-color: aquamarine;
   font-family: var(--second-family);
-  font-size: 24px;
+  font-size: 32px;
   font-weight: var(--fw-bold);
-  color: var(--color-scheme-text);
-  margin-bottom: 24px;
+  color: var(--color-neutral-darkest);
+  margin-bottom: 32px;
   text-align: center;
-  padding: 16px;
-  border-radius: 8px;
 }
 
 .loading {
@@ -38,34 +67,44 @@
   font-size: 14px;
 }
 
-@media (min-width: 768px) {
+/* Mobile Styles */
+@media (max-width: 767px) {
   .pageWrapper {
+    padding: 16px;
+  }
+
+  .breadcrumbs {
+    padding: 0;
+    margin-bottom: 16px;
+    font-size: 12px;
+  }
+
+  .container {
     padding: 24px;
+    border-radius: 16px;
+  }
+
+  .title {
+    font-size: 24px;
+    margin-bottom: 24px;
+  }
+}
+
+/* Tablet Styles */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .container {
+    padding: 28px;
   }
 
   .title {
     font-size: 28px;
-    text-align: left;
-    margin-bottom: 32px;
   }
 }
 
+/* Desktop Styles */
 @media (min-width: 1024px) {
-  .pageWrapper {
-    padding: 32px;
-  }
-
   .title {
+    text-align: left;
     font-size: 32px;
-  }
-}
-
-@media (min-width: 1440px) {
-  .title {
-    font-size: 36px;
-  }
-
-  .pageWrapper {
-    padding: 40px;
   }
 }
