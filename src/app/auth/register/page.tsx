@@ -2,7 +2,7 @@
 
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import { register } from '@/lib/api';
+import { register } from '@/lib/clientApi';
 import { useAuthStore } from '@/hooks/useAuthStore';
 import { useRouter } from 'next/navigation';
 import styles from './register.module.css';
