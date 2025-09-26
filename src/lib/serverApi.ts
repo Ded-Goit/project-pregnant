@@ -1,6 +1,6 @@
 import { cookies } from 'next/headers';
 import { nextServer } from './api';
-import { RefreshResponse } from './clientApi';
+import { RefreshResponse, User } from './clientApi';
 
 nextServer.interceptors.request.use(async (config) => {
   const cookieData = await cookies();
@@ -15,4 +15,9 @@ nextServer.interceptors.request.use(async (config) => {
 export const refreshServer = async () => {
   const response = await nextServer.post<RefreshResponse>('/auth/refresh');
   return response;
+};
+
+export const getServerMe = async () => {
+  const { data } = await nextServer<User>('/users/currentUser');
+  return data;
 };
