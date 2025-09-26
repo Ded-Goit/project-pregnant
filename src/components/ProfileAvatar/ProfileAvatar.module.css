@@ -1,42 +1,21 @@
 .component {
-  display: flex;
-  flex-direction: column;
   background: var(--color-white);
   border: 1px solid var(--color-scheme-border);
   border-radius: 20px;
-  padding: 24px;
-  align-items: center;
-  gap: 24px;
+  padding: 32px;
   width: 100%;
-  max-width: 375px;
-  margin: 0 auto;
+  max-width: 380px;
   box-shadow: 0 2px 8px var(--opacity-neutral-darkest-10);
 }
 
-.title {
-  background-color: rgb(179, 201, 214);
-  width: 100%;
-  padding: 12px;
-  text-align: center;
-  border-radius: 8px;
-  font-size: 14px;
-  color: var(--color-neutral-dark);
-  margin-bottom: 16px;
-}
-
-.avatarSection {
+.avatarContent {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 20px;
-  width: 100%;
+  gap: 24px;
 }
 
-.avatarContainer {
-  position: relative;
-}
-
-.avatar {
+.avatarImage {
   position: relative;
   width: 120px;
   height: 120px;
@@ -46,7 +25,7 @@
   border: 3px solid var(--color-scheme-accent);
 }
 
-.avatarImage {
+.avatarImg {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -87,7 +66,8 @@
   animation: spin 1s linear infinite;
 }
 
-.userInfo {
+/* Frame 48 - User Info */
+.frame48 {
   text-align: center;
 }
 
@@ -106,6 +86,11 @@
   line-height: 1.4;
 }
 
+/* Frame 47 - Upload Button */
+.frame47 {
+  width: 100%;
+}
+
 .uploadButton {
   background: var(--color-scheme-accent);
   color: var(--color-neutral-darkest);
@@ -115,7 +100,7 @@
   font-weight: var(--fw-semibold);
   transition: all 0.3s ease;
   text-align: center;
-  min-width: 220px;
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -150,50 +135,38 @@
 }
 
 @keyframes spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
-@media (max-width: 374px) {
+/* Mobile Styles */
+@media (max-width: 767px) {
   .component {
-    padding: 20px;
+    padding: 24px;
+    max-width: 100%;
   }
-  
-  .avatar {
+
+  .avatarImage {
     width: 100px;
     height: 100px;
   }
-  
+
   .avatarPlaceholder {
     font-size: 40px;
   }
-  
+
   .userName {
     font-size: 18px;
   }
-  
-  .uploadButton {
-    min-width: 200px;
-    padding: 12px 24px;
-  }
 }
 
-@media (min-width: 768px) {
+/* Tablet Styles */
+@media (min-width: 768px) and (max-width: 1023px) {
   .component {
-    max-width: 350px;
-    padding: 32px;
-  }
-  
-  .avatar {
-    width: 140px;
-    height: 140px;
-  }
-  
-  .avatarPlaceholder {
-    font-size: 56px;
-  }
-  
-  .userName {
-    font-size: 22px;
+    max-width: 320px;
   }
 }

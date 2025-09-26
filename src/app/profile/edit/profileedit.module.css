@@ -19,8 +19,7 @@
   border-radius: 8px;
 }
 
-.loading,
-.error {
+.loading {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -29,15 +28,21 @@
   color: var(--color-neutral);
 }
 
-.error {
+.errorMessage {
+  background-color: rgba(220, 53, 69, 0.1);
   color: var(--color-red);
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  border: 1px solid var(--color-red);
+  font-size: 14px;
 }
 
 @media (min-width: 768px) {
   .pageWrapper {
     padding: 24px;
   }
-  
+
   .title {
     font-size: 28px;
     text-align: left;
@@ -49,7 +54,7 @@
   .pageWrapper {
     padding: 32px;
   }
-  
+
   .title {
     font-size: 32px;
   }
@@ -59,7 +64,7 @@
   .title {
     font-size: 36px;
   }
-  
+
   .pageWrapper {
     padding: 40px;
   }

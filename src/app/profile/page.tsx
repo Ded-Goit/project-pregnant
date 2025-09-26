@@ -2,102 +2,82 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import ProfileAvatar from '@/components/ProfileAvatar/ProfileAvatar';
+import ProfileEditForm from '@/components/ProfileEditForm/ProfileEditForm';
 import { useAuthStore } from '@/hooks/useAuthStore';
-import { User } from '@/types/user';
+import { nextServer } from '@/lib/api';
 import styles from './profile.module.css';
 
-//import dynamic from 'next/dynamic';
-/*
-const GreetingBlock = dynamic(
-  () => import('@/components/dashboard/greeting-block')
+const ChevronRightIcon = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z" />
+  </svg>
 );
-const StatusBlock = dynamic(
-  () => import('@/components/dashboard/status-block')
-);
-const BabyTodayCard = dynamic(
-  () => import('@/components/dashboard/baby-today-card')
-);
-const MomTipCard = dynamic(() => import('@/components/dashboard/mom-tip-card'));
-const TasksReminderCard = dynamic(
-  () => import('@/components/dashboard/tasks-reminder-card')
-);
-const FeelingCheckCard = dynamic(
-  () => import('@/components/dashboard/feeling-check-card')
-);*/
+
+interface ProfileFormData {
+  name: string;
+  email: string;
+  childGender?: string;
+  dueDate?: string;
+}
 
 export default function ProfilePage() {
   const router = useRouter();
-  const { user: authUser } = useAuthStore();
-  const [user, setUser] = useState<User | null>(null);
+  const { user: authUser, setUser: setAuthUser, accessToken } = useAuthStore();
   const [isLoading, setIsLoading] = useState(true);
 
-  // Перевірка автентифікації
   useEffect(() => {
-    if (!authUser) {
+    if (!authUser || !accessToken) {
       router.push('/login');
       return;
     }
-  }, [authUser, router]);
+    setIsLoading(false);
+  }, [authUser, accessToken, router]);
 
-  // Функція для отримання даних користувача
-  const fetchUserData = async () => {
+  const handleAvatarUpdate = async (file: File): Promise<string> => {
     try {
-      setIsLoading(true);
-      // Тут буде виклик API для отримання даних користувача
-      // const response = await fetch('/api/profile');
-      // const userData = await response.json();
+      const formData = new FormData();
+      formData.append('avatar', file);
 
-      // Тимчасові дані для демонстрації
-      const userData: User = {
-        id: '1',
-        name: 'Ганна',
-        email: 'hanna@gmail.com',
-        childGender: null,
-        dueDate: '2025-07-16',
-        createdAt: '2024-01-01',
-        updatedAt: '2024-01-01',
-      };
+      const response = await nextServer.post('/users/avatar', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
 
-      setUser(userData);
-    } catch (error) {
-      console.error('Помилка завантаження даних:', error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+      if (authUser) {
+        const updatedUser = { ...authUser, avatar: response.data.avatarUrl };
+        setAuthUser(updatedUser);
+      }
 
-  useEffect(() => {
-    if (authUser) {
-      fetchUserData();
-    }
-  }, [authUser]);
-
-  // Функція для оновлення аватара
-  const handleAvatarUpdate = async (file: File) => {
-    try {
-      // Тут буде виклик API для оновлення аватара
-      // const formData = new FormData();
-      // formData.append('avatar', file);
-      // const response = await fetch('/api/profile/avatar', { method: 'POST', body: formData });
-      // const { avatarUrl } = await response.json();
-
-      const avatarUrl = URL.createObjectURL(file); // Тимчасово для демонстрації
-      const updatedUser = { ...user, avatar: avatarUrl } as User;
-      setUser(updatedUser);
-
-      return avatarUrl;
+      return response.data.avatarUrl;
     } catch (error) {
       console.error('Помилка завантаження фото:', error);
       throw error;
     }
   };
 
-  const handleEditProfile = () => {
-    router.push('/profile/edit');
+  const handleProfileUpdate = async (
+    formData: ProfileFormData
+  ): Promise<void> => {
+    try {
+      const response = await nextServer.put('/users/currentUser', formData);
+
+      const updatedUser = {
+        ...authUser!,
+        ...response.data,
+      };
+
+      setAuthUser(updatedUser);
+      console.log('Профіль успішно оновлено');
+    } catch (error) {
+      console.error('Помилка оновлення профілю:', error);
+      throw error;
+    }
   };
 
-  if (!authUser) {
+  if (!authUser || !accessToken) {
     return null;
   }
 
@@ -109,58 +89,45 @@ export default function ProfilePage() {
     );
   }
 
-  if (!user) {
-    return (
-      <div className={styles.pageWrapper}>
-        <div className={styles.error}>Помилка завантаження профілю</div>
-      </div>
-    );
-  }
+  const formInitialData: ProfileFormData = {
+    name: authUser.name || '',
+    email: authUser.email || '',
+    childGender: authUser.gender || '',
+    dueDate: '',
+  };
 
   return (
     <div className={styles.pageWrapper}>
-      <h1 className={styles.title}>
-        Блок `Сторінка щоденника` | DiaryPage | route: /diary
-      </h1>
-      <div className={styles.profileContainer}>
-        <ProfileAvatar user={user} onAvatarChange={handleAvatarUpdate} />
+      {/* Sidebar буде в основному layout */}
 
-        <div className={styles.profileInfo}>
-          <div className={styles.infoSection}>
-            <h3 className={styles.sectionTitle}>Інформація профілю</h3>
-            <div className={styles.infoItem}>
-              <span className={styles.infoLabel}>Ім`я:</span>
-              <span className={styles.infoValue}>{user.name}</span>
-            </div>
-            <div className={styles.infoItem}>
-              <span className={styles.infoLabel}>Email:</span>
-              <span className={styles.infoValue}>{user.email}</span>
-            </div>
-            <div className={styles.infoItem}>
-              <span className={styles.infoLabel}>Стать дитини:</span>
-              <span className={styles.infoValue}>
-                {user.childGender === 'girl'
-                  ? 'Дівчинка'
-                  : user.childGender === 'boy'
-                    ? 'Хлопчик'
-                    : 'Ще не знаємо'}
-              </span>
-            </div>
-            <div className={styles.infoItem}>
-              <span className={styles.infoLabel}>Планова дата пологів:</span>
-              <span className={styles.infoValue}>
-                {user.dueDate
-                  ? new Date(user.dueDate).toLocaleDateString('uk-UA')
-                  : 'Не вказано'}
-              </span>
-            </div>
+      <main className={styles.mainContent}>
+        {/* Page Header з Breadcrumbs */}
+        <header className={styles.pageHeader}>
+          <nav className={styles.breadcrumbs}>
+            <Link href="/dashboard" className={styles.breadcrumbLink}>
+              Головна
+            </Link>
+            <ChevronRightIcon />
+            <span className={styles.breadcrumbCurrent}>Профіль</span>
+          </nav>
+        </header>
+
+        {/* Основной контент */}
+        <div className={styles.container}>
+          <h1 className={styles.title}>Профіль</h1>
+
+          <div className={styles.profileContainer}>
+            <ProfileAvatar
+              user={authUser}
+              onAvatarChange={handleAvatarUpdate}
+            />
+            <ProfileEditForm
+              initialData={formInitialData}
+              onSubmit={handleProfileUpdate}
+            />
           </div>
-
-          <button onClick={handleEditProfile} className={styles.editButton}>
-            Редагувати профіль
-          </button>
         </div>
-      </div>
+      </main>
     </div>
   );
 }

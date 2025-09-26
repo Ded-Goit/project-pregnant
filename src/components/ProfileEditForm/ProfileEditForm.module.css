@@ -1,33 +1,32 @@
 .component {
-  display: flex;
-  flex-direction: column;
   background: var(--color-white);
   border: 1px solid var(--color-scheme-border);
   border-radius: 20px;
-  padding: 24px;
+  padding: 32px;
   flex: 1;
   min-width: 0;
   box-shadow: 0 2px 8px var(--opacity-neutral-darkest-10);
 }
 
-.title {
-  background-color: rgb(179, 201, 214);
-  width: 100%;
-  padding: 12px;
-  text-align: center;
-  border-radius: 8px;
-  font-size: 14px;
-  color: var(--color-neutral-dark);
-  margin-bottom: 24px;
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
 }
 
-.form {
+.fields {
   display: flex;
   flex-direction: column;
   gap: 24px;
 }
 
-.formGroup {
+.content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.inputGroup {
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -38,6 +37,10 @@
   color: var(--color-neutral-darkest);
   font-size: 14px;
   margin-bottom: 4px;
+}
+
+.inputWrapper {
+  position: relative;
 }
 
 .input,
@@ -75,21 +78,37 @@
   opacity: 0.7;
 }
 
+/* Select Styles */
+.selectWrapper {
+  position: relative;
+}
+
+.selectIcon {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: var(--color-neutral);
+}
+
+.select {
+  appearance: none;
+  padding-right: 48px;
+}
+
 .error {
   color: var(--color-red);
   font-size: 12px;
   font-weight: var(--fw-medium);
   margin-top: 4px;
-  display: flex;
-  align-items: center;
-  gap: 4px;
 }
 
-.buttons {
+/* Actions */
+.actions {
   display: flex;
   gap: 16px;
-  margin-top: 32px;
-  flex-wrap: wrap;
+  margin-top: 8px;
 }
 
 .cancelButton,
@@ -151,58 +170,70 @@
 }
 
 @keyframes spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
-@media (max-width: 374px) {
+/* Mobile Styles */
+@media (max-width: 767px) {
   .component {
-    padding: 20px;
+    padding: 24px;
   }
-  
-  .input,
-  .select {
-    padding: 14px;
-    font-size: 16px;
+
+  .form {
+    gap: 24px;
   }
-  
-  .buttons {
+
+  .content {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .actions {
     flex-direction: column;
   }
-  
+
   .cancelButton,
   .submitButton {
     width: 100%;
     min-width: auto;
-    padding: 14px 24px;
+  }
+
+  .input,
+  .select {
+    padding: 14px;
   }
 }
 
-@media (min-width: 768px) and (max-width: 1439px) {
-  .component {
-    max-width: 500px;
-    padding: 32px;
+/* Tablet Styles */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .content {
+    grid-template-columns: 1fr;
+    gap: 20px;
   }
 }
 
-@media (min-width: 1440px) {
+/* Desktop Styles */
+@media (min-width: 1024px) {
   .component {
     padding: 40px;
   }
-  
+
   .form {
-    gap: 28px;
+    gap: 40px;
   }
-  
+
+  .content {
+    gap: 32px;
+  }
+
   .input,
   .select {
     padding: 18px;
-    font-size: 17px;
-  }
-  
-  .cancelButton,
-  .submitButton {
-    padding: 18px 36px;
     font-size: 17px;
   }
 }
