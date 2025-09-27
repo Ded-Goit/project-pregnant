@@ -24,6 +24,7 @@ export default function ProfileAvatar({
   onAvatarChange,
 }: ProfileAvatarProps) {
   const [isLoading, setIsLoading] = useState(false);
+  const [currentAvatar, setCurrentAvatar] = useState(user.avatar);
 
   const handleFileChange = async (
     event: React.ChangeEvent<HTMLInputElement>
@@ -36,13 +37,14 @@ export default function ProfileAvatar({
       return;
     }
     if (!file.type.startsWith('image/')) {
-      alert('Будь ласка, виберіть зображення');
+      alert('Будь ласка, виберіть зображення (JPEG, PNG, WebP)');
       return;
     }
 
     setIsLoading(true);
     try {
-      await onAvatarChange(file);
+      const newAvatarUrl = await onAvatarChange(file);
+      setCurrentAvatar(newAvatarUrl);
       event.target.value = '';
     } catch (error) {
       console.error('Помилка завантаження фото:', error);
@@ -52,21 +54,40 @@ export default function ProfileAvatar({
     }
   };
 
+  const getInitials = (name: string) => {
+    return name ? name.charAt(0).toUpperCase() : 'U';
+  };
+
+  const avatarSrc = currentAvatar || user.avatar;
+  const showAvatar = avatarSrc && avatarSrc !== '';
+
   return (
-    <div className={styles.card}>
+    <div className={styles.profileHeader}>
       <div className={styles.avatarSection}>
         <div className={styles.avatarContainer}>
-          {user.avatar ? (
+          {showAvatar ? (
             <img
-              src={user.avatar}
+              src={avatarSrc}
               alt={`Аватар ${user.name}`}
               className={styles.avatar}
+              onError={(e) => {
+                console.error('Помилка завантаження аватара:', avatarSrc);
+                e.currentTarget.style.display = 'none';
+                const placeholder = document.querySelector(
+                  `.${styles.avatarPlaceholder}`
+                ) as HTMLDivElement;
+                if (placeholder) {
+                  placeholder.style.display = 'flex';
+                }
+              }}
             />
-          ) : (
-            <div className={styles.avatarPlaceholder}>
-              {user.name.charAt(0).toUpperCase()}
-            </div>
-          )}
+          ) : null}
+          <div
+            className={styles.avatarPlaceholder}
+            style={{ display: showAvatar ? 'none' : 'flex' }}
+          >
+            {getInitials(user.name)}
+          </div>
           {isLoading && (
             <div className={styles.loadingOverlay}>
               <div className={styles.spinner} />
@@ -75,29 +96,27 @@ export default function ProfileAvatar({
         </div>
       </div>
 
-      <div className={styles.userInfo}>
-        <h2 className={styles.userName}>{user.name}</h2>
-        <p className={styles.userEmail}>{user.email}</p>
-      </div>
+      <div className={styles.infoSection}>
+        <div className={styles.userInfo}>
+          <h2 className={styles.userName}>{user.name}</h2>
+          <p className={styles.userEmail}>{user.email}</p>
+        </div>
 
-      <div className={styles.uploadSection}>
-        <label className={styles.uploadLabel}>
+        <div className={styles.uploadSection}>
           <input
             type="file"
             accept="image/jpeg,image/png,image/webp"
             onChange={handleFileChange}
             className={styles.fileInput}
             disabled={isLoading}
+            id="avatar-upload"
           />
-          <Button
-            variant="primary"
-            size="large"
-            disabled={isLoading}
-            style={{ width: '100%' }}
-          >
-            Завантажити нове фото
-          </Button>
-        </label>
+          <label htmlFor="avatar-upload" className={styles.uploadLabel}>
+            <Button variant="secondary" size="large" disabled={isLoading}>
+              {isLoading ? 'Завантаження...' : 'Завантажити нове фото'}
+            </Button>
+          </label>
+        </div>
       </div>
     </div>
   );
