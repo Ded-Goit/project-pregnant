@@ -30,7 +30,7 @@ export default function WeekSelector({ total = 42, startAt = 1 }: Props) {
 
         const res = await nextServer.get(route);
         setCurrentWeek(res.data.weekNumber);
-      } catch (err) {
+      } catch {
         toast.error('Не вдалося завантажити поточний тиждень');
       }
     }

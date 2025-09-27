@@ -1,24 +1,15 @@
 'use client';
 
-//import dynamic from 'next/dynamic';
 import styles from './AddTaskForm.module.css';
 import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import axios from 'axios';
 import Button from '../UI/Buttons/Buttons';
-
-// Тип завдання
-export interface Task {
-  id?: string;
-  text: string;
-  date: string;
-  completed?: boolean;
-}
+import type { Task } from '../../types/note';
+import axios from 'axios';
 
 interface AddTaskFormProps {
-  initialText?: string;
-  initialTask?: Task;
+  initialText?: Task;
   onSubmit: (task: Task) => void;
 }
 
@@ -32,32 +23,53 @@ const validationSchema = Yup.object().shape({
     .required("Обов'язкове поле"),
 });
 
+export async function saveTask(
+  id: string | undefined,
+  data: Omit<Task, 'id'>
+): Promise<Task> {
+  if (id) {
+    const response = await axios.put(`/api/tasks/${id}`, data);
+    return response.data;
+  } else {
+    const response = await axios.post('/api/tasks', data);
+    return response.data;
+  }
+}
+
 export default function AddTaskForm({
-  initialTask,
+  initialText,
   onSubmit,
 }: AddTaskFormProps) {
   return (
     <div>
       <Formik
         initialValues={{
-          text: initialTask?.text || '',
-          date: initialTask?.date || new Date().toISOString().slice(0, 10),
+          text: initialText?.name || '',
+          date: initialText?.date || new Date().toISOString().slice(0, 10),
         }}
         validationSchema={validationSchema}
         onSubmit={async (values, { setSubmitting, setStatus }) => {
           try {
-            const response = initialTask?.id
-              ? await axios.put(`/api/tasks/${initialTask.id}`, {
-                  ...values,
-                  completed: initialTask.completed ?? false,
-                })
-              : await axios.post('/api/tasks', { ...values, completed: false });
+            const savedTask = await saveTask(initialText?.id, {
+              name: values.text,
+              date: values.date,
+              isDone: initialText?.isDone ?? false,
+            });
             setSubmitting(false);
-            // Передаємо повний Task у onSubmit
-            onSubmit(response.data);
+            onSubmit(savedTask);
           } catch (error: unknown) {
-            if (axios.isAxiosError(error) && error.response?.data?.message) {
-              setStatus(error.response.data.message);
+            if (
+              error &&
+              typeof error === 'object' &&
+              'response' in error &&
+              error.response &&
+              typeof error.response === 'object' &&
+              'data' in error.response &&
+              error.response.data &&
+              typeof error.response.data === 'object' &&
+              'message' in error.response.data
+            ) {
+              setStatus((error.response.data as { message?: string }).message);
             } else {
               setStatus('Помилка при збереженні');
             }
