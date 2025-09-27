@@ -7,7 +7,7 @@
   justify-content: center;
   z-index: 9999;
   animation: fadeOut 0.8s ease-in-out forwards;
-  animation-delay: 4.6s; /* трохи менше ніж таймер */
+  animation-delay: 2.4s; /* трохи менше ніж таймер */
 }
 
 .stork {
