@@ -6,8 +6,8 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import Button from '../UI/Buttons/Buttons';
 import type { DiaryEntry } from '../../types/note';
-import { saveDiaryEntry } from '../../lib/clientApi';
 import { getErrorMessage } from '../../lib/errorUtils';
+import axios from 'axios';
 
 interface AddDiaryEntryFormProps {
   initialEntry?: DiaryEntry;
@@ -35,6 +35,19 @@ const validationSchema = Yup.object().shape({
     .min(5, 'Запис має бути не менше 5 символів')
     .required('Обов’язкове поле'),
 });
+
+export async function saveDiaryEntry(
+  id: string | undefined,
+  data: Omit<DiaryEntry, 'id' | 'createdAt'>
+): Promise<DiaryEntry> {
+  if (id) {
+    const response = await axios.put(`/api/diary/${id}`, data);
+    return response.data;
+  } else {
+    const response = await axios.post('/api/diary', data);
+    return response.data;
+  }
+}
 
 // Компонент для помилок
 const ErrorText = ({ children }: { children: React.ReactNode }) => (

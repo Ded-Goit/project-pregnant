@@ -6,7 +6,7 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import Button from '../UI/Buttons/Buttons';
 import type { Task } from '../../types/note';
-import { saveTask } from '../../lib/clientApi';
+import axios from 'axios';
 
 interface AddTaskFormProps {
   initialText?: Task;
@@ -23,6 +23,19 @@ const validationSchema = Yup.object().shape({
     .required("Обов'язкове поле"),
 });
 
+export async function saveTask(
+  id: string | undefined,
+  data: Omit<Task, 'id'>
+): Promise<Task> {
+  if (id) {
+    const response = await axios.put(`/api/tasks/${id}`, data);
+    return response.data;
+  } else {
+    const response = await axios.post('/api/tasks', data);
+    return response.data;
+  }
+}
+
 export default function AddTaskForm({
   initialText,
   onSubmit,
@@ -31,15 +44,16 @@ export default function AddTaskForm({
     <div>
       <Formik
         initialValues={{
-          text: initialText?.text || '',
+          text: initialText?.name || '',
           date: initialText?.date || new Date().toISOString().slice(0, 10),
         }}
         validationSchema={validationSchema}
         onSubmit={async (values, { setSubmitting, setStatus }) => {
           try {
             const savedTask = await saveTask(initialText?.id, {
-              ...values,
-              completed: initialText?.completed ?? false,
+              name: values.text,
+              date: values.date,
+              isDone: initialText?.isDone ?? false,
             });
             setSubmitting(false);
             onSubmit(savedTask);

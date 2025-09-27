@@ -5,14 +5,14 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import AddDiaryEntryModal from '../AddDiaryEntryModal/AddDiaryEntryModal';
 import Button from '../UI/Buttons/Buttons';
+import { useAuthStore } from '@/hooks/useAuthStore';
 
-interface FeelingCheckCardProps {
-  isAuthenticated: boolean;
-}
+// interface FeelingCheckCardProps {
+//   isAuthenticated: boolean;
+// }
 
-export default function FeelingCheckCard({
-  isAuthenticated,
-}: FeelingCheckCardProps) {
+export default function FeelingCheckCard() {
+  const { isAuthenticated } = useAuthStore();
   const [modalOpen, setModalOpen] = useState(false);
   const router = useRouter();
 
@@ -43,9 +43,9 @@ export default function FeelingCheckCard({
       {modalOpen && (
         <AddDiaryEntryModal
           onClose={closeModal}
-          // onSubmit={(entry) => {
-          //   closeModal();
-          // }}
+          onSubmit={() => {
+            closeModal();
+          }}
         />
       )}
     </section>

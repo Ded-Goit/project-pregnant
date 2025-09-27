@@ -2,7 +2,7 @@
 
 import styles from './WeekSelector.module.css';
 import React, { useRef, useEffect, useState } from 'react';
-import api from '@/lib/api';
+import { nextServer } from '@/lib/api';
 import toast, { Toaster } from 'react-hot-toast';
 import { useAuthStore } from '@/hooks/useAuthStore';
 
@@ -28,9 +28,9 @@ export default function WeekSelector({ total = 42, startAt = 1 }: Props) {
           route = '/public/dashboard';
         }
 
-        const res = await api.get(route);
+        const res = await nextServer.get(route);
         setCurrentWeek(res.data.weekNumber);
-      } catch {
+      } catch (err) {
         toast.error('Не вдалося завантажити поточний тиждень');
       }
     }

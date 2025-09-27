@@ -3,8 +3,9 @@
 import dynamic from 'next/dynamic';
 import styles from './dashboard.module.css';
 import React, { useEffect, useState } from 'react';
-import { getDashboardData } from '../../lib/clientApi';
 import type { DashboardResponse } from '../../types/note';
+import axios from 'axios';
+import { useAuthStore } from '@/hooks/useAuthStore'; // ✅ підключаємо
 
 const GreetingBlock = dynamic(
   () => import('@/components/GreetingBlock/GreetingBlock')
@@ -23,10 +24,17 @@ const FeelingCheckCard = dynamic(
   () => import('@/components/FeelingCheckCard/FeelingCheckCard')
 );
 
-export default function DashboardPage() {
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-  const [userName, setUserName] = useState<string>('Пані');
+export async function getDashboardData(isAuthenticated: boolean) {
+  const response = await axios.get(
+    isAuthenticated ? '/api/weeks/dashboard' : '/api/weeks/public/dashboard'
+  );
+  return response.data;
+}
 
+export default function DashboardPage() {
+  const { isAuthenticated, user } = useAuthStore(); // ✅ беремо стан із стора
+
+  const [userName, setUserName] = useState<string>('Пані');
   const [weekNumber, setWeekNumber] = useState<number>(5);
   const [daysLeft, setDaysLeft] = useState<number>(250);
 
@@ -41,14 +49,10 @@ export default function DashboardPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Тут має бути ваша логіка визначення аутентифікації
-        const auth = false; // Наприклад, отримати з контексту або cookie
-        setIsAuthenticated(auth);
-
-        const data: DashboardResponse = await getDashboardData(auth);
+        const data: DashboardResponse = await getDashboardData(isAuthenticated);
 
         if (data) {
-          setUserName(data.name);
+          setUserName(user?.name || data.name || 'Пані');
           setWeekNumber(data.weekNumber);
           setDaysLeft(data.daysLeft);
           setImage(data.baby.image);
@@ -67,7 +71,7 @@ export default function DashboardPage() {
     };
 
     fetchData();
-  }, []);
+  }, [isAuthenticated, user]);
 
   return (
     <main className={styles.dashboardGrid}>
@@ -88,8 +92,8 @@ export default function DashboardPage() {
           />
         </div>
         <div className={styles.taskContainer}>
-          <TasksReminderCard isAuthenticated={isAuthenticated} />
-          <FeelingCheckCard isAuthenticated={isAuthenticated} />
+          <TasksReminderCard />
+          <FeelingCheckCard />
         </div>
       </div>
     </main>

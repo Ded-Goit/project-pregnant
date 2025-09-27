@@ -1,38 +1,46 @@
-import axios from 'axios';
-import type { DiaryEntry } from '../types/note';
-import { Task } from '@/types/note';
+import { nextServer } from './api';
 
-axios.defaults.baseURL = 'https://project-pregnant-back.onrender.com';
-
-export async function getDashboardData(isAuthenticated: boolean) {
-  const response = await axios.get(
-    isAuthenticated ? '/api/weeks/dashboard' : '/api/weeks/public/dashboard'
-  );
-  return response.data;
+export interface RegisterRequest {
+  name: string;
+  email: string;
+  password: string;
 }
 
-export async function saveDiaryEntry(
-  id: string | undefined,
-  data: Omit<DiaryEntry, 'id' | 'createdAt'>
-): Promise<DiaryEntry> {
-  if (id) {
-    const response = await axios.put(`/api/diary/${id}`, data);
-    return response.data;
-  } else {
-    const response = await axios.post('/api/diary', data);
-    return response.data;
-  }
+export interface User {
+  name: string;
+  email: string;
+  gender: string;
+  _id: string;
+  token: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
-export async function saveTask(
-  id: string | undefined,
-  data: Omit<Task, 'id'>
-): Promise<Task> {
-  if (id) {
-    const response = await axios.put(`/api/tasks/${id}`, data);
-    return response.data;
-  } else {
-    const response = await axios.post('/api/tasks', data);
-    return response.data;
-  }
+export interface RefreshResponse {
+  success: boolean;
 }
+
+export interface LoginRequest {
+  email: string;
+  password: string;
+}
+
+export const register = async (payload: RegisterRequest) => {
+  const { data } = await nextServer.post<User>('/auth/register', payload);
+  return data;
+};
+
+export const refresh = async () => {
+  const { data } = await nextServer.post<RefreshResponse>('/auth/refresh');
+  return data.success;
+};
+
+export const getMe = async () => {
+  const { data } = await nextServer<User>('/users/currentUser');
+  return data;
+};
+
+export const login = async (payload: LoginRequest) => {
+  const { data } = await nextServer.post<User>(`/auth/login`, payload);
+  return data;
+};

@@ -1,34 +1,28 @@
 'use client';
 
-//import dynamic from 'next/dynamic';
 import styles from './TasksReminderCard.module.css';
 import React, { useState, useEffect } from 'react'; /**/
 import axios from 'axios';
-// import { useRouter } from 'next/navigation';
-// import { useAuthStore } from '@/hooks/useAuthStore';
+import { useRouter } from 'next/navigation';
+import { useAuthStore } from '@/hooks/useAuthStore';
 import AddTaskModal from '../AddTaskModal/AddTaskModal';
 import { Task } from '../../types/note';
 import Image from 'next/image';
 import Button from '../UI/Buttons/Buttons';
+import SpinnerFlowersLine from '../SpinnerFlowersLine/SpinnerFlowersLine';
 
-/*
-const FeelingCheckCard = dynamic(
-  () => import('@/components/dashboard/feeling-check-card')
-);*/
-interface TasksReminderCardProps {
-  isAuthenticated: boolean;
-}
+// interface TasksReminderCardProps {
+//   isAuthenticated: boolean;
+// }
 
-export default function TasksReminderCard({
-  isAuthenticated,
-}: TasksReminderCardProps) {
-  // const { isAuthenticated } = useAuthStore();
+export default function TasksReminderCard() {
+  const { isAuthenticated } = useAuthStore();
   const [tasks, setTasks] = useState<Task[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
 
-  // const router = useRouter();
+  const router = useRouter();
 
   useEffect(() => {
     if (!isAuthenticated) {
@@ -36,7 +30,7 @@ export default function TasksReminderCard({
       return;
     }
     axios
-      .get('/api/user/tasks')
+      .get('/api/tasks')
       .then((response) => {
         setTasks(response.data);
         setLoading(false);
@@ -47,9 +41,17 @@ export default function TasksReminderCard({
       });
   }, [isAuthenticated]);
 
+  const handleButtonClick = () => {
+    if (!isAuthenticated) {
+      router.push('/auth/register');
+    } else {
+      setModalOpen(true);
+    }
+  };
+
   const handleCheckboxChange = (taskId: string, completed: boolean) => {
     axios
-      .patch(`/api/user/tasks/${taskId}`, { completed })
+      .patch(`/api/tasks/${taskId}/status`, { completed })
       .then(() => {
         setTasks((prev) =>
           prev.map((t) => (t.id === taskId ? { ...t, completed } : t))
@@ -60,13 +62,13 @@ export default function TasksReminderCard({
       });
   };
 
-  const openAddTaskModal = () => {
-    if (isAuthenticated) {
-      // router.push('/auth/register');
-      return;
-    }
-    setModalOpen(true);
-  };
+  // const openAddTaskModal = () => {
+  //   if (isAuthenticated) {
+  //     router.push('/auth/register');
+  //     return;
+  //   }
+  //   setModalOpen(true);
+  // };
 
   const closeAddTaskModal = () => setModalOpen(false);
 
@@ -90,7 +92,7 @@ export default function TasksReminderCard({
   if (loading && isAuthenticated)
     return (
       <section className={styles.tasksReminderCard}>
-        Завантаження завдань...
+        <SpinnerFlowersLine />
       </section>
     );
   if (error)
@@ -116,50 +118,50 @@ export default function TasksReminderCard({
     {
       id: '1',
       date: new Date().toISOString(),
-      text: 'Звернутись до гінеколога',
-      completed: false,
+      name: 'Звернутись до гінеколога',
+      isDone: false,
     },
     {
       id: '2',
       date: new Date().toISOString(),
-      text: 'Почати приймати фолієву кислоту',
-      completed: false,
+      name: 'Почати приймати фолієву кислоту',
+      isDone: false,
     },
     {
       id: '3',
       date: new Date().toISOString(),
-      text: 'Відмовитись від шкідливих звичок',
-      completed: false,
+      name: 'Відмовитись від шкідливих звичок',
+      isDone: false,
     },
     {
       id: '4',
       date: new Date().toISOString(),
-      text: 'Переглянути харчування',
-      completed: false,
+      name: 'Переглянути харчування',
+      isDone: false,
     },
     {
       id: '5',
       date: new Date().toISOString(),
-      text: 'Дотримуватись легкої фізичної активності',
-      completed: false,
+      name: 'Дотримуватись легкої фізичної активності',
+      isDone: false,
     },
     {
       id: '6',
       date: new Date().toISOString(),
-      text: 'Дбати про емоційний стан',
-      completed: false,
+      name: 'Дбати про емоційний стан',
+      isDone: false,
     },
     {
       id: '7',
       date: new Date().toISOString(),
-      text: 'Подбати про безпеку в авто',
-      completed: false,
+      name: 'Подбати про безпеку в авто',
+      isDone: false,
     },
     {
       id: '8',
       date: new Date().toISOString(),
-      text: 'Повідомити близьких про вагітність',
-      completed: false,
+      name: 'Повідомити близьких про вагітність',
+      isDone: false,
     },
   ];
 
@@ -167,7 +169,7 @@ export default function TasksReminderCard({
 
   return (
     <section className={styles.tasksReminderCard}>
-      <button className={styles.addTaskButton} onClick={openAddTaskModal}>
+      <button className={styles.addTaskButton} onClick={handleButtonClick}>
         <Image src="/vector.png" alt="Додати завдання" width={24} height={24} />
       </button>
       <h3 className={styles.tasksReminderTitle}>Важливі завдання</h3>
@@ -183,7 +185,7 @@ export default function TasksReminderCard({
             <Button
               variant="primary"
               size="large"
-              onClick={openAddTaskModal}
+              onClick={handleButtonClick}
               style={{ width: '173px', height: '42px' }}
             >
               Додати завдання
@@ -191,7 +193,7 @@ export default function TasksReminderCard({
           </div>
         ) : (
           <ul className={styles.tasksList}>
-            {tasksToRender.map(({ id, date, text, completed }) => (
+            {tasksToRender.map(({ id, date, name, isDone }) => (
               <li key={id}>
                 <p className={styles.taskDate}>
                   {isAuthenticated ? formatDate(date) : getCurrentDate()}
@@ -199,7 +201,7 @@ export default function TasksReminderCard({
                 <label className={styles.taskLabel}>
                   <input
                     type="checkbox"
-                    defaultChecked={completed}
+                    defaultChecked={isDone}
                     onChange={(e) =>
                       isAuthenticated &&
                       typeof id === 'string' &&
@@ -208,7 +210,7 @@ export default function TasksReminderCard({
                     disabled={!isAuthenticated}
                   />
                   <span className={styles.customCheckbox}></span>
-                  <span className={styles.checkmark}>{text}</span>
+                  <span className={styles.checkmark}>{name}</span>
                 </label>
               </li>
             ))}

@@ -5,13 +5,22 @@ import { parse } from 'cookie';
 
 export async function POST() {
   const cookieData = await cookies();
+  const accessToken = cookieData.get('accessToken')?.value;
   const refreshToken = cookieData.get('refreshToken')?.value;
+
+  if (accessToken) {
+    return NextResponse.json({ success: true });
+  }
 
   if (refreshToken) {
     try {
-      const response = await api('/auth/refresh', {
-        headers: { Cookie: cookieData.toString() },
-      });
+      const response = await api.post(
+        '/auth/refresh',
+        {},
+        {
+          headers: { Cookie: cookieData.toString() },
+        }
+      );
 
       const setCookies = response.headers['set-cookie'];
 
@@ -40,13 +49,13 @@ export async function POST() {
             cookieData.set('refreshToken', parsedCookie.refreshToken, options);
           }
         }
-      }
 
-      return NextResponse.json(response.data);
-    } catch {
-      return NextResponse.json({ status: 401, message: 'Не авторизовано' });
+        return NextResponse.json({ success: true });
+      }
+    } catch (error) {
+      console.log('11111111111111111111', error);
     }
   }
 
-  return NextResponse.json({ status: 401, message: 'Не авторизовано' });
+  return NextResponse.json({ success: false });
 }

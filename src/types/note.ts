@@ -25,7 +25,7 @@ export interface DiaryEntry {
 
 export interface Task {
   id?: string;
-  text: string;
+  name: string;
   date: string;
-  completed?: boolean;
+  isDone?: boolean;
 }
