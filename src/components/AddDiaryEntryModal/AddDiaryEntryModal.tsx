@@ -60,3 +60,26 @@ export default function AddDiaryEntryModal({
     </div>
   );
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// import styles from './AddDiaryEntryModal.module.css';
+//import dynamic from 'next/dynamic';
+
+/*
+const FeelingCheckCard = dynamic(
+  () => import('@/components/dashboard/feeling-check-card')
+);*/

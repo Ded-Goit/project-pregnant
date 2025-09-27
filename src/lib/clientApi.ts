@@ -1,5 +1,20 @@
 import { nextServer } from './api';
 
+export interface Emotion {
+  _id: string;
+  title: string;
+}
+
+export interface EmotionsResponse {
+  data: { data: Emotion[] };
+}
+
+export interface CreateDiaryRequest {
+  title: string;
+  emotions: string[];
+  descr: string;
+}
+
 export interface RegisterRequest {
   name: string;
   email: string;
@@ -44,7 +59,18 @@ export const login = async (payload: LoginRequest) => {
   const { data } = await nextServer.post<User>(`/auth/login`, payload);
   return data;
 };
-<<<<<<< HEAD
-=======
 
->>>>>>> 55ae0b23dc393a819ade14fca70f31b2b1e1b375
+
+export const createDiary = async (payload: CreateDiaryRequest) => {
+  const { data } = await nextServer.post<CreateDiaryRequest>(
+    '/diaries',
+    payload
+  );
+  return data;
+};
+
+export const getEmotions = async () => {
+  const { data } = await nextServer.get<EmotionsResponse>('/emotions');
+  return data;
+};
+
