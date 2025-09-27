@@ -19,3 +19,13 @@ export const useAuthStore = create<AuthState>((set) => ({
 
   logout: () => set({ user: null, isAuthenticated: false }),
 }));
+
+interface WeekState {
+  currentWeek: number | null;
+  setCurrentWeek: (week: number) => void;
+}
+
+export const useWeekStore = create<WeekState>((set) => ({
+  currentWeek: null,
+  setCurrentWeek: (week) => set({ currentWeek: week }),
+}));

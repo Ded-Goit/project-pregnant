@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import styles from './SideBar.module.css';
 import Image from 'next/image';
-import { useAuthStore } from '@/hooks/useAuthStore';
+import { useAuthStore, useWeekStore } from '@/hooks/useAuthStore';
 
 interface SidebarProps {
   isOpen: boolean;
@@ -12,6 +12,7 @@ interface SidebarProps {
 }
 
 export default function SideBar({ isOpen, onClose, onLogout }: SidebarProps) {
+  const { currentWeek } = useWeekStore();
   const { user, isAuthenticated } = useAuthStore();
   return (
     <>
@@ -54,7 +55,7 @@ export default function SideBar({ isOpen, onClose, onLogout }: SidebarProps) {
                   </Link>
                 </li>
                 <li className={styles.navItem}>
-                  <Link href="/journey  " className={styles.navLink}>
+                  <Link href={currentWeek ? `/journey/${currentWeek}` : '#'} className={styles.navLink}>
                     <Image
                       src="/icons/conversion_path.svg"
                       alt="journey icon"
