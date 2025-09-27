@@ -1,11 +1,13 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './diary.module.css';
 import GreetingBlock from '../../components/GreetingBlock/GreetingBlock';
 import DiaryList from '../../components/DiaryList/DiaryList';
 import DiaryEntryDetails from '../../components/DiaryEntryDetails/DiaryEntryDetails';
 import type { DiaryEntry } from '../../components/DiaryEntryCard/DiaryEntryCard';
+import NewAddDiaryEntryModal from '@/components/NewAddDiaryEntryModal/NewAddDiaryEntryModal';
+import { CreateDiaryRequest, getEmotions } from '@/lib/clientApi';
 
 const ENTRIES: DiaryEntry[] = [
   {
@@ -55,7 +57,7 @@ const ENTRIES: DiaryEntry[] = [
 const SELECTED: DiaryEntry = {
   id: 's1',
   title: 'Перший привіт',
-  content: `Це сталося! Сьогодні ввечері, коли я спокійно дивилась фільм, я це відчула...`,
+  content: "Це сталося! Сьогодні ввечері, коли я спокійно дивилась фільм, я це відчула...",
   tags: ['натхнення', 'вдячність'],
   createdAt: '2025-07-15T00:00:00.000Z',
 };
@@ -67,55 +69,81 @@ export default function DiaryPage() {
 
   const closeModal = () => setIsModalOpen(false);
 
-  return (
-      <div className={styles.layout} data-theme="pink">
-        <div className={styles.topbar}>
-          <div className={styles.topbarBrand}>
-            <div className={styles.logo} aria-hidden />
-            <span>Лелека</span>
-          </div>
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const fd = new FormData(e.currentTarget);
+    const payload: CreateDiaryRequest = {
+      title: String(fd.get('title') ?? ''),
+      emotions: fd.getAll('emotions').map((v) => String(v)),
+      descr: String(fd.get('descr') ?? ''),
+    };
+    // createDiary(payload);
+    console.log(payload);
+  };
 
-          {/* бургер-иконка справа */}
-          <button className={styles.menuBtn} type="button" aria-label="Меню">
-            <span className={styles.menuIcon} aria-hidden="true">
-              <span className={styles.menuBar}></span>
-            </span>
-          </button>
+  useEffect(() => {
+    const fetchData = async () => {
+      const emotions = await getEmotions();
+      console.log(emotions.data.data);
+    };
+
+    fetchData();
+  }, []);
+
+  return (
+    <div className={styles.layout} data-theme="pink">
+      <div className={styles.topbar}>
+        <div className={styles.topbarBrand}>
+          <div className={styles.logo} aria-hidden />
+          <span>Лелека</span>
         </div>
 
-        {/* Main */}
-        <main className={styles.main}>
-          <header className={styles.pageHeader}>
-            <div className={styles.breadcrumbs}>
-              <span className={styles.current}>Лелека</span>{' '}
-              <span className={styles.span}>›</span> Щоденник
-            </div>
-            <GreetingBlock userName="Ганна" />
-          </header>
-
-          <div className={styles.contentRow}>
-            {/* LIST — всегда виден (desktop & mobile/tablet) */}
-            <section className={styles.listCard}>
-              <DiaryList
-                entries={ENTRIES}
-                onAddClick={openModal}
-                onSelect={() => {
-                  /* id на десктопе можно подставлять запись в детали справа */
-                }}
-              />
-            </section>
-
-            {/* DETAILS — только на десктопе (на мобиле — /diary/[entryId]) */}
-            <section className={styles.detailsCard}>
-              <DiaryEntryDetails
-                entry={SELECTED}
-                onEdit={() => {}}
-                onDelete={() => {}}
-              />
-            </section>
-          </div>
-        </main>
+        {/* бургер-иконка справа */}
+        <button className={styles.menuBtn} type="button" aria-label="Меню">
+          <span className={styles.menuIcon} aria-hidden="true">
+            <span className={styles.menuBar}></span>
+          </span>
+        </button>
       </div>
+
+      {/* Main */}
+      <main className={styles.main}>
+        <header className={styles.pageHeader}>
+          <div className={styles.breadcrumbs}>
+            <span className={styles.current}>Лелека</span>{' '}
+            <span className={styles.span}>›</span> Щоденник
+          </div>
+          <GreetingBlock userName="Ганна" />
+        </header>
+
+        <div className={styles.contentRow}>
+          {/* LIST — всегда виден (desktop & mobile/tablet) */}
+          <section className={styles.listCard}>
+            <DiaryList
+              entries={ENTRIES}
+              onAddClick={openModal}
+              onSelect={() => {
+                /* id на десктопе можно подставлять запись в детали справа */
+              }}
+            />
+          </section>
+          {/* DETAILS — только на десктопе (на мобиле — /diary/[entryId]) */}
+          <section className={styles.detailsCard}>
+            <DiaryEntryDetails
+              entry={SELECTED}
+              onEdit={() => {}}
+              onDelete={() => {}}
+            />
+          </section>
+        </div>
+      </main>
+      {isModalOpen && (
+        <NewAddDiaryEntryModal
+          onClose={closeModal}
+          onSubmit={handleSubmit}
+        ></NewAddDiaryEntryModal>
+      )}
+    </div>
   );
 }
 
@@ -143,7 +171,7 @@ const FeelingCheckCard = dynamic(
 //   return (
 //     <div className={styles.pageWrapper}>
 //       <h1 className={styles.title}>
-//         Блок `Сторінка щоденника` | DiaryPage | route: /diary
+//         Блок Сторінка щоденника | DiaryPage | route: /diary
 //       </h1>
 //     </div>
 //   );

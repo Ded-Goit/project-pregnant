@@ -54,7 +54,26 @@
   align-content: start;
   margin-bottom: 32px;
 }
-.breadcrumbs { color: var(--color-neutral); font-size: 12px; margin-bottom: 16px; }
+
+.breadcrumbs {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: var(--color-neutral);
+  background: var(--color-white);
+}
+
+.breadcrumbCurrent {
+  color: var(--color-neutral-darkest);
+  font-weight: var(--fw-semibold);
+}
+
+.breadcrumbText {
+  color: var(--color-neutral-dark);
+  font-weight: var(--fw-medium);
+}
+
 .current { color: var(--color-neutral-darker); font-weight: var(--fw-bold); }
 .greeting {
   font-family: var(--second-family);
@@ -179,7 +198,11 @@
   }
 
   .pageHeader { margin-bottom: 10px; }
-  .breadcrumbs { font-size: 13px; }
+
+   .breadcrumbs {
+    padding: 16px 24px;
+  }
+
   .greeting    { font-size: 22px; }
 
   .listCard {
@@ -215,28 +238,11 @@
 
   .topbar { display: none; } 
 
-  /* Sidebar */
-  .sidebar {
-    display: flex;
-    position: relative;
-    width: 312px;
-    height: 900px;
-    background: var(--color-white);
-    border: 1px solid var(--color-scheme-border, rgba(0,0,0,.15));
-    border-radius: 16px;
-    overflow: hidden;
-    flex-direction: column;
-  }
-  .brand {
-    width: 312px;
-    height: 64px;
-    margin-top: 8px;
-    padding: 0 16px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    font-weight: var(--fw-bold);
-  }
+.breadcrumbs{
+  margin-bottom: 16px;
+  padding: 0;
+}
+
   .navBox {
     width: 280px;
     height: 728px;
@@ -280,23 +286,26 @@
   .pageHeader {
     width: 1064px;
     height: 85px;
-    margin-top: 24px;
     display: grid;
     align-content: center;
+  margin-left: 32px;
+  margin-top: 0;
   }
-  .breadcrumbs { font-size: 14px; margin-bottom: 6px; }
+
   .greeting    { font-size: 26px; }
 
   .contentRow {
     display: grid;
     grid-template-columns: 389px 1fr;
     column-gap: 32px;
+    height: 727px;
+    position: static;
+    transform: translateX(0);
+    margin-left: 32px;
   }
 
   .listCard {
     width: 389px;
-    height: 727px;
-    margin: 32px 0;
     padding: 16px;
     border-radius: 32px;
     background: var(--color-white);
@@ -321,9 +330,7 @@
 
   .detailsCard {
     display: flex;
-    margin: 32px 0;
     padding: 8px;
-    height: 727px;
     background: var(--color-white);
     border: 1px solid var(--color-scheme-border, rgba(0,0,0,.15));
     border-radius: 32px;
