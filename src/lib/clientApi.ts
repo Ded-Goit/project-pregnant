@@ -14,6 +14,9 @@ export interface User {
   token: string;
   createdAt: string;
   updatedAt: string;
+  avatar?: string;
+  dueDate?: string;
+  onboardingCompleted?: boolean;
 }
 
 export interface RefreshResponse {
