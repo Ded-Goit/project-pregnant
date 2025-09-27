@@ -44,7 +44,3 @@ export const login = async (payload: LoginRequest) => {
   const { data } = await nextServer.post<User>(`/auth/login`, payload);
   return data;
 };
-<<<<<<< HEAD
-=======
-
->>>>>>> 55ae0b23dc393a819ade14fca70f31b2b1e1b375
