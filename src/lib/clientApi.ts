@@ -27,6 +27,7 @@ export interface User {
   gender: string;
   _id: string;
   token: string;
+  photo: string;
   createdAt: string;
   updatedAt: string;
 }
@@ -59,7 +60,6 @@ export const login = async (payload: LoginRequest) => {
   const { data } = await nextServer.post<User>(`/auth/login`, payload);
   return data;
 };
-
 
 export const createDiary = async (payload: CreateDiaryRequest) => {
   const { data } = await nextServer.post<CreateDiaryRequest>(

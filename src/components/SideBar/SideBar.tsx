@@ -143,7 +143,7 @@ export default function SideBar({ isOpen, onClose, onLogout }: SidebarProps) {
             <>
               <div className={styles.userInfo}>
                 <Image
-                  src={user?.photo}
+                  src={user?.photo ?? '/account_circle.svg'}
                   alt="avatar"
                   width={40}
                   height={40}
