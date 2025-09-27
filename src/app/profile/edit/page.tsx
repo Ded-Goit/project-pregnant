@@ -18,10 +18,11 @@ const ChevronRightIcon = () => (
 
 export default function OnboardingPage() {
   const router = useRouter();
-  const { user: authUser, setUser: setAuthUser, accessToken } = useAuthStore();
+  const { user: authUser, setUser: setAuthUser } = useAuthStore();
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+
     // Перевіряємо, чи користувач вже пройшов онбординг
     if (authUser?.onboardingCompleted) {
       router.push('/dashboard');
@@ -29,11 +30,12 @@ export default function OnboardingPage() {
     }
 
     if (!authUser || !accessToken) {
+
       router.push('/login');
       return;
     }
     setIsLoading(false);
-  }, [authUser, accessToken, router]);
+  }, [authUser, router]);
 
   const handleOnboardingSubmit = async (
     formData: OnboardingFormData
@@ -68,6 +70,7 @@ export default function OnboardingPage() {
     }
   };
 
+
   const handleAvatarUpload = async (file: File): Promise<string> => {
     try {
       // Імітація завантаження аватара
@@ -83,6 +86,7 @@ export default function OnboardingPage() {
   };
 
   if (!authUser || !accessToken || authUser.onboardingCompleted) {
+
     return null;
   }
 
