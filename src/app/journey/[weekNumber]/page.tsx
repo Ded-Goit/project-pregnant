@@ -1,7 +1,6 @@
 'use client';
 
 //import dynamic from 'next/dynamic';
-import styles from './journeypage.module.css';
 
 /*const GreetingBlock = dynamic(
   () => import('@/components/dashboard/greeting-block')
@@ -20,13 +19,18 @@ const FeelingCheckCard = dynamic(
   () => import('@/components/dashboard/feeling-check-card')
 );*/
 
-export default function JorneyPage() {
+import styles from "./journeypage.module.css"
+import GreetingBlock from "@/components/GreetingBlock/GreetingBlock";
+import WeekSelector from "@/components/WeekSelector/WeekSelector";
+
+
+export default function Page() {
   return (
-    <div className={styles.pageWrapper}>
-      <h1 className={styles.title}>
-        `Блок `Подорож вагітності` | JourneyPage | route: /journey/[weekNumber]`
-        URL сторінки змінюється на /journey/[weekNumber] відповідного тижня.
-      </h1>
+    <div className={styles.container}>
+      <div className={styles.greetingWeekContainer}>
+        <GreetingBlock userName="Пані" />
+      </div>
+      <WeekSelector total={42} startAt={1}/>
     </div>
   );
 }

@@ -1,8 +1,6 @@
 .component {
   display: flex;
-  flex-direction: column;
-}
-
-.title {
-  background-color: rgb(179, 201, 214);
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 24px 20px 0;
 }

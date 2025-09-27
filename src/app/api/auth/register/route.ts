@@ -37,10 +37,16 @@ export async function POST(request: NextRequest) {
         }
       }
     }
+    const { data } = response;
 
-    const { data, status } = response;
-
-    return NextResponse.json(data, { status });
+    if (data) {
+      return NextResponse.json(
+        {
+          ...data.data,
+        },
+        { status: data.status }
+      );
+    }
   } catch (error) {
     const err = error as AxiosError;
 

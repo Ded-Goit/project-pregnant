@@ -1,108 +1,62 @@
 'use client';
 
-import React, { useMemo, useState } from 'react';
+//import dynamic from 'next/dynamic';
 import styles from './AddDiaryEntryModal.module.css';
+import React, { useEffect } from 'react';
+import AddDiaryEntryForm, {
+  DiaryEntry,
+} from '../AddDiaryEntryForm/AddDiaryEntryForm';
+import Image from 'next/image';
 
-/**
- * ВАЖНО:
- * Все пропсы сделаны НЕОБЯЗАТЕЛЬНЫМИ, чтобы не ломать чужие места, где модалка вызывается
- * только с onClose. Это снимет типовую ошибку "missing open/onSubmit".
- */
-export type AddDiaryEntryPayload = {
-  title: string;
-  content: string;
-  tags: string[];
-};
-
-type Props = {
-  open?: boolean;
-  onClose?: () => void;
-  initial?: Partial<AddDiaryEntryPayload>;
-  onSubmit?: (payload: AddDiaryEntryPayload) => void;
-};
+interface AddDiaryEntryModalProps {
+  isEdit?: boolean;
+  initialEntry?: DiaryEntry;
+  onClose: () => void;
+  onSubmit?: (entry: DiaryEntry) => void;
+}
 
 export default function AddDiaryEntryModal({
-  open = true,
+  isEdit = false,
+  initialEntry,
   onClose,
-  initial,
   onSubmit,
-}: Props) {
-  const init = useMemo(
-    () => ({
-      title: initial?.title ?? '',
-      content: initial?.content ?? '',
-      tags: initial?.tags ?? [],
-    }),
-    [initial]
-  );
+}: AddDiaryEntryModalProps) {
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        onClose();
+      }
+    };
+    document.addEventListener('keydown', handleEscape);
+    return () => document.removeEventListener('keydown', handleEscape);
+  }, [onClose]);
 
-  const [title, setTitle] = useState(init.title);
-  const [content, setContent] = useState(init.content);
-  const [tagsText, setTagsText] = useState(init.tags.join(', '));
-
-  if (!open) return null;
+  const onBackdropClick = (e: React.MouseEvent) => {
+    if (e.target === e.currentTarget) {
+      onClose();
+    }
+  };
 
   return (
-    <div className={styles.backdrop} onClick={onClose}>
-      <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
-        <header className={styles.header}>
-          <h3>Новий запис</h3>
-          <button className={styles.btn} onClick={onClose} type="button">Закрити</button>
-        </header>
-
-        <div className={styles.body}>
-          <div style={{ display: 'grid', gap: 12 }}>
-            <label>
-              <div style={{ fontSize: 14, color: 'var(--color-neutral-dark)' }}>Заголовок</div>
-              <input
-                type="text"
-                placeholder="Назва запису"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-              />
-            </label>
-
-            <label>
-              <div style={{ fontSize: 14, color: 'var(--color-neutral-dark)' }}>Категорії (через кому)</div>
-              <input
-                type="text"
-                placeholder="Натхнення, Енергія"
-                value={tagsText}
-                onChange={(e) => setTagsText(e.target.value)}
-              />
-            </label>
-
-            <label>
-              <div style={{ fontSize: 14, color: 'var(--color-neutral-dark)' }}>Запис</div>
-              <textarea
-                placeholder="Запишіть, як ви себе відчуваєте"
-                value={content}
-                onChange={(e) => setContent(e.target.value)}
-                rows={6}
-              />
-            </label>
-          </div>
-        </div>
-
-        <div className={styles.actions}>
-          <button className={styles.btn} onClick={onClose} type="button">Скасувати</button>
-          <button
-            className={`${styles.btn} ${styles.btnPrimary}`}
-            onClick={() =>
-              onSubmit?.({
-                title: title.trim(),
-                content: content.trim(),
-                tags: tagsText
-                  .split(',')
-                  .map((t) => t.trim())
-                  .filter(Boolean),
-              })
-            }
-            type="button"
-          >
-            Зберегти
-          </button>
-        </div>
+    <div className={styles.modalBackdrop} onClick={onBackdropClick}>
+      <div className={styles.modalContent}>
+        <button
+          className={styles.closeButton}
+          onClick={onClose}
+          aria-label="Close modal"
+        >
+          <Image src="/close.png" alt="Закрити" width={24} height={24} />
+        </button>
+        <h2 className={styles.modalTitle}>
+          {isEdit ? 'Редагувати запис' : 'Новий запис'}
+        </h2>
+        <AddDiaryEntryForm
+          initialEntry={initialEntry}
+          onSubmit={async (entry) => {
+            await onSubmit?.(entry);
+            onClose();
+          }}
+        />
       </div>
     </div>
   );

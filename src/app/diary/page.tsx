@@ -40,29 +40,6 @@ export default function DiaryPage(){
     </span>
   </button>
 </div>
-      {/* DESKTOP-ONLY Sidebar */}
-      <aside className={styles.sidebar}>
-        <div className={styles.brand}>
-          <div style={{width:28,height:28,borderRadius:14,background:'var(--color-scheme-accent)'}} aria-hidden />
-          <span>Лелека</span>
-        </div>
-
-        <nav className={styles.navBox}>
-          <a className={styles.navItem} href="#"> Мій день</a>
-          <a className={styles.navItem} href="#"> Подорож</a>
-          <a className={styles.navItem} href="#"> Щоденник</a>
-          <a className={styles.navItem} href="#"> Профіль</a>
-        </nav>
-
-        <div className={styles.emailBox}>
-          <div style={{width:36,height:36,borderRadius:18,background:'#ddd'}} aria-hidden />
-          <div>
-            <div style={{fontWeight:600}}>Ганна</div>
-            <div style={{fontSize:12,color:'var(--color-neutral)'}}>hanna@gmail.com</div>
-          </div>
-          <button style={{width:28,height:28,borderRadius:999,border:'1px solid var(--color-scheme-border)'}}>↗</button>
-        </div>
-      </aside>
 
       {/* Main */}
       <main className={styles.main}>

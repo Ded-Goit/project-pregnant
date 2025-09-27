@@ -3,6 +3,11 @@ import './globals.css';
 import { AuthProvider } from '@/components/providers/AuthProvider';
 import localFont from 'next/font/local';
 import { Lato, Comfortaa } from 'next/font/google';
+
+// import Header from '@/components/Header/Header';
+// import Breadcrumbs from '@/components/Breadcrumbs/Breadcrumbs';
+// import SideBar from '@/components/SideBar/SideBar';
+import LayoutClient from '@/components/LayoutClient';
 import Preloader from '@/components/Preloader/Preloader';
 
 // Fonts...
@@ -72,7 +77,7 @@ export const metadata: Metadata = {
     images: ['/og-image.png'],
   },
   icons: {
-    icon: '/favicon.ico',
+    icon: '/favicon.png',
     apple: '/apple-touch-icon.png',
   },
   metadataBase: new URL('https://project-pregnant.vercel.app'),
@@ -88,10 +93,12 @@ export default function RootLayout({
       lang="uk"
       className={`${latoGoogle.variable} ${latoLocal.variable} ${comfortaa.variable}`}
     >
-      <body>
-        <Preloader />
-        <AuthProvider>{children}</AuthProvider>
-      </body>
+     <body>
+  <Preloader />
+  <AuthProvider>
+    <LayoutClient>{children}</LayoutClient>
+  </AuthProvider>
+</body>
     </html>
   );
 }

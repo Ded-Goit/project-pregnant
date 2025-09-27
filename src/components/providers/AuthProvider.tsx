@@ -2,7 +2,7 @@
 
 import { ReactNode, useEffect } from 'react';
 import { useAuthStore } from '@/hooks/useAuthStore';
-import { getMe, refresh } from '@/lib/api';
+import { getMe, refresh } from '@/lib/clientApi';
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const setUser = useAuthStore((state) => state.setUser);

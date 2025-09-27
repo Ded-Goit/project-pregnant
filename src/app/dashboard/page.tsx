@@ -30,16 +30,9 @@ const FeelingCheckCard = dynamic(
   () => import('@/components/FeelingCheckCard/FeelingCheckCard')
 );
 
-// export default function DashboardPage() {
-//   return (
-//     <div className={styles.pageWrapper}>
-//       <h1 className={styles.title}>БЛОКИ сторінки Мій День</h1>
-//     </div>
-//   );
-// }
 export default function DashboardPage() {
-  // const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false); // тут ваша логіка аутентифікації
-  // const [userName, setUserName] = useState<string>('Пані');
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false); // тут ваша логіка аутентифікації
+  const [userName, setUserName] = useState<string>('Пані');
 
   const [weekNumber, setWeekNumber] = useState<number>(5);
   const [daysLeft, setDaysLeft] = useState<number>(250);
@@ -58,7 +51,7 @@ export default function DashboardPage() {
         // Визначте свій спосіб перевірки авторизації користувача
         // Нижче просто приклад жорсткого коду
         const auth = false; // або отримати з контексту, cookie тощо
-        // setIsAuthenticated(auth);
+        setIsAuthenticated(auth);
 
         const response = await axios.get(
           auth ? '/api/weeks/dashboard' : '/api/weeks/public/dashboard'
@@ -66,7 +59,7 @@ export default function DashboardPage() {
         console.log('Отримані дані:', response.data);
 
         if (response.data) {
-          // setUserName(response.data.name);
+          setUserName(response.data.name);
           setWeekNumber(response.data.weekNumber);
           setDaysLeft(response.data.daysLeft);
           setImage(response.data.baby.image);
@@ -77,10 +70,10 @@ export default function DashboardPage() {
           setMomDailyTips(response.data.baby.momDailyTips);
           setCategoryIconUrl(response.data.baby.categoryIconUrl);
         } else {
-          // setUserName('Пані'); // якщо ім'я не прийшло
+          setUserName('Пані'); // якщо ім'я не прийшло
         }
-      } catch (error) {
-        // setUserName('Пані'); // обробка помилки, якщо не вдалось запитати
+      } catch {
+        setUserName('Пані'); // обробка помилки, якщо не вдалось запитати
       }
     };
 
@@ -89,7 +82,7 @@ export default function DashboardPage() {
 
   return (
     <main className={styles.dashboardGrid}>
-      <GreetingBlock userName="Пані" />
+      <GreetingBlock userName={userName} />
       <div className={styles.dashboardContainer}>
         <div className={styles.statusContainer}>
           <StatusBlock weekNumber={weekNumber} daysLeft={daysLeft} />
@@ -106,8 +99,8 @@ export default function DashboardPage() {
           />
         </div>
         <div className={styles.taskContainer}>
-          <TasksReminderCard isAuthenticated={true} />
-          <FeelingCheckCard isAuthenticated={true} />
+          <TasksReminderCard isAuthenticated={isAuthenticated} />
+          <FeelingCheckCard isAuthenticated={isAuthenticated} />
         </div>
       </div>
     </main>

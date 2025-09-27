@@ -17,7 +17,7 @@
   padding: 48px 20px;
   width: 334px;
   height: 695px;
-  max-width: 768px;
+  /* max-width: 768px; */
   position: relative;
 
   @media (min-width: 768px) {
@@ -53,10 +53,8 @@
   letter-spacing: 0.01em;
   text-align: center;
   color: var(--color-scheme-text);
-  margin-bottom: 20px;
-  text-align: center;
-  font-size: 20px;
-  font-weight: bold;
+  /* margin-bottom: 20px; */
+  /* height: 43px; */
 
   @media (min-width: 1440px) {
     font-size: 48px;
