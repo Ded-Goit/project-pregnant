@@ -6,7 +6,6 @@ import GreetingBlock from '../../components/GreetingBlock/GreetingBlock';
 import DiaryList from '../../components/DiaryList/DiaryList';
 import DiaryEntryDetails from '../../components/DiaryEntryDetails/DiaryEntryDetails';
 import type { DiaryEntry } from '../../components/DiaryEntryCard/DiaryEntryCard';
-import DiaryAddRecord from '@/components/DiaryAddRecord/DiaryAddRecord';
 
 const ENTRIES: DiaryEntry[] = [
   {
@@ -69,8 +68,6 @@ export default function DiaryPage() {
   const closeModal = () => setIsModalOpen(false);
 
   return (
-    <>
-      {isModalOpen && <DiaryAddRecord onClose={closeModal}></DiaryAddRecord>}
       <div className={styles.layout} data-theme="pink">
         <div className={styles.topbar}>
           <div className={styles.topbarBrand}>
@@ -119,7 +116,6 @@ export default function DiaryPage() {
           </div>
         </main>
       </div>
-    </>
   );
 }
 
