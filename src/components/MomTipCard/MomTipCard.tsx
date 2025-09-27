@@ -57,20 +57,20 @@ export default function MomTipCard({
     <section className={styles.momTipCard}>
       <h3 className={styles.momTipTitle}>Порада для мами</h3>
       <div className={styles.momTipContent}>
-        {/* {categoryIconUrl ? (
+        {categoryIconUrl ? (
           <Image
             src="/fork_spoon.png"
             alt="Іконка категорії поради"
             width={24}
             height={24}
           />
-        ) : null} */}
-        <Image
+        ) : null}
+        {/* <Image
           src="/fork_spoon.png"
           alt="Іконка категорії поради"
           width={24}
           height={24}
-        />
+        /> */}
         {/* Example tip text */}
         <p className={styles.momTipText}>{momDailyTips}</p>
         {/* <img src={data.categoryIconUrl} alt="Іконка категорії поради" /> */}

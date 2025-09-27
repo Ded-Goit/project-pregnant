@@ -3,21 +3,22 @@
 import styles from './AddTaskModal.module.css';
 
 import React, { useEffect } from 'react';
-import AddTaskForm, { Task } from '../AddTaskForm/AddTaskForm';
+import AddTaskForm from '../AddTaskForm/AddTaskForm';
+import { Task } from '../../types/note';
 import Image from 'next/image';
 
 interface AddTaskModalProps {
   isEdit?: boolean;
   onClose: () => void;
   onSubmit?: (task: Task) => void;
-  initialText?: string;
+  initialTask?: Task;
 }
 
 export default function AddTaskModal({
-  isEdit = false,
+  // isEdit = false,
   onClose,
   onSubmit,
-  initialText,
+  initialTask,
 }: AddTaskModalProps) {
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
@@ -47,7 +48,7 @@ export default function AddTaskModal({
         </button>
         <h2 className={styles.modalTitle}>Нове завдання</h2>
         <AddTaskForm
-          initialText={initialText}
+          initialText={initialTask}
           onSubmit={(task: Task) => {
             onSubmit?.(task);
             onClose();
