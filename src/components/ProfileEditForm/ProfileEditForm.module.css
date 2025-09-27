@@ -1,11 +1,11 @@
-.component {
+.card {
   background: var(--color-white);
-  border: 1px solid var(--color-scheme-border);
-  border-radius: 20px;
+  border: 1px solid var(--color-neutral-lighter);
+  border-radius: 16px;
   padding: 32px;
   flex: 1;
   min-width: 0;
-  box-shadow: 0 2px 8px var(--opacity-neutral-darkest-10);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
 .form {
@@ -20,12 +20,6 @@
   gap: 24px;
 }
 
-.content {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 24px;
-}
-
 .inputGroup {
   display: flex;
   flex-direction: column;
@@ -34,41 +28,39 @@
 
 .label {
   font-weight: var(--fw-semibold);
-  color: var(--color-neutral-darkest);
-  font-size: 14px;
+  color: var(--color-scheme-text);
+  font-size: 16px;
   margin-bottom: 4px;
-}
-
-.inputWrapper {
-  position: relative;
 }
 
 .input,
 .select {
-  padding: 16px;
-  border: 2px solid var(--color-neutral-lighter);
+  padding: 16px 20px;
+  border: 1px solid var(--color-neutral-lighter);
   border-radius: 12px;
   font-size: 16px;
   background: var(--color-white);
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
   width: 100%;
   font-family: inherit;
+  box-sizing: border-box;
+  color: var(--color-neutral-darkest);
 }
 
 .input:focus,
 .select:focus {
   outline: none;
-  border-color: var(--color-scheme-accent);
-  box-shadow: 0 0 0 3px var(--opacity-neutral-darkest-5);
+  border-color: var(--color-pastel-pink);
+  box-shadow: 0 0 0 3px rgba(255, 203, 211, 0.2);
 }
 
-.inputError {
+.errorInput {
   border-color: var(--color-red) !important;
   box-shadow: 0 0 0 3px rgba(198, 0, 0, 0.1) !important;
 }
 
 .input::placeholder {
-  color: var(--color-neutral-light);
+  color: var(--color-neutral);
 }
 
 .input:disabled,
@@ -78,23 +70,14 @@
   opacity: 0.7;
 }
 
-/* Select Styles */
-.selectWrapper {
-  position: relative;
-}
-
-.selectIcon {
-  position: absolute;
-  right: 16px;
-  top: 50%;
-  transform: translateY(-50%);
-  pointer-events: none;
-  color: var(--color-neutral);
-}
-
 .select {
   appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%237f7f7f'><path d='M7 10l5 5 5-5z'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 16px center;
+  background-size: 16px;
   padding-right: 48px;
+  cursor: pointer;
 }
 
 .error {
@@ -104,83 +87,15 @@
   margin-top: 4px;
 }
 
-/* Actions */
 .actions {
   display: flex;
   gap: 16px;
   margin-top: 8px;
 }
 
-.cancelButton,
-.submitButton {
-  padding: 16px 32px;
-  border-radius: 12px;
-  font-weight: var(--fw-semibold);
-  transition: all 0.3s ease;
-  flex: 1;
-  min-width: 160px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  font-size: 16px;
-  border: 2px solid transparent;
-  font-family: var(--second-family);
-}
-
-.cancelButton {
-  background: var(--color-neutral-lightest);
-  color: var(--color-neutral-dark);
-  border-color: var(--color-neutral-lighter);
-}
-
-.cancelButton:hover:not(:disabled) {
-  background: var(--color-neutral-lighter);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px var(--opacity-neutral-darkest-10);
-}
-
-.submitButton {
-  background: var(--color-scheme-accent);
-  color: var(--color-neutral-darkest);
-  border-color: var(--color-scheme-accent);
-}
-
-.submitButton:hover:not(:disabled) {
-  background: var(--color-scheme-foreground-alt);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px var(--opacity-neutral-darkest-15);
-}
-
-.cancelButton:disabled,
-.submitButton:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  transform: none;
-  box-shadow: none;
-}
-
-.spinner {
-  width: 18px;
-  height: 18px;
-  border: 2px solid currentColor;
-  border-top: 2px solid transparent;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
 /* Mobile Styles */
 @media (max-width: 767px) {
-  .component {
+  .card {
     padding: 24px;
   }
 
@@ -188,52 +103,11 @@
     gap: 24px;
   }
 
-  .content {
-    grid-template-columns: 1fr;
+  .fields {
     gap: 20px;
   }
 
   .actions {
     flex-direction: column;
-  }
-
-  .cancelButton,
-  .submitButton {
-    width: 100%;
-    min-width: auto;
-  }
-
-  .input,
-  .select {
-    padding: 14px;
-  }
-}
-
-/* Tablet Styles */
-@media (min-width: 768px) and (max-width: 1023px) {
-  .content {
-    grid-template-columns: 1fr;
-    gap: 20px;
-  }
-}
-
-/* Desktop Styles */
-@media (min-width: 1024px) {
-  .component {
-    padding: 40px;
-  }
-
-  .form {
-    gap: 40px;
-  }
-
-  .content {
-    gap: 32px;
-  }
-
-  .input,
-  .select {
-    padding: 18px;
-    font-size: 17px;
   }
 }

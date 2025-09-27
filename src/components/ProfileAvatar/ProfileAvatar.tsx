@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import styles from './ProfileAvatar.module.css';
+import Button from '@/components/UI/Buttons/Buttons';
 
 interface User {
   _id: string;
@@ -52,15 +53,14 @@ export default function ProfileAvatar({
   };
 
   return (
-    <div className={styles.component}>
-      {/* Avatar Image / Avatar Content */}
-      <div className={styles.avatarContent}>
-        <div className={styles.avatarImage}>
+    <div className={styles.card}>
+      <div className={styles.avatarSection}>
+        <div className={styles.avatarContainer}>
           {user.avatar ? (
             <img
               src={user.avatar}
-              alt={`${user.name} аватар`}
-              className={styles.avatarImg}
+              alt={`Аватар ${user.name}`}
+              className={styles.avatar}
             />
           ) : (
             <div className={styles.avatarPlaceholder}>
@@ -73,35 +73,31 @@ export default function ProfileAvatar({
             </div>
           )}
         </div>
+      </div>
 
-        {/* Frame 48 - User Info */}
-        <div className={styles.frame48}>
-          <h2 className={styles.userName}>{user.name}</h2>
-          <p className={styles.userEmail}>{user.email}</p>
-        </div>
+      <div className={styles.userInfo}>
+        <h2 className={styles.userName}>{user.name}</h2>
+        <p className={styles.userEmail}>{user.email}</p>
+      </div>
 
-        {/* Frame 47 - Upload Button */}
-        <div className={styles.frame47}>
-          <label
-            className={`${styles.uploadButton} ${isLoading ? styles.disabled : ''}`}
+      <div className={styles.uploadSection}>
+        <label className={styles.uploadLabel}>
+          <input
+            type="file"
+            accept="image/jpeg,image/png,image/webp"
+            onChange={handleFileChange}
+            className={styles.fileInput}
+            disabled={isLoading}
+          />
+          <Button
+            variant="primary"
+            size="large"
+            disabled={isLoading}
+            style={{ width: '100%' }}
           >
-            <input
-              type="file"
-              accept="image/jpeg,image/png,image/webp"
-              onChange={handleFileChange}
-              className={styles.fileInput}
-              disabled={isLoading}
-            />
-            {isLoading ? (
-              <>
-                <div className={styles.buttonSpinner} />
-                Завантаження...
-              </>
-            ) : (
-              'Завантажити нове фото'
-            )}
-          </label>
-        </div>
+            Завантажити нове фото
+          </Button>
+        </label>
       </div>
     </div>
   );
