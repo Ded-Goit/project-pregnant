@@ -18,17 +18,17 @@ const ChevronRightIcon = () => (
 
 export default function ProfileEditPage() {
   const router = useRouter();
-  const { user: authUser, setUser: setAuthUser, accessToken } = useAuthStore();
+  const { user: authUser, setUser: setAuthUser } = useAuthStore();
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!authUser || !accessToken) {
+    if (!authUser) {
       router.push('/login');
       return;
     }
     setIsLoading(false);
-  }, [authUser, accessToken, router]);
+  }, [authUser, router]);
 
   const handleProfileUpdate = async (
     formData: ProfileFormData
@@ -63,7 +63,7 @@ export default function ProfileEditPage() {
     }
   };
 
-  if (!authUser || !accessToken) {
+  if (!authUser) {
     return null;
   }
 
