@@ -27,7 +27,10 @@ export default function WeekSelector({ total = 42, startAt = 1 }: Props) {
         } else {
           route = '/public/dashboard';
         }
+<<<<<<< HEAD
 
+=======
+>>>>>>> 55ae0b23dc393a819ade14fca70f31b2b1e1b375
         const res = await nextServer.get(route);
         setCurrentWeek(res.data.weekNumber);
       } catch (err) {
