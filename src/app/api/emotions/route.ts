@@ -3,6 +3,7 @@ import { api } from '../api';
 import { AxiosError } from 'axios';
 
 export async function GET() {
+  console.log("111111111111");
   try {
     const response = await api.get('/emotions');
     const { data } = response;

@@ -53,8 +53,9 @@
   letter-spacing: 0.01em;
   text-align: center;
   color: var(--color-scheme-text);
-  /* margin-bottom: 20px; */
-  /* height: 43px; */
+  width: 640px;
+  height: 58px;
+  line-height: 1.2;
 
   @media (min-width: 1440px) {
     font-size: 48px;
