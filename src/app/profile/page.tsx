@@ -20,7 +20,7 @@ const ChevronRightIcon = () => (
 
 export default function ProfilePage() {
   const router = useRouter();
-  const { user: authUser, setUser: setAuthUser, accessToken } = useAuthStore();
+  const { user: authUser, setUser: setAuthUser } = useAuthStore();
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -29,7 +29,7 @@ export default function ProfilePage() {
     }, 500);
 
     return () => clearTimeout(timer);
-  }, [authUser, accessToken]);
+  }, [authUser]);
 
   // Тестові дані для демонстрації з фото
   const testUser = {
