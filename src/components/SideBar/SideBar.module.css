@@ -74,6 +74,19 @@
 .navAvatar {
   border-radius: 100%;
 }
+
+.bottomLink {
+  font-family: 'Lato', sans-serif;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 1.6;
+  color: #000;
+}
+.bottomLink:hover,
+.bottomLink:focus {
+  text-decoration: underline;
+}
+
 @media (min-width: 1440px) {
   .sidebar {
     transform: translateX(0);
@@ -85,4 +98,8 @@
   .closeBtn {
     display: none;
   }
+}
+
+.bottomLink {
+  font-size: 14px;
 }
