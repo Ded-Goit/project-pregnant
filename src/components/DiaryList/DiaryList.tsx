@@ -2,7 +2,9 @@
 
 import React from 'react';
 import styles from './DiaryList.module.css';
-import DiaryEntryCard, { type DiaryEntry } from '../DiaryEntryCard/DiaryEntryCard';
+import DiaryEntryCard, {
+  type DiaryEntry,
+} from '../DiaryEntryCard/DiaryEntryCard';
 
 type Props = {
   entries: DiaryEntry[];
@@ -16,14 +18,13 @@ export default function DiaryList({ entries, onAddClick, onSelect }: Props) {
       <div className={styles.header}>
         <h2 className={styles.title}>Ваші записи</h2>
         <div className={styles.tools}>
-          <span>Новий запис</span>
           <button
             aria-label="Додати"
             className="roundBtn"
             onClick={onAddClick}
             type="button"
           >
-            ＋
+            Новий запис ＋
           </button>
         </div>
       </div>
@@ -36,24 +37,6 @@ export default function DiaryList({ entries, onAddClick, onSelect }: Props) {
     </>
   );
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // import styles from './DiaryList.module.css';
 //import dynamic from 'next/dynamic';
