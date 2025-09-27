@@ -79,7 +79,7 @@
     transform: translateX(0);
     position: static;
     box-shadow: none;
-    width: 312px;
+    min-width: 312px;
   }
 
   .closeBtn {
