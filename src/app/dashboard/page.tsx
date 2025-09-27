@@ -4,8 +4,9 @@ import dynamic from 'next/dynamic';
 import styles from './dashboard.module.css';
 import React, { useEffect, useState } from 'react';
 import type { DashboardResponse } from '../../types/note';
-import axios from 'axios';
+// import axios from 'axios';
 import { useAuthStore } from '@/hooks/useAuthStore'; // ✅ підключаємо
+import { nextServer } from '@/lib/api';
 
 const GreetingBlock = dynamic(
   () => import('@/components/GreetingBlock/GreetingBlock')
@@ -25,8 +26,8 @@ const FeelingCheckCard = dynamic(
 );
 
 export async function getDashboardData(isAuthenticated: boolean) {
-  const response = await axios.get(
-    isAuthenticated ? '/api/weeks/dashboard' : '/api/weeks/public/dashboard'
+  const response = await nextServer.get(
+    isAuthenticated ? '/weeks/dashboard' : '/weeks/public/dashboard'
   );
   return response.data;
 }
