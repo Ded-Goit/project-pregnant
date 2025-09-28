@@ -60,6 +60,9 @@ export interface User {
   photo: string;
   createdAt: string;
   updatedAt: string;
+  avatar?: string;
+  dueDate?: string;
+  onboardingCompleted?: boolean;
 }
 
 export interface getUserResponse {
@@ -93,6 +96,10 @@ export const getMe = async () => {
 export const login = async (payload: LoginRequest) => {
   const { data } = await nextServer.post<User>(`/auth/login`, payload);
   return data;
+};
+
+export const logout = async (): Promise<void> => {
+  await nextServer.post('/auth/logout');
 };
 
 export const createDiary = async (payload: CreateDiaryRequest) => {
