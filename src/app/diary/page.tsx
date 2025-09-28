@@ -47,7 +47,6 @@ export default function DiaryPage() {
         const apiRes = await createDiary(payload);
         if (apiRes.data?.data) {
           setEntries((prev) => [...prev, apiRes.data.data]);
-          // closeModal();
         }
       } catch (error) {
         console.error(error);
