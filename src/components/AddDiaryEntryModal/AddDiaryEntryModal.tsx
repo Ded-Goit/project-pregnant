@@ -4,7 +4,6 @@
 import styles from './AddDiaryEntryModal.module.css';
 import React, { useEffect } from 'react';
 import AddDiaryEntryForm from '../AddDiaryEntryForm/AddDiaryEntryForm';
-import type { DiaryEntry } from '../../types/note';
 import Image from 'next/image';
 import { Diary } from '@/lib/clientApi';
 
