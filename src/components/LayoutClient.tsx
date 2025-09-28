@@ -1,12 +1,14 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Breadcrumbs from './Breadcrumbs/Breadcrumbs';
 import Header from './Header/Header';
 import SideBar from './SideBar/SideBar';
 import styles from './LayoutClient.module.css';
 import ConfirmationModal from './ConfirmationModal/ConfirmationModal';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
+import { useAuthStore } from '@/hooks/useAuthStore';
+import { logout } from '@/lib/clientApi';
 
 export default function LayoutClient({
   children,
@@ -17,13 +19,22 @@ export default function LayoutClient({
 
   const hideSidebarOn = ['/auth/login', '/auth/register', '/profile/edit'];
   const shouldHideSidebar = hideSidebarOn.includes(pathname);
-  // // імітація зареєстрованого користувача
-  // useEffect(() => {
-  //   setUser({ name: 'Андрій' });
-  // }, []);
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [showLogoutModal, setShowLogoutModal] = useState(false);
+
+  const router = useRouter();
+  // const { user, isAuthenticated } = useAuthStore();
+
+  const clearIsAuthenticated = useAuthStore(
+    (state) => state.clearIsAuthenticated
+  );
+
+  const handleLogout = async () => {
+    await logout();
+    clearIsAuthenticated();
+    router.push('/login');
+  };
 
   return (
     <>
@@ -33,12 +44,11 @@ export default function LayoutClient({
           <SideBar
             isOpen={isSidebarOpen}
             onClose={() => setIsSidebarOpen(false)}
-            // isAuthenticated={!!user}
             onLogout={() => setShowLogoutModal(true)}
           />
         )}
         <main className={styles.mainContent}>
-          {showLogoutModal && <ConfirmationModal />}
+          {showLogoutModal && <ConfirmationModal onConfirm={handleLogout} />}
           <Breadcrumbs />
           {children}
         </main>
