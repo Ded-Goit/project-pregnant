@@ -5,6 +5,8 @@
 .wrapper {
   width: 100%;
   box-sizing: border-box;
+  overflow: auto;
+  margin-top: 24px;
 }
 
 .container {

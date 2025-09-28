@@ -1,0 +1,171 @@
+.wrapper {
+  margin: 0 auto;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+.state {
+  display: flex;
+  gap: 8px;
+  flex-direction: column;
+  border-radius: 32px;
+  width: 311px;
+  background-color: var(--color-oasis-lighter);
+  overflow: auto;
+  padding: 24px;
+  margin: 0 auto;
+}
+
+@media screen and (min-width: 768px) {
+  .state {
+    width: 704px;
+    height: 194px;
+    overflow-y: auto;
+  }
+}
+
+@media screen and (min-width: 1440px) {
+  .wrapper {
+    margin: 0;
+    margin-left: 32px;
+  }
+
+  .content {
+    display: grid;
+    grid-template-columns: 1fr 750px;
+    grid-template-rows: auto auto;
+    align-items: start;
+  }
+
+  .state {
+    width: 650px;
+    height: 194px;
+    overflow-y: auto;
+    grid-column: 1;
+    grid-row: 1;
+    margin: 0;
+  }
+}
+
+.titleState {
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 1.4;
+  letter-spacing: 0.01em;
+}
+
+.listState {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.listItemState {
+  border: 1px solid rgba(255, 255, 255, 0);
+  border-radius: 100px;
+  padding: 4px 10px;
+  background-color: var(--opacity-neutral-darkest-5);
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 1.6;
+  text-align: center;
+  align-content: center;
+  justify-content: center;
+}
+
+.sensationDescr {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.advice {
+  border-radius: 32px;
+  width: 311px;
+  background-color: var(--color-oasis-lighter);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 24px;
+}
+
+@media screen and (min-width: 768px) {
+  .advice {
+    width: 704px;
+  }
+}
+
+@media screen and (min-width: 1440px) {
+  .titleState {
+    font-size: 20px;
+  }
+
+  .advice {
+    width: 650px;
+    height: 322px;
+    overflow-y: auto;
+    grid-column: 1;
+    grid-row: 2;
+    margin: 0;
+  }
+
+  .gridBlock {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+  }
+
+  .sensationDescr {
+    font-size: 16px;
+  }
+}
+
+.adviceTips {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.adviceTitle {
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 1.4;
+  letter-spacing: 0.01em;
+}
+
+.containerTitleTips {
+  display: flex;
+  gap: 8px;
+}
+
+.categoryTipsText {
+  padding-left: 32px;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.adviceTipsTitle {
+  font-family: var(--font-family);
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+@media screen and (min-width: 1440px) {
+  .adviceTitle {
+    font-size: 20px;
+  }
+
+  .adviceTipsTitle {
+    font-size: 16px;
+  }
+
+  .categoryTipsText {
+    font-size: 16px;
+  }
+}

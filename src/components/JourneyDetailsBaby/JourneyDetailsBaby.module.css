@@ -11,7 +11,12 @@
   flex-wrap: wrap;
 }
 
-/* Ліва частина: зображення + підпис */
+.starShine {
+  width: 24px;
+  height: 24px;
+  stroke: #000;
+}
+
 .left {
   display: flex;
   flex-direction: column;
@@ -152,6 +157,8 @@
   font-size: 14px;
   line-height: 1.5;
   color: #000;
+  display: flex;
+  gap: 8px;
 }
 
 .factText {
