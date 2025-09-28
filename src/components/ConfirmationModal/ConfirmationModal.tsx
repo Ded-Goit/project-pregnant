@@ -28,7 +28,9 @@ export default function ConfirmationModal({
     <div className={styles.backdrop} onClick={onClose}>
       <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
         <header className={styles.header}>
+
           <h3>Підтвердження</h3>
+
           <button className={styles.btn} onClick={onClose} type="button">
             Закрити
           </button>

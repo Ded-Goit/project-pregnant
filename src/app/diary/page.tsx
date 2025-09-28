@@ -11,6 +11,7 @@ import { ChevronRightIcon } from '@heroicons/react/24/solid';
 import {
   createDiary,
   CreateDiaryRequest,
+  delDiaries,
   Diary,
   getDiaries,
 } from '@/lib/clientApi';
@@ -55,7 +56,11 @@ export default function DiaryPage() {
   };
 
   const handleDeleteClick = async () => {
-    console.log(selected);
+    if (!selected?._id) return;
+    await delDiaries(selected?._id);
+    setEntries((prev) => prev.filter((e) => e._id !== selected?._id));
+    setSelected(entries[0]);
+    setConfirmOpen(false);
   };
 
   useEffect(() => {

@@ -63,132 +63,123 @@ export default function ProfileEditForm({
     formik.values.dueDate !== initialData.dueDate;
 
   return (
-    <div className={styles.card}>
-      <form onSubmit={formik.handleSubmit} className={styles.form} noValidate>
-        <div className={styles.fields}>
-          {/* Ім'я */}
-          <div className={styles.inputGroup}>
-            <label htmlFor="name" className={styles.label}>
-              Ім`я
-            </label>
-            <input
-              id="name"
-              name="name"
-              type="text"
-              value={formik.values.name}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              className={`${styles.input} ${
-                formik.touched.name && formik.errors.name
-                  ? styles.errorInput
-                  : ''
-              }`}
-              placeholder="Ганна"
-              disabled={isLoading}
-            />
-            {formik.touched.name && formik.errors.name && (
-              <div className={styles.error}>{formik.errors.name}</div>
-            )}
-          </div>
-
-          {/* Пошта */}
-          <div className={styles.inputGroup}>
-            <label htmlFor="email" className={styles.label}>
-              Пошта
-            </label>
-            <input
-              id="email"
-              name="email"
-              type="email"
-              value={formik.values.email}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              className={`${styles.input} ${
-                formik.touched.email && formik.errors.email
-                  ? styles.errorInput
-                  : ''
-              }`}
-              placeholder="hanna@gmail.com"
-              disabled={isLoading}
-            />
-            {formik.touched.email && formik.errors.email && (
-              <div className={styles.error}>{formik.errors.email}</div>
-            )}
-          </div>
-
-          {/* Стать дитини */}
-          <div className={styles.inputGroup}>
-            <label htmlFor="childGender" className={styles.label}>
-              Стать дитини
-            </label>
-            <select
-              id="childGender"
-              name="childGender"
-              value={formik.values.childGender || ''}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              className={`${styles.select} ${
-                formik.touched.childGender && formik.errors.childGender
-                  ? styles.errorInput
-                  : ''
-              }`}
-              disabled={isLoading}
-            >
-              <option value="">Оберіть стать</option>
-              <option value="female">Дівчинка</option>
-              <option value="male">Хлопчик</option>
-            </select>
-            {formik.touched.childGender && formik.errors.childGender && (
-              <div className={styles.error}>{formik.errors.childGender}</div>
-            )}
-          </div>
-
-          {/* Планова дата пологів */}
-          <div className={styles.inputGroup}>
-            <label htmlFor="dueDate" className={styles.label}>
-              Планова дата пологів
-            </label>
-            <input
-              id="dueDate"
-              name="dueDate"
-              type="date"
-              value={formik.values.dueDate || ''}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              className={`${styles.input} ${
-                formik.touched.dueDate && formik.errors.dueDate
-                  ? styles.errorInput
-                  : ''
-              }`}
-              disabled={isLoading}
-            />
-            {formik.touched.dueDate && formik.errors.dueDate && (
-              <div className={styles.error}>{formik.errors.dueDate}</div>
-            )}
-          </div>
+    <form onSubmit={formik.handleSubmit} className={styles.form} noValidate>
+      <div className={styles.fields}>
+        <div className={styles.inputGroup}>
+          <label htmlFor="name" className={styles.label}>
+            Ім&apos;я
+          </label>
+          <input
+            id="name"
+            name="name"
+            type="text"
+            value={formik.values.name}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            className={`${styles.input} ${
+              formik.touched.name && formik.errors.name ? styles.errorInput : ''
+            }`}
+            placeholder="Ганна"
+            disabled={isLoading}
+          />
+          {formik.touched.name && formik.errors.name && (
+            <div className={styles.error}>{formik.errors.name}</div>
+          )}
         </div>
 
-        {/* Кнопки */}
-        <div className={styles.actions}>
-          <Button
-            type="button"
-            onClick={handleCancel}
-            disabled={!hasChanges || isLoading}
-            variant="secondary"
-            size="large"
-          >
-            Відмінити зміни
-          </Button>
-          <Button
-            type="submit"
-            disabled={isLoading || !hasChanges}
-            variant="primary"
-            size="large"
-          >
-            {isLoading ? 'Збереження...' : 'Зберегти зміни'}
-          </Button>
+        <div className={styles.inputGroup}>
+          <label htmlFor="email" className={styles.label}>
+            Пошта
+          </label>
+          <input
+            id="email"
+            name="email"
+            type="email"
+            value={formik.values.email}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            className={`${styles.input} ${
+              formik.touched.email && formik.errors.email
+                ? styles.errorInput
+                : ''
+            }`}
+            placeholder="hanna@gmail.com"
+            disabled={isLoading}
+          />
+          {formik.touched.email && formik.errors.email && (
+            <div className={styles.error}>{formik.errors.email}</div>
+          )}
         </div>
-      </form>
-    </div>
+
+        <div className={styles.inputGroup}>
+          <label htmlFor="childGender" className={styles.label}>
+            Стать дитини
+          </label>
+          <select
+            id="childGender"
+            name="childGender"
+            value={formik.values.childGender || ''}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            className={`${styles.select} ${
+              formik.touched.childGender && formik.errors.childGender
+                ? styles.errorInput
+                : ''
+            }`}
+            disabled={isLoading}
+          >
+            <option value="">Оберіть стать</option>
+            <option value="female">Дівчинка</option>
+            <option value="male">Хлопчик</option>
+          </select>
+          {formik.touched.childGender && formik.errors.childGender && (
+            <div className={styles.error}>{formik.errors.childGender}</div>
+          )}
+        </div>
+
+        <div className={styles.inputGroup}>
+          <label htmlFor="dueDate" className={styles.label}>
+            Планова дата пологів
+          </label>
+          <input
+            id="dueDate"
+            name="dueDate"
+            type="date"
+            value={formik.values.dueDate || ''}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            className={`${styles.input} ${
+              formik.touched.dueDate && formik.errors.dueDate
+                ? styles.errorInput
+                : ''
+            }`}
+            disabled={isLoading}
+          />
+          {formik.touched.dueDate && formik.errors.dueDate && (
+            <div className={styles.error}>{formik.errors.dueDate}</div>
+          )}
+        </div>
+      </div>
+
+      <div className={styles.actions}>
+        <Button
+          type="button"
+          onClick={handleCancel}
+          disabled={!hasChanges || isLoading}
+          variant="secondary"
+          size="large"
+        >
+          Відмінити зміни
+        </Button>
+        <Button
+          type="submit"
+          disabled={isLoading || !hasChanges}
+          variant="primary"
+          size="large"
+        >
+          {isLoading ? 'Збереження...' : 'Зберегти зміни'}
+        </Button>
+      </div>
+    </form>
   );
 }

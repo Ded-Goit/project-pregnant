@@ -60,6 +60,9 @@ export interface User {
   photo: string;
   createdAt: string;
   updatedAt: string;
+  avatar?: string;
+  dueDate?: string;
+  onboardingCompleted?: boolean;
 }
 
 export interface getUserResponse {
@@ -95,6 +98,10 @@ export const login = async (payload: LoginRequest) => {
   return data;
 };
 
+export const logout = async (): Promise<void> => {
+  await nextServer.post('/auth/logout');
+};
+
 export const createDiary = async (payload: CreateDiaryRequest) => {
   const { data } = await nextServer.post<CreateDiaryResponse>(
     '/diaries',
@@ -105,6 +112,11 @@ export const createDiary = async (payload: CreateDiaryRequest) => {
 
 export const getDiaries = async () => {
   const { data } = await nextServer.get<getDiaryResponse>('/diaries');
+  return data;
+};
+
+export const delDiaries = async (id: string | undefined) => {
+  const { data } = await nextServer.delete<getDiaryResponse>(`/diaries/${id}`);
   return data;
 };
 

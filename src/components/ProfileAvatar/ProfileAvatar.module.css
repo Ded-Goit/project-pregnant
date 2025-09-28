@@ -1,30 +1,21 @@
-.card {
-  background: var(--color-white);
-  border: 1px solid var(--color-neutral-lighter);
-  border-radius: 16px;
-  padding: 32px 24px;
-  width: 100%;
-  max-width: 320px;
+.profileHeader {
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   gap: 24px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  width: 100%;
 }
 
 .avatarSection {
-  display: flex;
-  justify-content: center;
+  flex-shrink: 0;
 }
 
 .avatarContainer {
   position: relative;
-  width: 120px;
-  height: 120px;
+  width: 80px;
+  height: 80px;
   border-radius: 50%;
   overflow: hidden;
   background: var(--color-neutral-lightest);
-  border: 3px solid var(--color-pastel-pink);
 }
 
 .avatar {
@@ -41,7 +32,7 @@
   align-items: center;
   justify-content: center;
   color: var(--color-white);
-  font-size: 48px;
+  font-size: 32px;
   font-weight: var(--fw-bold);
   font-family: var(--second-family);
 }
@@ -60,90 +51,69 @@
 }
 
 .spinner {
-  width: 32px;
-  height: 32px;
-  border: 3px solid var(--color-white);
-  border-top: 3px solid transparent;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-}
-
-.userInfo {
-  text-align: center;
-}
-
-.userName {
-  font-size: 20px;
-  font-weight: var(--fw-bold);
-  color: var(--color-scheme-text);
-  margin-bottom: 8px;
-  font-family: var(--second-family);
-  line-height: 1.3;
-}
-
-.userEmail {
-  font-size: 16px;
-  color: var(--color-neutral);
-  line-height: 1.4;
-}
-
-.uploadSection {
-  width: 100%;
-}
-
-.uploadButton {
-  background: var(--color-pastel-pink);
-  color: var(--color-scheme-text);
-  padding: 14px 20px;
-  border-radius: 12px;
-  border: none;
-  cursor: pointer;
-  font-weight: var(--fw-semibold);
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  font-size: 16px;
-  transition: all 0.2s ease;
-  min-height: 48px;
-}
-
-.uploadButton:hover:not(.disabled) {
-  background: var(--color-pastel-pink-dark);
-  transform: translateY(-1px);
-}
-
-.uploadButton.disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-.fileInput {
-  display: none;
-}
-
-.buttonSpinner {
-  width: 18px;
-  height: 18px;
-  border: 2px solid currentColor;
+  width: 24px;
+  height: 24px;
+  border: 2px solid var(--color-white);
   border-top: 2px solid transparent;
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
 
 @keyframes spin {
-  to {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
     transform: rotate(360deg);
   }
 }
 
-/* Mobile Styles */
+.infoSection {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.userInfo {
+  text-align: left;
+}
+
+.userName {
+  font-size: 20px;
+  font-weight: var(--fw-bold);
+  color: var(--color-neutral-darkest);
+  margin-bottom: 4px;
+  font-family: var(--second-family);
+}
+
+.userEmail {
+  font-size: 16px;
+  color: var(--color-neutral);
+}
+
+.uploadSection {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.fileInput {
+  display: none;
+}
+
+.uploadLabel {
+  width: 100%;
+  display: block;
+}
+
 @media (max-width: 767px) {
-  .card {
-    padding: 24px 20px;
-    max-width: 100%;
-    gap: 20px;
+  .profileHeader {
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    text-align: center;
   }
 
   .avatarContainer {
@@ -155,6 +125,16 @@
     font-size: 36px;
   }
 
+  .infoSection {
+    align-items: center;
+    text-align: center;
+    width: 100%;
+  }
+
+  .uploadSection {
+    align-items: center;
+  }
+
   .userName {
     font-size: 18px;
   }
@@ -162,10 +142,10 @@
   .userEmail {
     font-size: 14px;
   }
+}
 
-  .uploadButton {
-    padding: 12px 16px;
-    font-size: 14px;
-    min-height: 44px;
+@media (min-width: 768px) {
+  .uploadLabel {
+    max-width: 300px;
   }
 }
