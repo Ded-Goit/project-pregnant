@@ -24,7 +24,6 @@ export default function LayoutClient({
   const [showLogoutModal, setShowLogoutModal] = useState(false);
 
   const router = useRouter();
-  // const { user, isAuthenticated } = useAuthStore();
 
   const clearIsAuthenticated = useAuthStore(
     (state) => state.clearIsAuthenticated
