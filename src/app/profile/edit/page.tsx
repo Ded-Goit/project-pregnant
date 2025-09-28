@@ -20,8 +20,6 @@ export default function OnboardingPage() {
   const router = useRouter();
   const { user: authUser, setUser: setAuthUser } = useAuthStore();
   const [isLoading, setIsLoading] = useState(true);
-  const accessToken =
-    typeof window !== 'undefined' ? localStorage.getItem('accessToken') : null;
 
   useEffect(() => {
     // Перевіряємо, чи користувач вже пройшов онбординг
@@ -30,12 +28,12 @@ export default function OnboardingPage() {
       return;
     }
 
-    if (!authUser || !accessToken) {
+    if (!authUser) {
       router.push('/login');
       return;
     }
     setIsLoading(false);
-  }, [authUser, router, accessToken]);
+  }, [authUser, router]);
 
   const handleOnboardingSubmit = async (
     formData: OnboardingFormData
@@ -84,7 +82,7 @@ export default function OnboardingPage() {
     }
   };
 
-  if (!authUser || !accessToken || authUser.onboardingCompleted) {
+  if (!authUser || authUser.onboardingCompleted) {
     return null;
   }
 

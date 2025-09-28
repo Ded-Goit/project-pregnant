@@ -72,7 +72,7 @@ export default function ProfilePage() {
     name: displayUser.name,
     email: displayUser.email,
     childGender: displayUser.gender,
-    dueDate: displayUser.dueDate,
+    dueDate: displayUser.dueDate || '',
   };
 
   return (
