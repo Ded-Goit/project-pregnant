@@ -108,6 +108,11 @@ export const getDiaries = async () => {
   return data;
 };
 
+export const delDiaries = async (id: string | undefined) => {
+  const { data } = await nextServer.delete<getDiaryResponse>(`/diaries/${id}`);
+  return data;
+};
+
 export const getEmotions = async () => {
   const { data } = await nextServer.get<EmotionsResponse>('/emotions');
   return data;
