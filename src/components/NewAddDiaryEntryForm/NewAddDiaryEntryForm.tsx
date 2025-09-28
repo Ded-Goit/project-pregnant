@@ -51,7 +51,7 @@ type ApiPayload =
 export type Option = { value: string; label: string };
 type FormErrors = Partial<Record<'title' | 'emotions' | 'descr', string>>;
 
-/* ---------- helpers (без any) ---------- */
+/* ---------- helpers ---------- */
 function isObject(v: unknown): v is Record<string, unknown> {
   return typeof v === 'object' && v !== null;
 }
@@ -106,38 +106,18 @@ function normalizeEmotions(payload: ApiPayload): Option[] {
   return out;
 }
 
-<<<<<<< HEAD
-/* ---------- компонент ---------- */
-
 const FALLBACK: Option[] = ['Радість', 'Сум', 'Стрес', 'Спокій', 'Втома', 'Щастя'].map((x) => ({
-=======
-const FALLBACK: Option[] = [
-  'Радість',
-  'Сум',
-  'Стрес',
-  'Спокій',
-  'Втома',
-  'Щастя',
-].map((x) => ({
->>>>>>> f7aa295568c4d31135945129f0e140d124a67535
   value: x,
   label: x,
 }));
 
-<<<<<<< HEAD
 export default function NewAddDiaryEntryForm({ onSubmit }: AddDiaryEntryFormProps) {
-  // данные формы (контролируемые поля, чтобы валидировать по blur)
+  // form state
   const [title, setTitle] = useState<string>('');
   const [descr, setDescr] = useState<string>('');
-=======
-export default function NewAddDiaryEntryForm({
-  onSubmit,
-}: AddDiaryEntryFormProps) {
-  const [options, setOptions] = useState<Option[]>(FALLBACK);
->>>>>>> f7aa295568c4d31135945129f0e140d124a67535
   const [selected, setSelected] = useState<string[]>([]);
 
-  // данные для категорий
+  // emotions data
   const [options, setOptions] = useState<Option[]>(FALLBACK);
   const [loading, setLoading] = useState<boolean>(true);
   const [loadError, setLoadError] = useState<string | null>(null);
@@ -147,19 +127,11 @@ export default function NewAddDiaryEntryForm({
   const [errors, setErrors] = useState<FormErrors>({});
   const comboRef = useRef<HTMLDivElement>(null);
 
-  // загрузка категорий
+  // fetch emotions
   useEffect(() => {
     let aborted = false;
 
-<<<<<<< HEAD
     const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL?.replace(/\/+$/, '');
-=======
-    const DEBUG = false;
-    const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL?.replace(
-      /\/+$/,
-      ''
-    );
->>>>>>> f7aa295568c4d31135945129f0e140d124a67535
     const sources: string[] = [
       '/api/emotions',
       ...(BACKEND_URL ? [`${BACKEND_URL}/api/emotions`] : []),
@@ -199,7 +171,7 @@ export default function NewAddDiaryEntryForm({
             break;
           }
         } catch {
-          // пробуем следующий источник
+          // try next
         }
       }
 
@@ -207,11 +179,6 @@ export default function NewAddDiaryEntryForm({
         setOptions(FALLBACK);
         setLoading(false);
         setLoadError('Не вдалося завантажити категорії, показані стандартні.');
-<<<<<<< HEAD
-=======
-        DEBUG &&
-          console.debug('[Emotions] fallback used. Last error:', lastErr);
->>>>>>> f7aa295568c4d31135945129f0e140d124a67535
       }
     })();
 
@@ -220,7 +187,7 @@ export default function NewAddDiaryEntryForm({
     };
   }, []);
 
-  // закрытие списка по клику вне / Esc
+  // close dropdown on outside click / Esc
   useEffect(() => {
     const onDocMouseDown = (event: MouseEvent) => {
       if (!comboRef.current) return;
@@ -237,13 +204,10 @@ export default function NewAddDiaryEntryForm({
     };
   }, []);
 
-  // ── валидация ────────────────────────────────────────────────────────────────
+  // validation
   const validateAll = async () => {
     try {
-      await validationSchema.validate(
-        { title, emotions: selected, descr },
-        { abortEarly: false }
-      );
+      await validationSchema.validate({ title, emotions: selected, descr }, { abortEarly: false });
       setErrors({});
       return true;
     } catch (err) {
@@ -266,6 +230,8 @@ export default function NewAddDiaryEntryForm({
 
   const validateField = async (path: 'title' | 'descr', value: string) => {
     const snapshot = { title, emotions: selected, descr };
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore — индексируем по union ключей
     snapshot[path] = value;
     try {
       await validationSchema.validateAt(path, snapshot);
@@ -275,19 +241,17 @@ export default function NewAddDiaryEntryForm({
         return copy;
       });
     } catch (err) {
-      const msg =
-        err instanceof Yup.ValidationError ? err.message : 'Некоректне значення';
+      const msg = err instanceof Yup.ValidationError ? err.message : 'Некоректне значення';
       setErrors((prev) => ({ ...prev, [path]: msg }));
     }
   };
 
-  // ── обработчики ─────────────────────────────────────────────────────────────
+  // handlers
   const toggleEmotion = (value: string) => {
     setSelected((prev) => {
       const next = new Set(prev);
       next.has(value) ? next.delete(value) : next.add(value);
       const arr = Array.from(next);
-      // если выбран(ы) — снимаем ошибку для emotions
       setErrors((prevErr) => (arr.length > 0 ? { ...prevErr, emotions: undefined } : prevErr));
       return arr;
     });
@@ -300,15 +264,8 @@ export default function NewAddDiaryEntryForm({
       return arr;
     });
   };
-<<<<<<< HEAD
-=======
-  const removeChip = (value: string) =>
-    setSelected((prev) => prev.filter((v) => v !== value));
->>>>>>> f7aa295568c4d31135945129f0e140d124a67535
 
-  const selectedLabels = options
-    .filter((o) => selected.includes(o.value))
-    .map((o) => o.label);
+  const selectedLabels = options.filter((o) => selected.includes(o.value)).map((o) => o.label);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -319,7 +276,15 @@ export default function NewAddDiaryEntryForm({
     }
   };
 
-  // ── разметка (как у тебя) ──────────────────────────────────────────────────
+  // ВЫНЕСЕННЫЙ обработчик, чтобы не было Parsing error в JSX:
+  const onTriggerKeyDown: React.KeyboardEventHandler<HTMLDivElement> = (e) => {
+    if (loading) return;
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      setOpen((v) => !v);
+    }
+  };
+
   return (
     <form className={styles.diaryForm} onSubmit={handleSubmit}>
       <div className={styles.fieldContainer}>
@@ -349,7 +314,6 @@ export default function NewAddDiaryEntryForm({
         <span className={styles.fieldLabel}>Категорії</span>
 
         <div className={styles.combo} ref={comboRef}>
-          {/* НЕ button, чтобы чипы-кнопки внутри были валидны */}
           <div
             id="emotions-select-trigger"
             className={styles.trigger}
@@ -361,13 +325,7 @@ export default function NewAddDiaryEntryForm({
             onClick={() => {
               if (!loading) setOpen((v) => !v);
             }}
-            onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) => {
-              if (loading) return;
-              if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                setOpen((v) => !v);
-              }
-            }}
+            onKeyDown={onTriggerKeyDown}
           >
             <div className={styles.triggerContent}>
               {loading ? (
@@ -428,11 +386,7 @@ export default function NewAddDiaryEntryForm({
                 const id = `emotion-${opt.value}`;
                 const checked = selected.includes(opt.value);
                 return (
-                  <label
-                    key={opt.value}
-                    htmlFor={id}
-                    className={styles.radioOption}
-                  >
+                  <label key={opt.value} htmlFor={id} className={styles.radioOption}>
                     <input
                       id={id}
                       type="checkbox"
@@ -453,6 +407,7 @@ export default function NewAddDiaryEntryForm({
         {errors.emotions && <p className={styles.helperError}>{errors.emotions}</p>}
         {loadError && <p className={styles.helperError}>{loadError}</p>}
       </div>
+
       <div className={`${styles.fieldContainer} ${styles.ContainerTitle}`}>
         <label className={styles.fieldLabel} htmlFor="content">
           Запис

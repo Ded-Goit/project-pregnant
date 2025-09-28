@@ -6,6 +6,7 @@ import GreetingBlock from '../../components/GreetingBlock/GreetingBlock';
 import DiaryList from '../../components/DiaryList/DiaryList';
 import DiaryEntryDetails from '../../components/DiaryEntryDetails/DiaryEntryDetails';
 import NewAddDiaryEntryModal from '@/components/NewAddDiaryEntryModal/NewAddDiaryEntryModal';
+import { ChevronRightIcon } from '@heroicons/react/24/solid';
 
 import {
   createDiary,
@@ -110,12 +111,7 @@ export default function DiaryPage() {
               <span className={styles.breadcrumbCurrent}>Профіль</span>
            </nav>
           </div>
-<<<<<<< HEAD
-          {/* <GreetingBlock userName={userName}/> */}
-          <GreetingBlock userName="Ганна" />
-=======
           <GreetingBlock userName={user?.name} />
->>>>>>> f7aa295568c4d31135945129f0e140d124a67535
         </header>
 
         <div className={styles.contentRow}>

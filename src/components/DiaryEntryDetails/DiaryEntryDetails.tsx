@@ -13,17 +13,9 @@ type Props = {
 export default function DiaryEntryDetails({ entry, onEdit, onDelete }: Props) {
   if (!entry) {
     return (
-<<<<<<< HEAD
       <div className={styles.detailsInner}>
         <div className={styles.detailsBody}>
           <p className={styles.placeholder}>Наразі записи у щоденнику відсутні</p>
-=======
-      <div className="detailsInner">
-        <div className="detailsBody">
-          <p className={styles.placeholder}>
-            Наразі записи у щоденнику відстні
-          </p>
->>>>>>> f7aa295568c4d31135945129f0e140d124a67535
         </div>
       </div>
     );
@@ -44,10 +36,6 @@ export default function DiaryEntryDetails({ entry, onEdit, onDelete }: Props) {
             </div>
           </div>
           <div className={styles.actions}>
-<<<<<<< HEAD
-            <button className="btn-icon" aria-label="Редагувати" onClick={onEdit} type="button">Редагувати</button>
-            <button className="btn-icon" aria-label="Видалити" onClick={onDelete} type="button">Видалити</button>
-=======
             <button
               className="btn-icon"
               aria-label="Редагувати"
@@ -64,7 +52,6 @@ export default function DiaryEntryDetails({ entry, onEdit, onDelete }: Props) {
             >
               🗑
             </button>
->>>>>>> f7aa295568c4d31135945129f0e140d124a67535
           </div>
         </div>
       </header>

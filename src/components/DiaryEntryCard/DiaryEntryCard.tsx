@@ -19,7 +19,6 @@ type Props = {
 
 export default function DiaryEntryCard({ entry, onClick }: Props) {
   return (
-
     <article className={styles.card} id={entry._id} onClick={onClick}>
       <div className={styles.head}>
         <h3 className={styles.title}>{entry.title}</h3>
@@ -32,11 +31,9 @@ export default function DiaryEntryCard({ entry, onClick }: Props) {
           </span>
         ))}
       </div>
-      </div>
     </article>
   );
-}
-
+};
 // import styles from './DiaryEntryCard.module.css';
 //import dynamic from 'next/dynamic';
 
