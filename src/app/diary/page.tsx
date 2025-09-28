@@ -8,6 +8,20 @@ import DiaryEntryDetails from '../../components/DiaryEntryDetails/DiaryEntryDeta
 import type { DiaryEntry } from '../../components/DiaryEntryCard/DiaryEntryCard';
 import NewAddDiaryEntryModal from '@/components/NewAddDiaryEntryModal/NewAddDiaryEntryModal';
 import { CreateDiaryRequest, getEmotions } from '@/lib/clientApi';
+// import dynamic from 'next/dynamic';
+// import {DashboardResponse} from '../../types/note';
+// import axios from 'axios';
+// import { useAuthStore } from '@/hooks/useAuthStore';
+
+// const GreetingBlock = dynamic(
+//   () => import('@/components/GreetingBlock/GreetingBlock')
+// );
+
+const ChevronRightIcon = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z" />
+  </svg>
+);
 
 const ENTRIES: DiaryEntry[] = [
   {
@@ -90,29 +104,50 @@ export default function DiaryPage() {
     fetchData();
   }, []);
 
+
+// async function getDiaryData(isAuthenticated: boolean) {
+//   const response = await axios.get(
+//     isAuthenticated ? '/api/weeks/diary' : '/api/weeks/public/diary'
+//   );
+//   return response.data;
+// }
+
+  // function DiaryPage() {
+  // const { isAuthenticated, user } = useAuthStore(); 
+
+  // const [userName, setUserName] = useState<string>('Пані');
+
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const data: DashboardResponse = await getDiaryData(isAuthenticated);
+
+  //       if (data) {
+  //         setUserName(user?.name || data.name || 'Пані');
+  //       } else {
+  //         setUserName('Пані');
+  //       }
+  //     } catch {
+  //       setUserName('Пані');
+  //     }
+  //   };
+
+  //   fetchData();
+  // },[isAuthenticated, user]);
+
   return (
-    <div className={styles.layout} data-theme="pink">
-      <div className={styles.topbar}>
-        <div className={styles.topbarBrand}>
-          <div className={styles.logo} aria-hidden />
-          <span>Лелека</span>
-        </div>
-
-        {/* бургер-иконка справа */}
-        <button className={styles.menuBtn} type="button" aria-label="Меню">
-          <span className={styles.menuIcon} aria-hidden="true">
-            <span className={styles.menuBar}></span>
-          </span>
-        </button>
-      </div>
-
+    <div className={styles.pageWrapper}>
       {/* Main */}
       <main className={styles.main}>
         <header className={styles.pageHeader}>
           <div className={styles.breadcrumbs}>
-            <span className={styles.current}>Лелека</span>{' '}
-            <span className={styles.span}>›</span> Щоденник
+            <nav className={styles.breadcrumbs}>
+              <span className={styles.breadcrumbText}>Лелека</span>
+              <ChevronRightIcon />
+              <span className={styles.breadcrumbCurrent}>Профіль</span>
+           </nav>
           </div>
+          {/* <GreetingBlock userName={userName}/> */}
           <GreetingBlock userName="Ганна" />
         </header>
 
@@ -129,11 +164,13 @@ export default function DiaryPage() {
           </section>
           {/* DETAILS — только на десктопе (на мобиле — /diary/[entryId]) */}
           <section className={styles.detailsCard}>
+            <div className={styles.detailsInner}>
             <DiaryEntryDetails
               entry={SELECTED}
               onEdit={() => {}}
               onDelete={() => {}}
             />
+            </div>
           </section>
         </div>
       </main>
@@ -146,6 +183,7 @@ export default function DiaryPage() {
     </div>
   );
 }
+
 
 // import styles from "./diary.module.css";
 //import dynamic from 'next/dynamic';

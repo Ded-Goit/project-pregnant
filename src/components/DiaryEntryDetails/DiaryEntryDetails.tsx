@@ -13,16 +13,16 @@ type Props = {
 export default function DiaryEntryDetails({ entry, onEdit, onDelete }: Props) {
   if (!entry) {
     return (
-      <div className="detailsInner">
-        <div className="detailsBody">
-          <p className={styles.placeholder}>Наразі записи у щоденнику відстні</p>
+      <div className={styles.detailsInner}>
+        <div className={styles.detailsBody}>
+          <p className={styles.placeholder}>Наразі записи у щоденнику відсутні</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="detailsInner">
+    <div className={styles.detailsInner}>
       <header className="detailsTop">
         <div className={styles.top}>
           <div>
@@ -36,8 +36,8 @@ export default function DiaryEntryDetails({ entry, onEdit, onDelete }: Props) {
             </div>
           </div>
           <div className={styles.actions}>
-            <button className="btn-icon" aria-label="Редагувати" onClick={onEdit} type="button">🖉</button>
-            <button className="btn-icon" aria-label="Видалити" onClick={onDelete} type="button">🗑</button>
+            <button className="btn-icon" aria-label="Редагувати" onClick={onEdit} type="button">Редагувати</button>
+            <button className="btn-icon" aria-label="Видалити" onClick={onDelete} type="button">Видалити</button>
           </div>
         </div>
       </header>

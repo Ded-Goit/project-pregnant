@@ -1,6 +1,12 @@
 .diaryForm {
-  display: grid;
-  row-gap: 16px;
+display: flex;
+align-items: center;
+justify-content: flex-start;
+flex-direction: column;
+gap: 24px;
+
+width: 295px;
+height: 536px;
 }
 
 .ContainerTitle{
@@ -25,39 +31,33 @@ justify-content: flex-start;
 flex-direction: column;
 gap: 8px;
 
-width: 640px;
-height: 80px;
+width: 295px;
+height: 77px;
 }
 
 .fieldLabel {
-  font-family: var(--font-family);
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 1.5;
-  color: var(--color-scheme-text);
+font-family: var(--font-family);
+font-weight: 400;
+font-size: 14px;
+line-height: 1.5;
+color: var(--color-scheme-text);
 }
 
 .fieldInput,
 .fieldTextInput {
-  font-family: var(--font-family);
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 1.5;
-  color: var(--opacity-neutral-darkest-60);
+font-family: var(--font-family);
+font-weight: 400;
+font-size: 14px;
+line-height: 1.5;
+color: var(--color-scheme-text);
 
-  background: var(--opacity-neutral-darkest-5);
+border: 2px solid var(--opacity-transparent);
+border-radius: 12px;
+padding: 8px 12px;
+width: 295px;
+height: 37px;
 
-  border: 2px solid var(--opacity-transparent);
-  border-radius: 12px;
-  padding: 8px 12px;
-  width: 640px;
-  height: 40px;
-
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  flex-direction: row;
-  gap: 8px;
+background: var(--opacity-neutral-darkest-5);
 }
 .fieldTextInput {
   resize: vertical;
@@ -67,6 +67,22 @@ height: 80px;
 .fieldTextInput:focus {
   outline: none;
   box-shadow: 0 0 0 2px var(--color-scheme-foreground);
+}
+
+.combo{
+  display: flex;
+align-items: center;
+justify-content: flex-start;
+flex-direction: row;
+gap: 8px;
+
+border: 1px solid var(--opacity-transparent);
+border-radius: 12px;
+padding: 8px 12px;
+width: 295px;
+height: 48px;
+
+background: var(--color-neutral-lightest);
 }
 
 .fieldset { border: 0; padding: 0; margin: 0; }
@@ -135,7 +151,7 @@ height: 80px;
   color: var(--color-neutral-darker);
 }
 
-/* планшет */
+
 @media (min-width: 768px) and (max-width: 1279px) {
   .radioOption { padding: 10px 12px; }
   .radioLabel  { font-size: 15px; }
@@ -223,7 +239,7 @@ color: var(--color-neutral-darkest);
   .trigger { min-height: 48px; }
 }
 
-.combo {
+/* .combo {
   position: relative;
   overflow: visible;       
   z-index: 0;    
@@ -240,7 +256,7 @@ width: 640px;
 height: 48px;
 
 background: var(--color-neutral-lightest);
-}
+} */
 
 .panelOverlay {
   position: absolute;
@@ -277,4 +293,46 @@ background: var(--color-neutral-lightest);
 
 @media (min-width: 0px) {
   .diaryForm { position: relative; z-index: 1; }
+}
+
+.ContainerTitle{
+display: flex;
+align-items: flex-start;
+justify-content: flex-start;
+flex-direction: column;
+gap: 8px;
+
+width: 295px;
+height: 279px;
+}
+
+
+/* ============================ Tablet ============================*/
+
+@media screen and (min-width: 768px) {
+  .diaryForm {
+    width: 640px;
+  }
+
+  .fieldContainer {
+    width: 640px;
+  }
+
+  .fieldInput,
+  .fieldTextInput {
+    width: 640px;
+  }
+
+  .combo{
+    width: 640px;
+  }
+
+  .ContainerTitle{
+    width: 640px;
+    height: 282px;
+  }
+}
+
+/* ============================ Desktop ============================*/
+@media screen and (min-width: 1440px) {
 }

@@ -19,6 +19,7 @@ type Props = {
 export default function DiaryEntryCard({ entry, onClick }: Props) {
   return (
     <article className={styles.card} onClick={() => onClick?.(entry.id)}>
+      <div className={styles.allcart}>
       <div className={styles.head}>
         <h3 className={styles.title}>Дивне бажання</h3>
         <span className={styles.date}>
@@ -31,8 +32,9 @@ export default function DiaryEntryCard({ entry, onClick }: Props) {
       </div>
       <div className={styles.tags}>
         {entry.tags?.map((t, i) => (
-          <span key={i} className="chip">{t}</span>
+          <span key={i} className={styles.chip}>{t}</span>
         ))}
+      </div>
       </div>
     </article>
   );

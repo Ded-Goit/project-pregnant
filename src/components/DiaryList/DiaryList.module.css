@@ -3,11 +3,88 @@
   flex-direction: column;
 }
 
-.title {
-  background-color: rgb(179, 201, 214);
+.header { 
+  display: flex;
+align-items: center;
+margin-top: 24px;
+margin-left: 36px;
+flex-direction: row;
+justify-content: space-between;
+gap: 16px;
+
+width: 303px;
+height: 25px;
 }
 
-.header { display:flex; align-items:center; justify-content:space-between; height:64px; }
-.title { margin:0; font-size:18px; font-weight:var(--fw-bold); }
-.tools { display:flex; align-items:center; gap:8px; color:var(--color-neutral-dark); }
-.body { display:grid; row-gap:16px; overflow:auto; }
+.title { 
+  font-family: var(--second-family);
+font-weight: 700;
+font-size: 18px;
+line-height: 1.4;
+letter-spacing: 0.01em;
+color: var(--color-scheme-text);
+ }
+
+.tools {
+  display: flex;
+align-items: center;
+justify-content: center;
+flex-direction: row;
+gap: 8px;
+
+border-radius: 100px;
+width: 114px;
+height: 24px;
+}
+
+.body {
+margin-top: 16px;
+
+display: flex;
+align-items: flex-start;
+justify-content: flex-start;
+flex-direction: column;
+gap: 16px;
+
+width: 303px;
+height: 626px;
+}
+
+/* ============================ Tablet ============================*/
+
+@media screen and (min-width: 768px) {
+  .header{
+    width: 672px;
+  }
+
+  .body{
+    width: 672px;
+    height: 634px;
+  }
+}
+
+/* ============================ Desktop ============================*/
+
+@media screen and (min-width: 1440px) {
+  .header{
+    margin: 0;
+
+    width: 357px;
+    height: 28px;
+  }
+
+  .title{
+    font-size: 20px;
+  }
+
+  .tools{
+    height: 28px;
+  }
+
+  .body{
+    margin: 0;
+
+    width: 357px;
+    height: 727px;
+  }
+}
