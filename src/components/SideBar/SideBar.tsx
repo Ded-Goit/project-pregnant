@@ -14,7 +14,6 @@ interface SidebarProps {
 export default function SideBar({ isOpen, onClose, onLogout }: SidebarProps) {
   const { currentWeek } = useWeekStore();
   const { user, isAuthenticated } = useAuthStore();
-  console.log(user?.name, user?.email);
   // useEffect(() => {
   //   if (isOpen) {
   //     document.body.classList.add('no-scroll');
