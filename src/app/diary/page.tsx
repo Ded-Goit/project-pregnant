@@ -6,6 +6,8 @@ import GreetingBlock from '../../components/GreetingBlock/GreetingBlock';
 import DiaryList from '../../components/DiaryList/DiaryList';
 import DiaryEntryDetails from '../../components/DiaryEntryDetails/DiaryEntryDetails';
 import NewAddDiaryEntryModal from '@/components/NewAddDiaryEntryModal/NewAddDiaryEntryModal';
+// import { ChevronRightIcon } from '@heroicons/react/24/solid';
+
 import {
   createDiary,
   CreateDiaryRequest,
@@ -71,29 +73,42 @@ export default function DiaryPage() {
     fetchData();
   }, [setEntries]);
 
+
+// async function getDiaryData(isAuthenticated: boolean) {
+//   const response = await axios.get(
+//     isAuthenticated ? '/api/weeks/diary' : '/api/weeks/public/diary'
+//   );
+//   return response.data;
+// }
+
+  // function DiaryPage() {
+  // const { isAuthenticated, user } = useAuthStore(); 
+
+  // const [userName, setUserName] = useState<string>('Пані');
+
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const data: DashboardResponse = await getDiaryData(isAuthenticated);
+
+  //       if (data) {
+  //         setUserName(user?.name || data.name || 'Пані');
+  //       } else {
+  //         setUserName('Пані');
+  //       }
+  //     } catch {
+  //       setUserName('Пані');
+  //     }
+  //   };
+
+  //   fetchData();
+  // },[isAuthenticated, user]);
+
   return (
-    <div className={styles.layout} data-theme="pink">
-      <div className={styles.topbar}>
-        <div className={styles.topbarBrand}>
-          <div className={styles.logo} aria-hidden />
-          <span>Лелека</span>
-        </div>
-
-        {/* бургер-иконка справа */}
-        <button className={styles.menuBtn} type="button" aria-label="Меню">
-          <span className={styles.menuIcon} aria-hidden="true">
-            <span className={styles.menuBar}></span>
-          </span>
-        </button>
-      </div>
-
+    <div className={styles.pageWrapper}>
       {/* Main */}
       <main className={styles.main}>
         <header className={styles.pageHeader}>
-          <div className={styles.breadcrumbs}>
-            <span className={styles.current}>Лелека</span>{' '}
-            <span className={styles.span}>›</span> Щоденник
-          </div>
           <GreetingBlock userName={user?.name} />
         </header>
 
@@ -108,11 +123,13 @@ export default function DiaryPage() {
           </section>
           {/* DETAILS — только на десктопе (на мобиле — /diary/[entryId]) */}
           <section className={styles.detailsCard}>
+            <div className={styles.detailsInner}>
             <DiaryEntryDetails
               entry={selected}
               onEdit={() => {}}
               onDelete={openConfirm}
             />
+            </div>
           </section>
         </div>
       </main>
@@ -132,6 +149,7 @@ export default function DiaryPage() {
     </div>
   );
 }
+
 
 // import styles from "./diary.module.css";
 //import dynamic from 'next/dynamic';
