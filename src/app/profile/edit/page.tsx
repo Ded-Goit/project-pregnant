@@ -18,7 +18,7 @@ const ChevronRightIcon = () => (
 
 export default function OnboardingPage() {
   const router = useRouter();
-  const { user: authUser, setUser } = useAuthStore();
+  const { user: authUser, setUser } = useAuthStore(); // Використовуємо setUser замість setAuthUser
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -33,7 +33,7 @@ export default function OnboardingPage() {
       return;
     }
     setIsLoading(false);
-  }, [authUser, router]);
+  }, [authUser, router]); // Видаляємо accessToken з dependencies
 
   const handleOnboardingSubmit = async (
     formData: OnboardingFormData
@@ -54,7 +54,7 @@ export default function OnboardingPage() {
         updatedAt: new Date().toISOString(),
       };
 
-      setUser(updatedUser);
+      setUser(updatedUser); // Використовуємо setUser
 
       // Перенаправляємо на головну сторінку після успішного онбордингу
       router.push('/dashboard');
