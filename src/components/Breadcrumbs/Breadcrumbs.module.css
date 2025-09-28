@@ -1,6 +1,43 @@
-.component {
+.breadcrumbs ul {
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  margin: 24px 20px 0;
+  list-style: none;
+  gap: 8px;
+
+  font-family: 'Lato', sans-serif;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 1.6;
+  text-align: center;
+  color: #000;
+
+  text-align: center;
+  align-content: center;
+  padding: 0;
+  margin: 24px 32px 16px;
+}
+
+.breadcrumbs li::after {
+  content: url('/icons/chevron_right.svg');
+  /* content: '>'; */
+  margin-left: 8px;
+  display: inline-block;
+  vertical-align: middle;
+  width: 24px;
+  height: 24px;
+}
+
+.breadcrumbs li:last-child::after {
+  content: '';
+}
+.breadcrumbs a {
+  text-decoration: none;
+}
+.breadcrumbs span {
+  color: #7f7f7f;
+}
+
+@media (min-width: 1440px) {
+  .breadcrumbs ul {
+    font-size: 14px;
+  }
 }

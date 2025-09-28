@@ -48,8 +48,8 @@ export default function LayoutClient({
           />
         )}
         <main className={styles.mainContent}>
-          {showLogoutModal && <ConfirmationModal onConfirm={handleLogout} />}
           <Breadcrumbs />
+          {showLogoutModal && <ConfirmationModal onConfirm={handleLogout} />}
           {children}
         </main>
       </div>

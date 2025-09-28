@@ -2,14 +2,13 @@
 
 import React from 'react';
 import styles from './DiaryList.module.css';
-import DiaryEntryCard, {
-  type DiaryEntry,
-} from '../DiaryEntryCard/DiaryEntryCard';
+import DiaryEntryCard from '../DiaryEntryCard/DiaryEntryCard';
+import { Diary } from '@/lib/clientApi';
 
 type Props = {
-  entries: DiaryEntry[];
+  entries: Diary[];
   onAddClick?: () => void;
-  onSelect?: (id: string) => void; // клик по карточке
+  onSelect?: (e: React.MouseEvent) => void | Promise<void>;
 };
 
 export default function DiaryList({ entries, onAddClick, onSelect }: Props) {
@@ -31,7 +30,7 @@ export default function DiaryList({ entries, onAddClick, onSelect }: Props) {
 
       <div className={styles.body}>
         {entries.map((e) => (
-          <DiaryEntryCard key={e.id} entry={e} onClick={onSelect} />
+          <DiaryEntryCard key={e._id} entry={e} onClick={onSelect} />
         ))}
       </div>
     </>

@@ -1,23 +1,16 @@
 'use client';
 
-//import dynamic from 'next/dynamic';
-import styles from './AddDiaryEntryModal.module.css';
+import styles from './NewAddDiaryEntryModal.module.css';
 import React, { useEffect } from 'react';
-import AddDiaryEntryForm from '../AddDiaryEntryForm/AddDiaryEntryForm';
-import type { DiaryEntry } from '../../types/note';
+import NewAddDiaryEntryForm from '../NewAddDiaryEntryForm/NewAddDiaryEntryForm';
 import Image from 'next/image';
-import { Diary } from '@/lib/clientApi';
 
 interface AddDiaryEntryModalProps {
-  isEdit?: boolean;
-  initialEntry?: Diary;
   onClose: () => void;
-  onSubmit?: (payload: Diary) => void;
+  onSubmit?: (e: React.FormEvent<HTMLFormElement>) => void | Promise<void>;
 }
 
-export default function AddDiaryEntryModal({
-  isEdit = false,
-  initialEntry,
+export default function NewAddDiaryEntryModal({
   onClose,
   onSubmit,
 }: AddDiaryEntryModalProps) {
@@ -47,16 +40,8 @@ export default function AddDiaryEntryModal({
         >
           <Image src="/close.png" alt="Закрити" width={24} height={24} />
         </button>
-        <h2 className={styles.modalTitle}>
-          {isEdit ? 'Редагувати запис' : 'Новий запис'}
-        </h2>
-        <AddDiaryEntryForm
-          initialEntry={initialEntry}
-          onSubmit={async (entry) => {
-            await onSubmit?.(entry);
-            onClose();
-          }}
-        />
+        <h2 className={styles.modalTitle}>Новий запис</h2>
+        <NewAddDiaryEntryForm onSubmit={onSubmit} />
       </div>
     </div>
   );

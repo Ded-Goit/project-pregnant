@@ -14,6 +14,36 @@ export interface CreateDiaryRequest {
   emotions: string[];
   descr: string;
 }
+export interface Emotion {
+  _id: string;
+  title: string;
+}
+
+export interface Diary {
+  _id?: string;
+  title: string;
+  emotions: Emotion[];
+  descr: string;
+  createdAt: string;
+}
+
+export interface CreateDiaryResponse {
+  data: {
+    data: {
+      _id: string;
+      title: string;
+      emotions: Emotion[];
+      descr: string;
+      createdAt: string;
+    };
+  };
+}
+
+export interface getDiaryResponse {
+  data: {
+    data: Diary[];
+  };
+}
 
 export interface RegisterRequest {
   name: string;
@@ -30,6 +60,13 @@ export interface User {
   photo: string;
   createdAt: string;
   updatedAt: string;
+  avatar?: string;
+  dueDate?: string;
+  onboardingCompleted?: boolean;
+}
+
+export interface getUserResponse {
+  data: User;
 }
 
 export interface RefreshResponse {
@@ -52,8 +89,8 @@ export const refresh = async () => {
 };
 
 export const getMe = async () => {
-  const { data } = await nextServer<User>('/users/currentUser');
-  return data;
+  const { data } = await nextServer<getUserResponse>('/users/currentUser');
+  return data.data;
 };
 
 export const login = async (payload: LoginRequest) => {
@@ -66,10 +103,15 @@ export const logout = async (): Promise<void> => {
 };
 
 export const createDiary = async (payload: CreateDiaryRequest) => {
-  const { data } = await nextServer.post<CreateDiaryRequest>(
+  const { data } = await nextServer.post<CreateDiaryResponse>(
     '/diaries',
     payload
   );
+  return data;
+};
+
+export const getDiaries = async () => {
+  const { data } = await nextServer.get<getDiaryResponse>('/diaries');
   return data;
 };
 
