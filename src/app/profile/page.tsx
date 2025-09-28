@@ -17,7 +17,9 @@ const ChevronRightIcon = () => (
 
 export default function ProfilePage() {
   const router = useRouter();
+
   const { user: authUser } = useAuthStore();
+
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -25,7 +27,9 @@ export default function ProfilePage() {
       setIsLoading(false);
     }, 500);
     return () => clearTimeout(timer);
+
   }, []);
+
 
   const handleAvatarUpdate = async (file: File): Promise<string> => {
     try {
