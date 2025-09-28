@@ -4,6 +4,8 @@ import Link from 'next/link';
 import styles from './SideBar.module.css';
 import Image from 'next/image';
 import { useAuthStore } from '@/hooks/useAuthStore';
+// import { useRouter } from 'next/navigation';
+// import { logout } from '@/lib/clientApi';
 
 interface SidebarProps {
   isOpen: boolean;
@@ -12,7 +14,19 @@ interface SidebarProps {
 }
 
 export default function SideBar({ isOpen, onClose, onLogout }: SidebarProps) {
+  // const router = useRouter();
   const { user, isAuthenticated } = useAuthStore();
+
+  // const clearIsAuthenticated = useAuthStore(
+  //   (state) => state.clearIsAuthenticated
+  // );
+
+  // const handleLogout = async () => {
+  //   await logout();
+  //   clearIsAuthenticated();
+  //   router.push('/login');
+  // };
+
   return (
     <>
       {isOpen && <div className={styles.backdrop} onClick={onClose} />}
@@ -154,7 +168,7 @@ export default function SideBar({ isOpen, onClose, onLogout }: SidebarProps) {
                   <p>{user?.email}</p>
                 </div>
               </div>
-
+              {/* LOGOUT BTN */}
               <button onClick={onLogout}>
                 <Image
                   src="/icons/logout.svg"

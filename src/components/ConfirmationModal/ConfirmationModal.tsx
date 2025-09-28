@@ -31,7 +31,9 @@ export default function ConfirmationModal({
       <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
         <header className={styles.header}>
           <h3>{title}</h3>
-          <button className={styles.btn} onClick={onClose} type="button">Закрити</button>
+          <button className={styles.btn} onClick={onClose} type="button">
+            Закрити
+          </button>
         </header>
 
         <div className={styles.body}>
@@ -39,8 +41,14 @@ export default function ConfirmationModal({
         </div>
 
         <div className={styles.actions}>
-          <button className={styles.btn} onClick={onClose} type="button">Скасувати</button>
-          <button className={`${styles.btn} ${styles.btnDanger}`} onClick={onConfirm} type="button">
+          <button className={styles.btn} onClick={onClose} type="button">
+            Скасувати
+          </button>
+          <button
+            className={`${styles.btn} ${styles.btnDanger}`}
+            onClick={onConfirm}
+            type="button"
+          >
             Видалити
           </button>
         </div>
@@ -48,26 +56,6 @@ export default function ConfirmationModal({
     </div>
   );
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // import styles from './ConfirmationModal.module.css';
 //import dynamic from 'next/dynamic';

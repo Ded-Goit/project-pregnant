@@ -98,6 +98,10 @@ export const login = async (payload: LoginRequest) => {
   return data;
 };
 
+export const logout = async (): Promise<void> => {
+  await nextServer.post('/auth/logout');
+};
+
 export const createDiary = async (payload: CreateDiaryRequest) => {
   const { data } = await nextServer.post<CreateDiaryResponse>(
     '/diaries',

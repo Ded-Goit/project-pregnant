@@ -4,11 +4,11 @@ import { useAuthStore } from '@/hooks/useAuthStore';
 import { useRouter } from 'next/navigation';
 
 export default function LogoutButton() {
-  const { logout } = useAuthStore();
+  const { clearIsAuthenticated } = useAuthStore();
   const router = useRouter();
 
   const handleLogout = () => {
-    logout();
+    clearIsAuthenticated();
     router.push('/auth/login');
   };
 
