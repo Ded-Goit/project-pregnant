@@ -5,7 +5,6 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import Button from '../UI/Buttons/Buttons';
-import type { DiaryEntry } from '../../types/note';
 import { getErrorMessage } from '../../lib/errorUtils';
 import axios from 'axios';
 import { Diary, Emotion } from '@/lib/clientApi';

@@ -9,18 +9,23 @@ import NewAddDiaryEntryModal from '@/components/NewAddDiaryEntryModal/NewAddDiar
 import {
   createDiary,
   CreateDiaryRequest,
+  delDiaries,
   Diary,
   getDiaries,
 } from '@/lib/clientApi';
 import { useAuthStore } from '@/hooks/useAuthStore';
+import ConfirmationModal from '@/components/ConfirmationModal/ConfirmationModal';
 
 export default function DiaryPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isConfirmOpen, setConfirmOpen] = useState(false);
   const [entries, setEntries] = useState<Diary[]>([]);
   const [selected, setSelected] = useState<Diary | undefined>(undefined);
   const { user } = useAuthStore();
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
+  const openConfirm = () => setConfirmOpen(true);
+  const closeConfirm = () => setConfirmOpen(false);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -46,7 +51,14 @@ export default function DiaryPage() {
       (entry) => entry._id === id
     );
     setSelected(selectedEntry);
-    console.log(selectedEntry);
+  };
+
+  const handleDeleteClick = async () => {
+    if (!selected?._id) return;
+    await delDiaries(selected?._id);
+    setEntries((prev) => prev.filter((e) => e._id !== selected?._id));
+    setSelected(entries[0]);
+    setConfirmOpen(false);
   };
 
   useEffect(() => {
@@ -99,7 +111,7 @@ export default function DiaryPage() {
             <DiaryEntryDetails
               entry={selected}
               onEdit={() => {}}
-              onDelete={() => {}}
+              onDelete={openConfirm}
             />
           </section>
         </div>
@@ -109,6 +121,13 @@ export default function DiaryPage() {
           onClose={closeModal}
           onSubmit={handleSubmit}
         ></NewAddDiaryEntryModal>
+      )}
+      {isConfirmOpen && (
+        <ConfirmationModal
+          message="Видалити цей запис назавжди?"
+          onConfirm={handleDeleteClick}
+          onClose={closeConfirm}
+        ></ConfirmationModal>
       )}
     </div>
   );
