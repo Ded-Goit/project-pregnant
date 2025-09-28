@@ -17,7 +17,7 @@ export default function Preloader() {
       .then((res) => res.json())
       .then((data: LottieAnimation) => setAnimationData(data));
 
-    const timer = setTimeout(() => setIsVisible(false), 5000);
+    const timer = setTimeout(() => setIsVisible(false), 2500);
     return () => clearTimeout(timer);
   }, []);
 
