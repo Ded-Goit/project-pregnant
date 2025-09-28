@@ -3,9 +3,10 @@
 import dynamic from 'next/dynamic';
 import styles from './dashboard.module.css';
 import React, { useEffect, useState } from 'react';
-import type { DashboardResponse } from '../../types/note';
-import axios from 'axios';
+// import type { DashboardResponse } from '../../types/note';
+// import axios from 'axios';
 import { useAuthStore } from '@/hooks/useAuthStore'; // ✅ підключаємо
+import { nextServer } from '@/lib/api';
 
 const GreetingBlock = dynamic(
   () => import('@/components/GreetingBlock/GreetingBlock')
@@ -25,9 +26,14 @@ const FeelingCheckCard = dynamic(
 );
 
 export async function getDashboardData(isAuthenticated: boolean) {
-  const response = await axios.get(
-    isAuthenticated ? '/api/weeks/dashboard' : '/api/weeks/public/dashboard'
+  const response = await nextServer.get(
+    isAuthenticated ? '/weeks/dashboard' : '/weeks/public/dashboard'
   );
+  return response.data;
+}
+
+export async function getUserName() {
+  const response = await nextServer.get('/users/currentUser');
   return response.data;
 }
 
@@ -49,19 +55,22 @@ export default function DashboardPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data: DashboardResponse = await getDashboardData(isAuthenticated);
+        const [dashboardData, userData] = await Promise.all([
+          getDashboardData(isAuthenticated),
+          getUserName(),
+        ]);
 
-        if (data) {
-          setUserName(user?.name || data.name || 'Пані');
-          setWeekNumber(data.weekNumber);
-          setDaysLeft(data.daysLeft);
-          setImage(data.baby.image);
-          setBabySize(data.baby.babySize);
-          setBabyWeight(data.baby.babyWeight);
-          setBabyActivity(data.baby.babyActivity);
-          setBabyDevelopment(data.baby.babyDevelopment);
-          setMomDailyTips(data.baby.momDailyTips);
-          setCategoryIconUrl(data.baby.categoryIconUrl);
+        if (dashboardData && userData) {
+          setUserName(userData?.data?.name || 'Пані');
+          setWeekNumber(dashboardData.data.data.weekNumber);
+          setDaysLeft(dashboardData.data.data.daysLeft);
+          setImage(dashboardData.data.data.baby.image);
+          setBabySize(dashboardData.data.data.baby.babySize);
+          setBabyWeight(dashboardData.data.data.baby.babyWeight);
+          setBabyActivity(dashboardData.data.data.baby.babyActivity);
+          setBabyDevelopment(dashboardData.data.data.baby.babyDevelopment);
+          setMomDailyTips(dashboardData.data.data.baby.momDailyTips);
+          setCategoryIconUrl(dashboardData.data.data.baby.categoryIconUrl);
         } else {
           setUserName('Пані');
         }

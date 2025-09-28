@@ -1,8 +1,7 @@
 'use client';
 
 import styles from './TasksReminderCard.module.css';
-import React, { useState, useEffect } from 'react'; /**/
-import axios from 'axios';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/hooks/useAuthStore';
 import AddTaskModal from '../AddTaskModal/AddTaskModal';
@@ -10,10 +9,9 @@ import { Task } from '../../types/note';
 import Image from 'next/image';
 import Button from '../UI/Buttons/Buttons';
 import SpinnerFlowersLine from '../SpinnerFlowersLine/SpinnerFlowersLine';
+import { nextServer } from '@/lib/api';
 
-// interface TasksReminderCardProps {
-//   isAuthenticated: boolean;
-// }
+type ApiTask = Task & { _id: string };
 
 export default function TasksReminderCard() {
   const { isAuthenticated } = useAuthStore();
@@ -29,10 +27,15 @@ export default function TasksReminderCard() {
       setLoading(false);
       return;
     }
-    axios
-      .get('/api/tasks')
+    nextServer
+      .get('/tasks')
       .then((response) => {
-        setTasks(response.data);
+        const fetchedTasks = response.data.data.data as ApiTask[];
+        const normalizedTasks: Task[] = fetchedTasks.map((task) => ({
+          ...task,
+          id: task._id,
+        }));
+        setTasks(normalizedTasks);
         setLoading(false);
       })
       .catch((err) => {
@@ -49,27 +52,18 @@ export default function TasksReminderCard() {
     }
   };
 
-  const handleCheckboxChange = (taskId: string, completed: boolean) => {
-    axios
-      .patch(`/api/tasks/${taskId}/status`, { completed })
+  const handleCheckboxChange = (taskId: string, isDone: boolean) => {
+    nextServer
+      .patch(`/tasks/${taskId}`, { isDone })
       .then(() => {
         setTasks((prev) =>
-          prev.map((t) => (t.id === taskId ? { ...t, completed } : t))
+          prev.map((t) => (t.id === taskId ? { ...t, isDone } : t))
         );
       })
       .catch((err) => {
         alert(err.message);
       });
   };
-
-  // const openAddTaskModal = () => {
-  //   if (isAuthenticated) {
-  //     router.push('/auth/register');
-  //     return;
-  //   }
-  //   setModalOpen(true);
-  // };
-
   const closeAddTaskModal = () => setModalOpen(false);
 
   const formatDate = (dateString: string) => {
@@ -81,11 +75,15 @@ export default function TasksReminderCard() {
 
   const addTaskToList = (task: Task) => {
     setTasks((prev) => {
-      const updatedTasks = [...prev, task];
-      updatedTasks.sort(
+      const newTask: Task = {
+        ...task,
+        id: (task as ApiTask)._id || task.id,
+      };
+
+      const updatedTasks = [...prev, newTask];
+      return updatedTasks.sort(
         (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
       );
-      return updatedTasks;
     });
   };
 
@@ -95,77 +93,13 @@ export default function TasksReminderCard() {
         <SpinnerFlowersLine />
       </section>
     );
+
   if (error)
     return (
       <section className={styles.tasksReminderCard} style={{ color: 'red' }}>
         Помилка: {error}
       </section>
     );
-
-  //ДОДАВ ПОТОЧНУ ДАТУ ДЛЯ ТАСКІВ НЕЗАРЕЄСТРОВАНОГО КОРИСТУВАЧА==================================================
-
-  // Функція для отримання актуальної дати у форматі ДД.ММ
-  const getCurrentDate = () => {
-    const today = new Date();
-    const day = String(today.getDate()).padStart(2, '0');
-    const month = String(today.getMonth() + 1).padStart(2, '0');
-    return `${day}.${month}`;
-  };
-
-  // const currentDate = getCurrentDate();
-
-  const staticTasks: Task[] = [
-    {
-      id: '1',
-      date: new Date().toISOString(),
-      name: 'Звернутись до гінеколога',
-      isDone: false,
-    },
-    {
-      id: '2',
-      date: new Date().toISOString(),
-      name: 'Почати приймати фолієву кислоту',
-      isDone: false,
-    },
-    {
-      id: '3',
-      date: new Date().toISOString(),
-      name: 'Відмовитись від шкідливих звичок',
-      isDone: false,
-    },
-    {
-      id: '4',
-      date: new Date().toISOString(),
-      name: 'Переглянути харчування',
-      isDone: false,
-    },
-    {
-      id: '5',
-      date: new Date().toISOString(),
-      name: 'Дотримуватись легкої фізичної активності',
-      isDone: false,
-    },
-    {
-      id: '6',
-      date: new Date().toISOString(),
-      name: 'Дбати про емоційний стан',
-      isDone: false,
-    },
-    {
-      id: '7',
-      date: new Date().toISOString(),
-      name: 'Подбати про безпеку в авто',
-      isDone: false,
-    },
-    {
-      id: '8',
-      date: new Date().toISOString(),
-      name: 'Повідомити близьких про вагітність',
-      isDone: false,
-    },
-  ];
-
-  const tasksToRender = isAuthenticated ? tasks : staticTasks;
 
   return (
     <section className={styles.tasksReminderCard}>
@@ -174,7 +108,7 @@ export default function TasksReminderCard() {
       </button>
       <h3 className={styles.tasksReminderTitle}>Важливі завдання</h3>
       <div className={styles.taskListWrapper}>
-        {tasksToRender.length === 0 && isAuthenticated ? (
+        {tasks.length === 0 && isAuthenticated ? (
           <div className={styles.noTasksMessageContainer}>
             <p className={styles.noTasksMessageTitle}>
               Наразі немає жодних завдань
@@ -193,27 +127,25 @@ export default function TasksReminderCard() {
           </div>
         ) : (
           <ul className={styles.tasksList}>
-            {tasksToRender.map(({ id, date, name, isDone }) => (
-              <li key={id}>
-                <p className={styles.taskDate}>
-                  {isAuthenticated ? formatDate(date) : getCurrentDate()}
-                </p>
-                <label className={styles.taskLabel}>
-                  <input
-                    type="checkbox"
-                    defaultChecked={isDone}
-                    onChange={(e) =>
-                      isAuthenticated &&
-                      typeof id === 'string' &&
-                      handleCheckboxChange(id, e.target.checked)
-                    }
-                    disabled={!isAuthenticated}
-                  />
-                  <span className={styles.customCheckbox}></span>
-                  <span className={styles.checkmark}>{name}</span>
-                </label>
-              </li>
-            ))}
+            {tasks.map(({ id, date, name, isDone }) => {
+              const taskIdForPatch = id as string;
+              return (
+                <li key={taskIdForPatch}>
+                  <p className={styles.taskDate}>{formatDate(date)}</p>
+                  <label className={styles.taskLabel}>
+                    <input
+                      type="checkbox"
+                      checked={isDone}
+                      onChange={(e) =>
+                        handleCheckboxChange(taskIdForPatch, e.target.checked)
+                      }
+                    />
+                    <span className={styles.customCheckbox}></span>
+                    <span className={styles.checkmark}>{name}</span>
+                  </label>
+                </li>
+              );
+            })}
           </ul>
         )}
       </div>
@@ -221,6 +153,7 @@ export default function TasksReminderCard() {
         <AddTaskModal
           onClose={closeAddTaskModal}
           onSubmit={async (task: Task) => {
+            console.log('Task received from form:', task);
             addTaskToList(task);
             closeAddTaskModal();
           }}
