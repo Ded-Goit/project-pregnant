@@ -12,17 +12,23 @@ import {
   delDiaries,
   Diary,
   getDiaries,
+  updateDiary,
 } from '@/lib/clientApi';
 import { useAuthStore } from '@/hooks/useAuthStore';
 import ConfirmationModal from '@/components/ConfirmationModal/ConfirmationModal';
+import { error } from 'console';
 
 export default function DiaryPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isConfirmOpen, setConfirmOpen] = useState(false);
+  const [isEdit, setIsEdit] = useState<boolean>(false);
   const [entries, setEntries] = useState<Diary[]>([]);
   const [selected, setSelected] = useState<Diary | undefined>(undefined);
   const { user } = useAuthStore();
-  const openModal = () => setIsModalOpen(true);
+  const openModal = (mode: boolean) => {
+    setIsEdit(mode);
+    setIsModalOpen(true);
+  };
   const closeModal = () => setIsModalOpen(false);
   const openConfirm = () => setConfirmOpen(true);
   const closeConfirm = () => setConfirmOpen(false);
@@ -36,13 +42,29 @@ export default function DiaryPage() {
       descr: String(fd.get('descr') ?? ''),
     };
 
-    try {
-      const apiRes = await createDiary(payload);
-      if (apiRes.data?.data) {
-        setEntries((prev) => [...prev, apiRes.data.data]);
-        closeModal();
+    if (!isEdit) {
+      try {
+        const apiRes = await createDiary(payload);
+        if (apiRes.data?.data) {
+          setEntries((prev) => [...prev, apiRes.data.data]);
+        }
+      } catch (error) {
+        console.error(error);
       }
-    } catch {}
+    }
+
+    if (isEdit) {
+      try {
+        const apiRes = await updateDiary(selected?._id, payload);
+        setSelected(apiRes.data);
+        setEntries((prev) =>
+          prev.map((e) => (e._id === selected?._id ? apiRes.data : e))
+        );
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    closeModal();
   };
 
   const handleSelectClick = (event: React.MouseEvent) => {
@@ -56,8 +78,11 @@ export default function DiaryPage() {
   const handleDeleteClick = async () => {
     if (!selected?._id) return;
     await delDiaries(selected?._id);
-    setEntries((prev) => prev.filter((e) => e._id !== selected?._id));
-    setSelected(entries[0]);
+    setEntries((prev) => {
+      const filtered = prev.filter((e) => e._id !== selected._id);
+      setSelected(filtered[0]);
+      return filtered;
+    });
     setConfirmOpen(false);
   };
 
@@ -110,7 +135,7 @@ export default function DiaryPage() {
           <section className={styles.detailsCard}>
             <DiaryEntryDetails
               entry={selected}
-              onEdit={() => {}}
+              onEdit={openModal}
               onDelete={openConfirm}
             />
           </section>
@@ -120,6 +145,7 @@ export default function DiaryPage() {
         <NewAddDiaryEntryModal
           onClose={closeModal}
           onSubmit={handleSubmit}
+          initialData={isEdit ? selected : undefined}
         ></NewAddDiaryEntryModal>
       )}
       {isConfirmOpen && (

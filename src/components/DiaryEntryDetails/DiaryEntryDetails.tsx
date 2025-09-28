@@ -6,7 +6,7 @@ import { Diary } from '@/lib/clientApi';
 
 type Props = {
   entry: Diary | undefined;
-  onEdit?: () => void;
+  onEdit: (mode: boolean) => void;
   onDelete?: () => void;
 };
 
@@ -41,7 +41,7 @@ export default function DiaryEntryDetails({ entry, onEdit, onDelete }: Props) {
             <button
               className="btn-icon"
               aria-label="Редагувати"
-              onClick={onEdit}
+              onClick={() => onEdit(true)}
               type="button"
             >
               🖉

@@ -39,6 +39,16 @@ export interface CreateDiaryResponse {
   };
 }
 
+export interface UpdateDiaryResponse {
+  data: {
+    _id: string;
+    title: string;
+    emotions: Emotion[];
+    descr: string;
+    createdAt: string;
+  };
+}
+
 export interface getDiaryResponse {
   data: {
     data: Diary[];
@@ -117,6 +127,17 @@ export const getDiaries = async () => {
 
 export const delDiaries = async (id: string | undefined) => {
   const { data } = await nextServer.delete<getDiaryResponse>(`/diaries/${id}`);
+  return data;
+};
+
+export const updateDiary = async (
+  id: string | undefined,
+  payload: CreateDiaryRequest
+) => {
+  const { data } = await nextServer.patch<UpdateDiaryResponse>(
+    `/diaries/${id}`,
+    payload
+  );
   return data;
 };
 
