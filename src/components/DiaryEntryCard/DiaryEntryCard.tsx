@@ -33,7 +33,8 @@ export default function DiaryEntryCard({ entry, onClick }: Props) {
       </div>
     </article>
   );
-};
+}
+
 // import styles from './DiaryEntryCard.module.css';
 //import dynamic from 'next/dynamic';
 
