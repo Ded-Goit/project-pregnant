@@ -53,7 +53,7 @@ export async function POST() {
         return NextResponse.json({ success: true });
       }
     } catch (error) {
-      console.log('11111111111111111111', error);
+      console.log(error);
     }
   }
 

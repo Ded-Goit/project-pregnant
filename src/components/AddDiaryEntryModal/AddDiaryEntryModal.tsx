@@ -4,14 +4,14 @@
 import styles from './AddDiaryEntryModal.module.css';
 import React, { useEffect } from 'react';
 import AddDiaryEntryForm from '../AddDiaryEntryForm/AddDiaryEntryForm';
-import type { DiaryEntry } from '../../types/note';
 import Image from 'next/image';
+import { Diary } from '@/lib/clientApi';
 
 interface AddDiaryEntryModalProps {
   isEdit?: boolean;
-  initialEntry?: DiaryEntry;
+  initialEntry?: Diary;
   onClose: () => void;
-  onSubmit?: (payload: DiaryEntry) => void;
+  onSubmit?: (payload: Diary) => void;
 }
 
 export default function AddDiaryEntryModal({
@@ -60,21 +60,6 @@ export default function AddDiaryEntryModal({
     </div>
   );
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // import styles from './AddDiaryEntryModal.module.css';
 //import dynamic from 'next/dynamic';

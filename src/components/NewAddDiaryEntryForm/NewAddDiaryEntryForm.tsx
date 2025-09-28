@@ -106,17 +106,35 @@ function normalizeEmotions(payload: ApiPayload): Option[] {
   return out;
 }
 
+<<<<<<< HEAD
 /* ---------- компонент ---------- */
 
 const FALLBACK: Option[] = ['Радість', 'Сум', 'Стрес', 'Спокій', 'Втома', 'Щастя'].map((x) => ({
+=======
+const FALLBACK: Option[] = [
+  'Радість',
+  'Сум',
+  'Стрес',
+  'Спокій',
+  'Втома',
+  'Щастя',
+].map((x) => ({
+>>>>>>> f7aa295568c4d31135945129f0e140d124a67535
   value: x,
   label: x,
 }));
 
+<<<<<<< HEAD
 export default function NewAddDiaryEntryForm({ onSubmit }: AddDiaryEntryFormProps) {
   // данные формы (контролируемые поля, чтобы валидировать по blur)
   const [title, setTitle] = useState<string>('');
   const [descr, setDescr] = useState<string>('');
+=======
+export default function NewAddDiaryEntryForm({
+  onSubmit,
+}: AddDiaryEntryFormProps) {
+  const [options, setOptions] = useState<Option[]>(FALLBACK);
+>>>>>>> f7aa295568c4d31135945129f0e140d124a67535
   const [selected, setSelected] = useState<string[]>([]);
 
   // данные для категорий
@@ -133,7 +151,15 @@ export default function NewAddDiaryEntryForm({ onSubmit }: AddDiaryEntryFormProp
   useEffect(() => {
     let aborted = false;
 
+<<<<<<< HEAD
     const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL?.replace(/\/+$/, '');
+=======
+    const DEBUG = false;
+    const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL?.replace(
+      /\/+$/,
+      ''
+    );
+>>>>>>> f7aa295568c4d31135945129f0e140d124a67535
     const sources: string[] = [
       '/api/emotions',
       ...(BACKEND_URL ? [`${BACKEND_URL}/api/emotions`] : []),
@@ -181,6 +207,11 @@ export default function NewAddDiaryEntryForm({ onSubmit }: AddDiaryEntryFormProp
         setOptions(FALLBACK);
         setLoading(false);
         setLoadError('Не вдалося завантажити категорії, показані стандартні.');
+<<<<<<< HEAD
+=======
+        DEBUG &&
+          console.debug('[Emotions] fallback used. Last error:', lastErr);
+>>>>>>> f7aa295568c4d31135945129f0e140d124a67535
       }
     })();
 
@@ -269,8 +300,15 @@ export default function NewAddDiaryEntryForm({ onSubmit }: AddDiaryEntryFormProp
       return arr;
     });
   };
+<<<<<<< HEAD
+=======
+  const removeChip = (value: string) =>
+    setSelected((prev) => prev.filter((v) => v !== value));
+>>>>>>> f7aa295568c4d31135945129f0e140d124a67535
 
-  const selectedLabels = options.filter((o) => selected.includes(o.value)).map((o) => o.label);
+  const selectedLabels = options
+    .filter((o) => selected.includes(o.value))
+    .map((o) => o.label);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -390,7 +428,11 @@ export default function NewAddDiaryEntryForm({ onSubmit }: AddDiaryEntryFormProp
                 const id = `emotion-${opt.value}`;
                 const checked = selected.includes(opt.value);
                 return (
-                  <label key={opt.value} htmlFor={id} className={styles.radioOption}>
+                  <label
+                    key={opt.value}
+                    htmlFor={id}
+                    className={styles.radioOption}
+                  >
                     <input
                       id={id}
                       type="checkbox"
@@ -411,7 +453,6 @@ export default function NewAddDiaryEntryForm({ onSubmit }: AddDiaryEntryFormProp
         {errors.emotions && <p className={styles.helperError}>{errors.emotions}</p>}
         {loadError && <p className={styles.helperError}>{loadError}</p>}
       </div>
-
       <div className={`${styles.fieldContainer} ${styles.ContainerTitle}`}>
         <label className={styles.fieldLabel} htmlFor="content">
           Запис
@@ -441,19 +482,6 @@ export default function NewAddDiaryEntryForm({ onSubmit }: AddDiaryEntryFormProp
     </form>
   );
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // 'use client';
 
@@ -493,8 +521,6 @@ export default function NewAddDiaryEntryForm({ onSubmit }: AddDiaryEntryFormProp
 //     {children}
 //   </div>
 // );
-
-
 
 // export default function NewAddDiaryEntryForm({
 //   onSubmit,
