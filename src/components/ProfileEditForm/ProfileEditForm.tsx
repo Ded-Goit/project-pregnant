@@ -67,7 +67,7 @@ export default function ProfileEditForm({
       <div className={styles.fields}>
         <div className={styles.inputGroup}>
           <label htmlFor="name" className={styles.label}>
-            Ім`я
+            Ім&apos;я
           </label>
           <input
             id="name"

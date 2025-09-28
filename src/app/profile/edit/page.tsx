@@ -21,8 +21,11 @@ export default function OnboardingPage() {
   const { user: authUser, setUser: setAuthUser } = useAuthStore();
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
+  // Додано відсутню змінну accessToken
+  const accessToken =
+    typeof window !== 'undefined' ? localStorage.getItem('accessToken') : null;
 
+  useEffect(() => {
     // Перевіряємо, чи користувач вже пройшов онбординг
     if (authUser?.onboardingCompleted) {
       router.push('/dashboard');
@@ -30,12 +33,11 @@ export default function OnboardingPage() {
     }
 
     if (!authUser || !accessToken) {
-
       router.push('/login');
       return;
     }
     setIsLoading(false);
-  }, [authUser, router]);
+  }, [authUser, router, accessToken]);
 
   const handleOnboardingSubmit = async (
     formData: OnboardingFormData
@@ -70,7 +72,6 @@ export default function OnboardingPage() {
     }
   };
 
-
   const handleAvatarUpload = async (file: File): Promise<string> => {
     try {
       // Імітація завантаження аватара
@@ -86,7 +87,6 @@ export default function OnboardingPage() {
   };
 
   if (!authUser || !accessToken || authUser.onboardingCompleted) {
-
     return null;
   }
 
