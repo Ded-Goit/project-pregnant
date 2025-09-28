@@ -2,56 +2,38 @@
 
 import React from 'react';
 import styles from './DiaryEntryCard.module.css';
+import { Diary } from '@/lib/clientApi';
 
-export type DiaryEntry = {
-  id: string;
-  title: string;
-  createdAt: string;   // ISO
-  tags: string[];
-  content?: string;
-};
+// export type DiaryEntry = {
+//   id: string;
+//   title: string;
+//   createdAt: string; // ISO
+//   tags: string[];
+//   content?: string;
+// };
 
 type Props = {
-  entry: DiaryEntry;
-  onClick?: (id: string) => void; // мобайл/планшет: переход на /diary/[entryId]
+  entry: Diary;
+  onClick?: (e: React.MouseEvent) => void | Promise<void>;
 };
 
 export default function DiaryEntryCard({ entry, onClick }: Props) {
   return (
-    <article className={styles.card} onClick={() => onClick?.(entry.id)}>
+    <article className={styles.card} id={entry._id} onClick={onClick}>
       <div className={styles.head}>
-        <h3 className={styles.title}>Дивне бажання</h3>
-        <span className={styles.date}>
-          {new Date(entry.createdAt).toLocaleDateString('uk-UA', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-          })}
-        </span>
+        <h3 className={styles.title}>{entry.title}</h3>
+        <span className={styles.date}>{entry.createdAt.slice(0, 10)}</span>
       </div>
       <div className={styles.tags}>
-        {entry.tags?.map((t, i) => (
-          <span key={i} className="chip">{t}</span>
+        {entry.emotions.map((t) => (
+          <span key={t._id} className="chip">
+            {t.title}
+          </span>
         ))}
       </div>
     </article>
   );
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // import styles from './DiaryEntryCard.module.css';
 //import dynamic from 'next/dynamic';

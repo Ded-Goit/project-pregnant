@@ -87,13 +87,13 @@ export default function SideBar({
         {/* User info and logout/login */}
         <div className={styles.navBottom}>
           <div className={styles.userInfo}>
-            <Image
+            {/* <Image
               src=""
               alt="avatar"
               width={40}
               height={40}
               className={styles.navAvatar}
-            ></Image>
+            ></Image> */}
             <div>
               <p>Name</p>
               <p>Email</p>

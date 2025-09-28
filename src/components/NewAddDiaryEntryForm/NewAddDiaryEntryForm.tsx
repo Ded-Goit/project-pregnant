@@ -22,7 +22,6 @@ export const validationSchema = Yup.object().shape({
     .required('Обов’язкове поле'),
 });
 
-
 type EmotionRecord = {
   id?: string | number;
   _id?: string | number;
@@ -39,7 +38,13 @@ type RawEmotion = string | EmotionRecord;
 
 type ApiPayload =
   | RawEmotion[]
-  | { emotions?: RawEmotion[]; data?: unknown; items?: unknown; results?: unknown; categories?: RawEmotion[] }
+  | {
+      emotions?: RawEmotion[];
+      data?: unknown;
+      items?: unknown;
+      results?: unknown;
+      categories?: RawEmotion[];
+    }
   | Record<string, unknown>
   | unknown;
 
@@ -105,13 +110,21 @@ function normalizeEmotions(payload: ApiPayload): Option[] {
   return out;
 }
 
-
-const FALLBACK: Option[] = ['Радість', 'Сум', 'Стрес', 'Спокій', 'Втома', 'Щастя'].map((x) => ({
+const FALLBACK: Option[] = [
+  'Радість',
+  'Сум',
+  'Стрес',
+  'Спокій',
+  'Втома',
+  'Щастя',
+].map((x) => ({
   value: x,
   label: x,
 }));
 
-export default function NewAddDiaryEntryForm({ onSubmit }: AddDiaryEntryFormProps) {
+export default function NewAddDiaryEntryForm({
+  onSubmit,
+}: AddDiaryEntryFormProps) {
   const [options, setOptions] = useState<Option[]>(FALLBACK);
   const [selected, setSelected] = useState<string[]>([]);
   const [open, setOpen] = useState<boolean>(false);
@@ -122,8 +135,11 @@ export default function NewAddDiaryEntryForm({ onSubmit }: AddDiaryEntryFormProp
   useEffect(() => {
     let aborted = false;
 
-    const DEBUG = false; 
-    const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL?.replace(/\/+$/, '');
+    const DEBUG = false;
+    const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL?.replace(
+      /\/+$/,
+      ''
+    );
     const sources: string[] = [
       '/api/emotions', // локальный Next API
       ...(BACKEND_URL ? [`${BACKEND_URL}/api/emotions`] : []),
@@ -133,8 +149,12 @@ export default function NewAddDiaryEntryForm({ onSubmit }: AddDiaryEntryFormProp
     const fetchWithTimeout = (url: string, ms = 8000) => {
       const ctrl = new AbortController();
       const id = setTimeout(() => ctrl.abort('timeout'), ms);
-      return fetch(url, { signal: ctrl.signal, cache: 'no-store', credentials: 'include', mode: 'cors' })
-        .finally(() => clearTimeout(id));
+      return fetch(url, {
+        signal: ctrl.signal,
+        cache: 'no-store',
+        credentials: 'include',
+        mode: 'cors',
+      }).finally(() => clearTimeout(id));
     };
 
     (async () => {
@@ -176,7 +196,8 @@ export default function NewAddDiaryEntryForm({ onSubmit }: AddDiaryEntryFormProp
         setOptions(FALLBACK);
         setLoading(false);
         setLoadError('Не вдалося завантажити категорії, показані стандартні.');
-        DEBUG && console.debug('[Emotions] fallback used. Last error:', lastErr);
+        DEBUG &&
+          console.debug('[Emotions] fallback used. Last error:', lastErr);
       }
     })();
 
@@ -208,9 +229,12 @@ export default function NewAddDiaryEntryForm({ onSubmit }: AddDiaryEntryFormProp
       return Array.from(next);
     });
   };
-  const removeChip = (value: string) => setSelected((prev) => prev.filter((v) => v !== value));
+  const removeChip = (value: string) =>
+    setSelected((prev) => prev.filter((v) => v !== value));
 
-  const selectedLabels = options.filter((o) => selected.includes(o.value)).map((o) => o.label);
+  const selectedLabels = options
+    .filter((o) => selected.includes(o.value))
+    .map((o) => o.label);
 
   return (
     <form className={styles.diaryForm} onSubmit={onSubmit}>
@@ -267,7 +291,7 @@ export default function NewAddDiaryEntryForm({ onSubmit }: AddDiaryEntryFormProp
                           className={styles.chipRemove}
                           aria-label={`Прибрати ${label}`}
                           onClick={(ev) => {
-                            ev.stopPropagation(); 
+                            ev.stopPropagation();
                             removeChip(val);
                           }}
                         >
@@ -308,12 +332,16 @@ export default function NewAddDiaryEntryForm({ onSubmit }: AddDiaryEntryFormProp
                 const id = `emotion-${opt.value}`;
                 const checked = selected.includes(opt.value);
                 return (
-                  <label key={opt.value} htmlFor={id} className={styles.radioOption}>
+                  <label
+                    key={opt.value}
+                    htmlFor={id}
+                    className={styles.radioOption}
+                  >
                     <input
                       id={id}
                       type="checkbox"
                       className={styles.radioControl}
-                      name="emotions"          
+                      name="emotions"
                       value={opt.value}
                       checked={checked}
                       onChange={() => toggleEmotion(opt.value)}
@@ -329,7 +357,7 @@ export default function NewAddDiaryEntryForm({ onSubmit }: AddDiaryEntryFormProp
         {loadError && <p className={styles.helperError}>{loadError}</p>}
       </div>
 
-      <div className={styles.ContainerTitle} >
+      <div className={styles.ContainerTitle}>
         <label className={styles.fieldLabel} htmlFor="content">
           Запис
         </label>
@@ -348,19 +376,6 @@ export default function NewAddDiaryEntryForm({ onSubmit }: AddDiaryEntryFormProp
     </form>
   );
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // 'use client';
 
@@ -400,8 +415,6 @@ export default function NewAddDiaryEntryForm({ onSubmit }: AddDiaryEntryFormProp
 //     {children}
 //   </div>
 // );
-
-
 
 // export default function NewAddDiaryEntryForm({
 //   onSubmit,
