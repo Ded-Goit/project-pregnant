@@ -4,8 +4,7 @@ import Link from 'next/link';
 import styles from './SideBar.module.css';
 import Image from 'next/image';
 import { useAuthStore } from '@/hooks/useAuthStore';
-// import { useRouter } from 'next/navigation';
-// import { logout } from '@/lib/clientApi';
+// import { useEffect } from 'react';
 
 interface SidebarProps {
   isOpen: boolean;
@@ -14,18 +13,17 @@ interface SidebarProps {
 }
 
 export default function SideBar({ isOpen, onClose, onLogout }: SidebarProps) {
-  // const router = useRouter();
   const { user, isAuthenticated } = useAuthStore();
 
-  // const clearIsAuthenticated = useAuthStore(
-  //   (state) => state.clearIsAuthenticated
-  // );
+  // useEffect(() => {
+  //   if (isOpen) {
+  //     document.body.classList.add('no-scroll');
+  //   } else {
+  //     document.body.classList.remove('no-scroll');
+  //   }
 
-  // const handleLogout = async () => {
-  //   await logout();
-  //   clearIsAuthenticated();
-  //   router.push('/login');
-  // };
+  //   return () => document.body.classList.remove('no-scroll');
+  // }, [isOpen]);
 
   return (
     <>
@@ -35,7 +33,7 @@ export default function SideBar({ isOpen, onClose, onLogout }: SidebarProps) {
         <div>
           {/* Logo */}
           <div className={styles.sideBarHeader}>
-            <Link href="/">
+            <Link href="/" onClick={onClose}>
               <Image
                 src="/icons/company_logo.svg"
                 alt="company logo"
@@ -57,7 +55,7 @@ export default function SideBar({ isOpen, onClose, onLogout }: SidebarProps) {
             {isAuthenticated ? (
               <>
                 <li className={styles.navItem}>
-                  <Link href="/" className={styles.navLink}>
+                  <Link href="/" className={styles.navLink} onClick={onClose}>
                     <Image
                       src="/icons/today.svg"
                       alt="calendar icon"
@@ -68,7 +66,11 @@ export default function SideBar({ isOpen, onClose, onLogout }: SidebarProps) {
                   </Link>
                 </li>
                 <li className={styles.navItem}>
-                  <Link href="/journey  " className={styles.navLink}>
+                  <Link
+                    href="/journey"
+                    className={styles.navLink}
+                    onClick={onClose}
+                  >
                     <Image
                       src="/icons/conversion_path.svg"
                       alt="journey icon"
@@ -79,7 +81,11 @@ export default function SideBar({ isOpen, onClose, onLogout }: SidebarProps) {
                   </Link>
                 </li>
                 <li className={styles.navItem}>
-                  <Link href="/diary" className={styles.navLink}>
+                  <Link
+                    href="/diary"
+                    className={styles.navLink}
+                    onClick={onClose}
+                  >
                     <Image
                       src="/icons/book_2.svg"
                       alt="diary icon"
@@ -90,7 +96,11 @@ export default function SideBar({ isOpen, onClose, onLogout }: SidebarProps) {
                   </Link>
                 </li>
                 <li className={styles.navItem}>
-                  <Link href="/profile" className={styles.navLink}>
+                  <Link
+                    href="/profile"
+                    className={styles.navLink}
+                    onClick={onClose}
+                  >
                     <Image
                       src="/icons/account_circle.svg"
                       alt="account circle"
@@ -157,7 +167,7 @@ export default function SideBar({ isOpen, onClose, onLogout }: SidebarProps) {
             <>
               <div className={styles.userInfo}>
                 <Image
-                  src={user?.photo ?? '/account_circle.svg'}
+                  src={user?.photo ?? '/icons/account_circle.svg'}
                   alt="avatar"
                   width={40}
                   height={40}
