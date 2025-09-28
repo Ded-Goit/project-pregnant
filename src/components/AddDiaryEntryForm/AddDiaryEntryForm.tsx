@@ -5,13 +5,13 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import Button from '../UI/Buttons/Buttons';
-import type { DiaryEntry } from '../../types/note';
 import { getErrorMessage } from '../../lib/errorUtils';
 import axios from 'axios';
+import { Diary, Emotion } from '@/lib/clientApi';
 
 interface AddDiaryEntryFormProps {
-  initialEntry?: DiaryEntry;
-  onSubmit: (entry: DiaryEntry) => void;
+  initialEntry?: Diary;
+  onSubmit: (entry: Diary) => void;
 }
 
 const categoriesOptions = [
@@ -38,8 +38,8 @@ const validationSchema = Yup.object().shape({
 
 export async function saveDiaryEntry(
   id: string | undefined,
-  data: Omit<DiaryEntry, 'id' | 'createdAt'>
-): Promise<DiaryEntry> {
+  data: Omit<Diary, 'id' | 'createdAt'>
+): Promise<Diary> {
   if (id) {
     const response = await axios.put(`/api/diary/${id}`, data);
     return response.data;
@@ -81,14 +81,14 @@ export default function AddDiaryEntryForm({
       <Formik
         initialValues={{
           title: initialEntry?.title || '',
-          categories: initialEntry?.categories || [],
-          content: initialEntry?.content || '',
+          emotions: initialEntry?.emotions || [],
+          descr: initialEntry?.descr || '',
         }}
         validationSchema={validationSchema}
         enableReinitialize
         onSubmit={async (values, { setSubmitting, setStatus }) => {
           try {
-            const savedEntry = await saveDiaryEntry(initialEntry?.id, values);
+            const savedEntry = await saveDiaryEntry(initialEntry?._id, values);
             setSubmitting(false);
             onSubmit(savedEntry);
           } catch (error) {
@@ -99,13 +99,14 @@ export default function AddDiaryEntryForm({
       >
         {({ values, isSubmitting, setFieldValue, status }) => {
           const toggleCategory = (category: string) => {
-            if (values.categories.includes(category)) {
+            const titles = values.emotions.map((e: Emotion) => e.title);
+            if (titles.includes(category)) {
               setFieldValue(
                 'categories',
-                values.categories.filter((c) => c !== category)
+                values.emotions.filter((c) => c.title !== category)
               );
             } else {
-              setFieldValue('categories', [...values.categories, category]);
+              setFieldValue('categories', [...values.emotions, category]);
             }
           };
 
@@ -152,8 +153,8 @@ export default function AddDiaryEntryForm({
                   aria-haspopup="listbox"
                   aria-expanded={dropdownOpen}
                 >
-                  {values.categories.length > 0
-                    ? values.categories.join(', ')
+                  {values.emotions.length > 0
+                    ? values.emotions.join(', ')
                     : 'Оберіть категорії…'}
                 </div>
 
@@ -167,7 +168,10 @@ export default function AddDiaryEntryForm({
                       <label className={styles.taskLabel} key={category}>
                         <input
                           type="checkbox"
-                          checked={values.categories.includes(category)}
+                          checked={
+                            false ||
+                            values.emotions.some((v) => v.title === category)
+                          }
                           onChange={() => toggleCategory(category)}
                         />
                         <span className={styles.customCheckbox}></span>

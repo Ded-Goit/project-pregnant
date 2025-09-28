@@ -16,11 +16,9 @@ export interface DashboardResponse {
 }
 
 export interface DiaryEntry {
-  id?: string;
   title: string;
-  categories: string[];
+  emotions: string[];
   content: string;
-  createdAt?: string;
 }
 
 export interface Task {

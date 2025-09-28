@@ -3,14 +3,30 @@
 import Link from 'next/link';
 import styles from './SideBar.module.css';
 import Image from 'next/image';
+import { useAuthStore } from '@/hooks/useAuthStore';
+// import { useRouter } from 'next/navigation';
+// import { logout } from '@/lib/clientApi';
 
-export default function SideBar({
-  isOpen,
-  onClose,
-}: {
+interface SidebarProps {
   isOpen: boolean;
   onClose: () => void;
-}) {
+  onLogout: () => void;
+}
+
+export default function SideBar({ isOpen, onClose, onLogout }: SidebarProps) {
+  // const router = useRouter();
+  const { user, isAuthenticated } = useAuthStore();
+
+  // const clearIsAuthenticated = useAuthStore(
+  //   (state) => state.clearIsAuthenticated
+  // );
+
+  // const handleLogout = async () => {
+  //   await logout();
+  //   clearIsAuthenticated();
+  //   router.push('/login');
+  // };
+
   return (
     <>
       {isOpen && <div className={styles.backdrop} onClick={onClose} />}
@@ -38,75 +54,140 @@ export default function SideBar({
           </div>
           {/* Navidatoin */}
           <ul className={styles.navList}>
-            <li className={styles.navItem}>
-              <Link href="/" className={styles.navLink}>
-                <Image
-                  src="/icons/today.svg"
-                  alt="calendar icon"
-                  width={24}
-                  height={24}
-                />
-                Мій день
-              </Link>
-            </li>
-            <li className={styles.navItem}>
-              <Link href="/journey" className={styles.navLink}>
-                <Image
-                  src="/icons/conversion_path.svg"
-                  alt="journey icon"
-                  width={24}
-                  height={24}
-                />
-                Подорож
-              </Link>
-            </li>
-            <li className={styles.navItem}>
-              <Link href="/diary" className={styles.navLink}>
-                <Image
-                  src="/icons/book_2.svg"
-                  alt="diary icon"
-                  width={24}
-                  height={24}
-                />
-                Щоденник
-              </Link>
-            </li>
-            <li className={styles.navItem}>
-              <Link href="/profile" className={styles.navLink}>
-                <Image
-                  src="/icons/account_circle.svg"
-                  alt="account circle"
-                  width={24}
-                  height={24}
-                />
-                Профіль
-              </Link>
-            </li>
+            {isAuthenticated ? (
+              <>
+                <li className={styles.navItem}>
+                  <Link href="/" className={styles.navLink}>
+                    <Image
+                      src="/icons/today.svg"
+                      alt="calendar icon"
+                      width={24}
+                      height={24}
+                    />
+                    Мій день
+                  </Link>
+                </li>
+                <li className={styles.navItem}>
+                  <Link href="/journey  " className={styles.navLink}>
+                    <Image
+                      src="/icons/conversion_path.svg"
+                      alt="journey icon"
+                      width={24}
+                      height={24}
+                    />
+                    Подорож
+                  </Link>
+                </li>
+                <li className={styles.navItem}>
+                  <Link href="/diary" className={styles.navLink}>
+                    <Image
+                      src="/icons/book_2.svg"
+                      alt="diary icon"
+                      width={24}
+                      height={24}
+                    />
+                    Щоденник
+                  </Link>
+                </li>
+                <li className={styles.navItem}>
+                  <Link href="/profile" className={styles.navLink}>
+                    <Image
+                      src="/icons/account_circle.svg"
+                      alt="account circle"
+                      width={24}
+                      height={24}
+                    />
+                    Профіль
+                  </Link>
+                </li>
+              </>
+            ) : (
+              <>
+                <li className={styles.navItem}>
+                  <Link href="/auth/register" className={styles.navLink}>
+                    <Image
+                      src="/icons/today.svg"
+                      alt="calendar icon"
+                      width={24}
+                      height={24}
+                    />
+                    Мій день
+                  </Link>
+                </li>
+                <li className={styles.navItem}>
+                  <Link href="/auth/register" className={styles.navLink}>
+                    <Image
+                      src="/icons/conversion_path.svg"
+                      alt="journey icon"
+                      width={24}
+                      height={24}
+                    />
+                    Подорож
+                  </Link>
+                </li>
+                <li className={styles.navItem}>
+                  <Link href="/auth/register" className={styles.navLink}>
+                    <Image
+                      src="/icons/book_2.svg"
+                      alt="diary icon"
+                      width={24}
+                      height={24}
+                    />
+                    Щоденник
+                  </Link>
+                </li>
+                <li className={styles.navItem}>
+                  <Link href="/auth/register" className={styles.navLink}>
+                    <Image
+                      src="/icons/account_circle.svg"
+                      alt="account circle"
+                      width={24}
+                      height={24}
+                    />
+                    Профіль
+                  </Link>
+                </li>
+              </>
+            )}
           </ul>
         </div>
         {/* User info and logout/login */}
         <div className={styles.navBottom}>
-          <div className={styles.userInfo}>
-            <Image
-              src=""
-              alt="avatar"
-              width={40}
-              height={40}
-              className={styles.navAvatar}
-            ></Image>
-            <div>
-              <p>Name</p>
-              <p>Email</p>
-            </div>
-          </div>
-          <button>
-            <Image
-              src="/icons/logout.svg"
-              alt="logout icon"
-              width={24}
-              height={24}
-            ></Image>
-          </button>
+          {isAuthenticated ? (
+            <>
+              <div className={styles.userInfo}>
+                <Image
+                  src={user?.photo ?? '/account_circle.svg'}
+                  alt="avatar"
+                  width={40}
+                  height={40}
+                  className={styles.navAvatar}
+                ></Image>
+                <div>
+                  <p>{user?.name}</p>
+                  <p>{user?.email}</p>
+                </div>
+              </div>
+              {/* LOGOUT BTN */}
+              <button onClick={onLogout}>
+                <Image
+                  src="/icons/logout.svg"
+                  alt="logout icon"
+                  width={24}
+                  height={24}
+                ></Image>
+              </button>
+            </>
+          ) : (
+            <>
+              <Link href="/auth/login" className={styles.bottomLink}>
+                Увійти
+              </Link>
+              <Link href="/auth/register" className={styles.bottomLink}>
+                Зареєструватися
+              </Link>
+            </>
+          )}
         </div>
       </aside>
     </>
