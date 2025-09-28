@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
 import ProfileAvatar from '@/components/ProfileAvatar/ProfileAvatar';
 import ProfileEditForm, {
   ProfileFormData,
@@ -16,7 +15,6 @@ const ChevronRightIcon = () => (
 );
 
 export default function ProfilePage() {
-  const router = useRouter();
   const { user: authUser } = useAuthStore();
   const [isLoading, setIsLoading] = useState(true);
 
@@ -42,7 +40,7 @@ export default function ProfilePage() {
   ): Promise<void> => {
     try {
       await new Promise((resolve) => setTimeout(resolve, 1000));
-      alert('Профіль успішно оновлено!');
+      console.log('Профіль оновлено:', formData);
     } catch (error) {
       console.error('Помилка оновлення профілю:', error);
       throw error;
@@ -72,7 +70,7 @@ export default function ProfilePage() {
     name: displayUser.name,
     email: displayUser.email,
     childGender: displayUser.gender,
-    dueDate: displayUser.dueDate,
+    dueDate: displayUser.dueDate || '',
   };
 
   return (
