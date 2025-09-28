@@ -140,12 +140,11 @@ export default function DiaryPage() {
 
   return (
     <div className={styles.layout} data-theme="pink">
-      <div className={styles.topbar}>
-      </div>
-
       {/* Main */}
       <main className={styles.main}>
-        <GreetingBlock userName={user?.name} />
+        <header className={styles.pageHeader}>
+          <GreetingBlock userName={user?.name} />
+        </header>
 
         <div className={styles.contentRow}>
           {/* LIST — всегда виден (desktop & mobile/tablet) */}
