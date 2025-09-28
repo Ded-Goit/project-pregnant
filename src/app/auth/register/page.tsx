@@ -10,6 +10,7 @@ import { useId } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import Button from '@/components/UI/Buttons/Buttons';
+import GoogleLoginButton from '@/components/GoogleLoginButton/GoogleLoginButton';
 
 const RegisterSchema = Yup.object().shape({
   name: Yup.string().max(32, 'Максимум 32 символи').required('Обов’язково'),
@@ -107,11 +108,15 @@ export default function RegistrationForm() {
                 </label>
 
                 <Button type="submit" disabled={isSubmitting}>
-                  Зареєструватися
+                  {isSubmitting
+                    ? 'Будь ласка зачекайте ...'
+                    : 'Зареєструватися'}
                 </Button>
               </Form>
             )}
           </Formik>
+
+          <GoogleLoginButton />
 
           <p className={styles.text}>
             Вже маєте аккаунт?

@@ -3,8 +3,8 @@ import { parse } from 'cookie';
 import { cookies } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
 
-const privateRoutes = ['/profile'];
-const publicRoutes = ['/auth/register', '/auth/login'];
+const privateRoutes = ['/profile', '/journey', '/diary', '/profile'];
+const publicRoutes = ['/auth/register', '/auth/login', '/'];
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
@@ -13,7 +13,9 @@ export async function middleware(request: NextRequest) {
   const accessToken = cookiesData.get('cookiesData')?.value;
   const refreshToken = cookiesData.get('refreshToken')?.value;
 
-  const isPrivateRoutes = privateRoutes.some((path) => path.includes(pathname));
+  const isPrivateRoutes = privateRoutes.some((path) =>
+    path.startsWith(pathname)
+  );
 
   if (isPrivateRoutes) {
     if (!accessToken) {
@@ -132,5 +134,11 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/profile'],
+  matcher: [
+    '/profile',
+    '/journey/:path*',
+    '/diary',
+    '/profile',
+    '/auth/:path*',
+  ],
 };

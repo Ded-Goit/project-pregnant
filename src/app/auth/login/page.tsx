@@ -81,7 +81,7 @@ export default function LoginForm() {
                 />
 
                 <Button type="submit" disabled={isSubmitting}>
-                  Увійти
+                  {isSubmitting ? 'Будь ласка зачекайте ...' : 'Увійти'}
                 </Button>
               </Form>
             )}
