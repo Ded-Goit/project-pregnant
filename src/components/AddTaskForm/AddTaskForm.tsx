@@ -6,7 +6,9 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import Button from '../UI/Buttons/Buttons';
 import type { Task } from '../../types/note';
-import axios from 'axios';
+// import axios from 'axios';
+// import next from 'next';
+import { nextServer } from '@/lib/api';
 
 interface AddTaskFormProps {
   initialText?: Task;
@@ -18,21 +20,25 @@ const validationSchema = Yup.object().shape({
     .min(3, 'Завдання має бути не менше 3 символів')
     .max(255, 'Завдання занадто довге')
     .required("Обов'язкове поле"),
-  date: Yup.string()
-    .matches(/^\d{4}-\d{2}-\d{2}$/, 'Формат дати: РРРР-ММ-ДД')
+  date: Yup.date()
+    .min(
+      new Date(new Date().setHours(0, 0, 0, 0)),
+      'Дата не може бути у минулому'
+    )
     .required("Обов'язкове поле"),
 });
 
 export async function saveTask(
-  id: string | undefined,
+  taskId: string | undefined,
   data: Omit<Task, 'id'>
 ): Promise<Task> {
-  if (id) {
-    const response = await axios.put(`/api/tasks/${id}`, data);
-    return response.data;
+  let response;
+  if (taskId) {
+    response = await nextServer.patch(`/tasks/${taskId}/status`, data);
+    return response.data.data.data;
   } else {
-    const response = await axios.post('/api/tasks', data);
-    return response.data;
+    response = await nextServer.post('/tasks', data);
+    return response.data.data.data;
   }
 }
 
@@ -45,7 +51,9 @@ export default function AddTaskForm({
       <Formik
         initialValues={{
           text: initialText?.name || '',
-          date: initialText?.date || new Date().toISOString().slice(0, 10),
+          date: initialText?.date
+            ? initialText.date.slice(0, 10)
+            : new Date().toISOString().slice(0, 10),
         }}
         validationSchema={validationSchema}
         onSubmit={async (values, { setSubmitting, setStatus }) => {

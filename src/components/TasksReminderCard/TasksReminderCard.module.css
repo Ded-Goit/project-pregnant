@@ -60,7 +60,7 @@
 .taskListWrapper {
   height: auto;
 
-  @media (min-width: 1440px) {
+  @media (min-width: 768px) {
     height: 90%;
     overflow-y: auto;
   }

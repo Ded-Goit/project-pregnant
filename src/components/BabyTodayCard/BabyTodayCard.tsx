@@ -77,7 +77,7 @@ export default function BabyTodayCard({
         {image ? (
           <Image
             className={styles.babyTodayImage}
-            src="/frame_14.png" /*{image}*/
+            src={image} /*{image}*/
             alt="Ілюстрація розміру дитини"
             width={287}
             height={216}

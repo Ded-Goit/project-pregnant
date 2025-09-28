@@ -5,7 +5,7 @@
   line-height: 140%;
   letter-spacing: 0.01em;
   color: var(--color-scheme-text);
-  text-align: center;
+  /* text-align: center; */
 }
 @media (min-width: 768px) {
   .greetingBlock {
@@ -21,4 +21,10 @@
   }
 }
 
-.root { font-family: var(--second-family); font-size: 26px; font-weight: var(--fw-bold); color: var(--color-neutral-darkest); margin: 0; }
+.root {
+  font-family: var(--second-family);
+  font-size: 26px;
+  font-weight: var(--fw-bold);
+  color: var(--color-neutral-darkest);
+  margin: 0;
+}
