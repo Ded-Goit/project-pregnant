@@ -140,6 +140,9 @@ export default function DiaryPage() {
 
   return (
     <div className={styles.layout} data-theme="pink">
+      <div className={styles.topbar}>
+      </div>
+
       {/* Main */}
       <main className={styles.main}>
         <GreetingBlock userName={user?.name} />
