@@ -4,15 +4,18 @@ import styles from './NewAddDiaryEntryModal.module.css';
 import React, { useEffect } from 'react';
 import NewAddDiaryEntryForm from '../NewAddDiaryEntryForm/NewAddDiaryEntryForm';
 import Image from 'next/image';
+import { Diary } from '@/lib/clientApi';
 
 interface AddDiaryEntryModalProps {
   onClose: () => void;
   onSubmit?: (e: React.FormEvent<HTMLFormElement>) => void | Promise<void>;
+  initialData?: Diary;
 }
 
 export default function NewAddDiaryEntryModal({
   onClose,
   onSubmit,
+  initialData,
 }: AddDiaryEntryModalProps) {
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
@@ -41,7 +44,7 @@ export default function NewAddDiaryEntryModal({
           <Image src="/close.png" alt="Закрити" width={24} height={24} />
         </button>
         <h2 className={styles.modalTitle}>Новий запис</h2>
-        <NewAddDiaryEntryForm onSubmit={onSubmit} />
+        <NewAddDiaryEntryForm onSubmit={onSubmit} initialData={initialData} />
       </div>
     </div>
   );

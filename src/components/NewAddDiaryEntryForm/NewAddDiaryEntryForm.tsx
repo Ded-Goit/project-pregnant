@@ -4,9 +4,11 @@ import React, { useEffect, useRef, useState } from 'react';
 import * as Yup from 'yup';
 import styles from './NewAddDiaryEntryForm.module.css';
 import Button from '../UI/Buttons/Buttons';
+import { Diary } from '@/lib/clientApi';
 
 interface AddDiaryEntryFormProps {
   onSubmit?: (e: React.FormEvent<HTMLFormElement>) => void | Promise<void>;
+  initialData?: Diary;
 }
 
 export const validationSchema = Yup.object().shape({
@@ -124,9 +126,12 @@ const FALLBACK: Option[] = [
 
 export default function NewAddDiaryEntryForm({
   onSubmit,
+  initialData,
 }: AddDiaryEntryFormProps) {
-  const [options, setOptions] = useState<Option[]>(FALLBACK);
-  const [selected, setSelected] = useState<string[]>([]);
+  const [options, setOptions] = useState<Option[]>([]);
+  const [selected, setSelected] = useState<string[]>(
+    initialData?.emotions ? initialData.emotions.map((e) => e._id) : []
+  );
   const [open, setOpen] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
   const [loadError, setLoadError] = useState<string | null>(null);
@@ -248,6 +253,7 @@ export default function NewAddDiaryEntryForm({
           id="title"
           name="title"
           placeholder="Введіть заголовок запису"
+          defaultValue={initialData?.title}
         />
       </div>
 
@@ -367,6 +373,7 @@ export default function NewAddDiaryEntryForm({
           name="descr"
           rows={6}
           placeholder="Запишіть, як ви себе відчуваєте"
+          defaultValue={initialData?.descr}
         />
       </div>
 
