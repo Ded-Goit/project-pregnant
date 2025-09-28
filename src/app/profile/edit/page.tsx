@@ -20,8 +20,6 @@ export default function OnboardingPage() {
   const router = useRouter();
   const { user: authUser, setUser: setAuthUser } = useAuthStore();
   const [isLoading, setIsLoading] = useState(true);
-
-  // Додано відсутню змінну accessToken
   const accessToken =
     typeof window !== 'undefined' ? localStorage.getItem('accessToken') : null;
 
