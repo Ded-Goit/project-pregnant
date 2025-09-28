@@ -7,18 +7,67 @@
   color: var(--color-scheme-text);
   text-align: center;
 }
-@media (min-width: 768px) {
+
+.root {
+display: flex;
+align-items: flex-start;
+justify-content: center;
+flex-direction: column;
+gap: 8px;
+
+width: 590px;
+height: 34px;
+
+font-family: var(--second-family);
+font-weight: 700;
+font-size: 24px;
+line-height: 1.4;
+letter-spacing: 0.01em;
+color: var(--color-scheme-text);
+
+margin-left: 20px;
+}
+
+/* ============================ Tablet ============================*/
+
+@media screen and (min-width: 768px) {
   .greetingBlock {
     text-align: left;
     padding-left: 16px;
   }
+
+  .root {
+    align-items: flex-end;
+    justify-content: flex-start;
+    flex-direction: row;
+    gap: 256px;
+
+    width: 704px;
+  }
+
+
 }
-@media (min-width: 1440px) {
+
+/* ============================ Desktop ============================*/
+
+@media screen and (min-width: 1440px) {
+  .root{
+    align-items: flex-start;
+    justify-content: center;
+    flex-direction: column;
+    gap: 8px;
+
+    width: 590px;
+    height: 45px;
+    
+    font-size: 32px;
+
+    margin: 0;
+  }
+
   .greetingBlock {
     font-size: 32px;
     padding-left: 32px;
     margin-bottom: 16px;
   }
 }
-
-.root { font-family: var(--second-family); font-size: 26px; font-weight: var(--fw-bold); color: var(--color-neutral-darkest); margin: 0; }
