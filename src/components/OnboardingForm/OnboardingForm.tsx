@@ -134,7 +134,7 @@ export default function OnboardingForm({
           {/* Ім'я */}
           <div className={styles.inputGroup}>
             <label htmlFor="name" className={styles.label}>
-              Ваше ім`я
+              Ваше ім&apos;я
             </label>
             <input
               id="name"

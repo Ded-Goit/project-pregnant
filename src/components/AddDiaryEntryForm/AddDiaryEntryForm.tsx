@@ -1,25 +1,17 @@
 'use client';
 
 import styles from './AddDiaryEntryForm.module.css';
-
 import React, { useState, useRef, useEffect } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import axios from 'axios';
 import Button from '../UI/Buttons/Buttons';
-
-// Тип даних запису
-export interface DiaryEntry {
-  id?: string;
-  title: string;
-  categories: string[];
-  content: string;
-  createdAt?: string;
-}
+import { getErrorMessage } from '../../lib/errorUtils';
+import axios from 'axios';
+import { Diary, Emotion } from '@/lib/clientApi';
 
 interface AddDiaryEntryFormProps {
-  initialEntry?: DiaryEntry;
-  onSubmit: (entry: DiaryEntry) => void;
+  initialEntry?: Diary;
+  onSubmit: (entry: Diary) => void;
 }
 
 const categoriesOptions = [
@@ -36,11 +28,33 @@ const validationSchema = Yup.object().shape({
     .min(3, 'Заголовок має бути не менше 3 символів')
     .max(255, 'Заголовок занадто довгий')
     .required('Обов’язкове поле'),
-  categories: Yup.array().min(1, 'Оберіть щонайменше одну категорію'),
+  categories: Yup.array()
+    .of(Yup.string())
+    .min(1, 'Оберіть щонайменше одну категорію'),
   content: Yup.string()
     .min(5, 'Запис має бути не менше 5 символів')
     .required('Обов’язкове поле'),
 });
+
+export async function saveDiaryEntry(
+  id: string | undefined,
+  data: Omit<Diary, 'id' | 'createdAt'>
+): Promise<Diary> {
+  if (id) {
+    const response = await axios.put(`/api/diary/${id}`, data);
+    return response.data;
+  } else {
+    const response = await axios.post('/api/diary', data);
+    return response.data;
+  }
+}
+
+// Компонент для помилок
+const ErrorText = ({ children }: { children: React.ReactNode }) => (
+  <div style={{ color: 'red', fontSize: '0.9rem', marginTop: '4px' }}>
+    {children}
+  </div>
+);
 
 export default function AddDiaryEntryForm({
   initialEntry,
@@ -49,7 +63,6 @@ export default function AddDiaryEntryForm({
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  // Обробник кліку поза компонентом
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (
@@ -59,50 +72,41 @@ export default function AddDiaryEntryForm({
         setDropdownOpen(false);
       }
     }
-
     document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [dropdownRef]);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   return (
     <div>
       <Formik
         initialValues={{
           title: initialEntry?.title || '',
-          categories: initialEntry?.categories || [],
-          content: initialEntry?.content || '',
+          emotions: initialEntry?.emotions || [],
+          descr: initialEntry?.descr || '',
         }}
         validationSchema={validationSchema}
+        enableReinitialize
         onSubmit={async (values, { setSubmitting, setStatus }) => {
           try {
-            const response = initialEntry?.id
-              ? await axios.put(`/api/diary/${initialEntry.id}`, values)
-              : await axios.post('/api/diary', values);
+            const savedEntry = await saveDiaryEntry(initialEntry?._id, values);
             setSubmitting(false);
-            onSubmit(response.data);
+            onSubmit(savedEntry);
           } catch (error) {
-            if (axios.isAxiosError(error)) {
-              setStatus(
-                error.response?.data?.message || 'Помилка при збереженні'
-              );
-            } else {
-              setStatus('Сталася невідома помилка');
-            }
+            setStatus(getErrorMessage(error));
             setSubmitting(false);
           }
         }}
       >
         {({ values, isSubmitting, setFieldValue, status }) => {
           const toggleCategory = (category: string) => {
-            if (values.categories.includes(category)) {
+            const titles = values.emotions.map((e: Emotion) => e.title);
+            if (titles.includes(category)) {
               setFieldValue(
                 'categories',
-                values.categories.filter((c) => c !== category)
+                values.emotions.filter((c) => c.title !== category)
               );
             } else {
-              setFieldValue('categories', [...values.categories, category]);
+              setFieldValue('categories', [...values.emotions, category]);
             }
           };
 
@@ -119,10 +123,9 @@ export default function AddDiaryEntryForm({
                   name="title"
                   placeholder="Введіть заголовок запису "
                 />
-                <ErrorMessage
-                  name="title"
-                  render={(msg) => <div style={{ color: 'red' }}>{msg}</div>}
-                />
+                <ErrorMessage name="title">
+                  {(msg) => <ErrorText>{msg}</ErrorText>}
+                </ErrorMessage>
               </div>
 
               <div className={styles.fieldContainer} ref={dropdownRef}>
@@ -137,22 +140,38 @@ export default function AddDiaryEntryForm({
                   }
                   tabIndex={0}
                   onClick={() => setDropdownOpen(!dropdownOpen)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Escape') {
+                      setDropdownOpen(false);
+                    }
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      setDropdownOpen((prev) => !prev);
+                    }
+                  }}
                   role="button"
                   aria-haspopup="listbox"
                   aria-expanded={dropdownOpen}
                 >
-                  {values.categories.length > 0
-                    ? values.categories.join(', ')
+                  {values.emotions.length > 0
+                    ? values.emotions.join(', ')
                     : 'Оберіть категорії…'}
                 </div>
 
                 {dropdownOpen && (
-                  <div className={styles.dropDown} role="listbox">
+                  <div
+                    className={styles.dropDown}
+                    role="listbox"
+                    aria-multiselectable="true"
+                  >
                     {categoriesOptions.map((category) => (
                       <label className={styles.taskLabel} key={category}>
                         <input
                           type="checkbox"
-                          checked={values.categories.includes(category)}
+                          checked={
+                            false ||
+                            values.emotions.some((v) => v.title === category)
+                          }
                           onChange={() => toggleCategory(category)}
                         />
                         <span className={styles.customCheckbox}></span>
@@ -162,10 +181,9 @@ export default function AddDiaryEntryForm({
                   </div>
                 )}
 
-                <ErrorMessage
-                  name="categories"
-                  render={(msg) => <div style={{ color: 'red' }}>{msg}</div>}
-                />
+                <ErrorMessage name="categories">
+                  {(msg) => <ErrorText>{msg}</ErrorText>}
+                </ErrorMessage>
               </div>
 
               <div>
@@ -180,13 +198,12 @@ export default function AddDiaryEntryForm({
                   rows={4}
                   placeholder="Запишіть, як ви себе відчуваєте"
                 />
-                <ErrorMessage
-                  name="content"
-                  render={(msg) => <div style={{ color: 'red' }}>{msg}</div>}
-                />
+                <ErrorMessage name="content">
+                  {(msg) => <ErrorText>{msg}</ErrorText>}
+                </ErrorMessage>
               </div>
 
-              {status && <div style={{ color: 'red' }}>{status}</div>}
+              {status && <ErrorText>{status}</ErrorText>}
 
               <Button
                 type="submit"

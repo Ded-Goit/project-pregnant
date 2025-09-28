@@ -1,0 +1,178 @@
+.wrapper {
+  border-radius: 32px;
+  width: 335px;
+  height: 983px;
+  background: var(--color-oasis-lighter);
+  margin: 0 auto;
+}
+
+.content {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+/* Ліва частина: зображення + підпис */
+.left {
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+}
+
+@media screen and (min-width: 768px) {
+  .wrapper {
+    width: 704px;
+    height: 773px;
+  }
+}
+
+@media screen and (min-width: 1440px) {
+  .wrapper {
+    width: 1064px;
+    height: 467px;
+    margin: 0;
+    margin-left: 32px;
+  }
+
+  .content {
+    flex-direction: row;
+    gap: 32px;
+  }
+
+  .left {
+    margin: 0;
+    margin-left: 24px;
+  }
+}
+
+.imageCard {
+  /* border-radius: 24px; */
+  width: 287px;
+  height: 379px;
+  margin-top: 24px;
+}
+
+.imageCard img {
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 24px;
+  width: 287px;
+  height: 379px;
+  width: 287px;
+  height: 379px;
+  border-radius: 24px;
+  object-fit: cover;
+  display: block;
+}
+
+@media screen and (min-width: 768px) {
+  .imageCard {
+    width: 656px;
+    height: 379px;
+  }
+  .imageCard img {
+    width: 656px;
+    height: 379px;
+  }
+}
+
+@media screen and (min-width: 1440px) {
+  .imageCard {
+    width: 461px;
+    height: 379px;
+  }
+
+  .imageCard img {
+    width: 461px;
+    height: 379px;
+  }
+}
+
+.imageCaption {
+  font-family: var(--font-family);
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #000;
+  text-align: left;
+  margin-top: 16px;
+  margin-bottom: 32px;
+}
+
+/* Права частина: опис та факт */
+.right {
+  display: flex;
+  flex-direction: column;
+  width: 287px;
+  height: 487px;
+  gap: 16px;
+  align-items: center;
+}
+
+.description {
+  font-family: var(--font-family);
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #000;
+  padding-left: 24px;
+}
+
+@media screen and (min-width: 768px) {
+  .right {
+    width: 656px;
+    height: 184px;
+  }
+}
+
+@media screen and (min-width: 1440px) {
+  .right {
+    width: 523px;
+    height: 400px;
+    padding-top: 24px;
+  }
+
+  .description {
+    padding: 0;
+  }
+}
+
+/* Fact box */
+.factBox {
+  border-radius: 12px;
+  padding: 12px;
+  width: 287px;
+  height: 119px;
+  background-color: var(--color-oasis-light);
+  margin-left: 44px;
+}
+
+.factTitle {
+  font-family: var(--font-family);
+  margin-bottom: 8px;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #000;
+}
+
+.factText {
+  font-family: var(--font-family);
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #000;
+}
+
+@media screen and (min-width: 768px) {
+  .factBox {
+    width: 656px;
+    height: 77px;
+  }
+}
+
+@media screen and (min-width: 1440px) {
+  .factBox {
+    width: 523px;
+    height: 104px;
+    margin: 0;
+  }
+}

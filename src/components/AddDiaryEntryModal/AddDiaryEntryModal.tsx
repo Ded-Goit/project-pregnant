@@ -3,16 +3,15 @@
 //import dynamic from 'next/dynamic';
 import styles from './AddDiaryEntryModal.module.css';
 import React, { useEffect } from 'react';
-import AddDiaryEntryForm, {
-  DiaryEntry,
-} from '../AddDiaryEntryForm/AddDiaryEntryForm';
+import AddDiaryEntryForm from '../AddDiaryEntryForm/AddDiaryEntryForm';
 import Image from 'next/image';
+import { Diary } from '@/lib/clientApi';
 
 interface AddDiaryEntryModalProps {
   isEdit?: boolean;
-  initialEntry?: DiaryEntry;
+  initialEntry?: Diary;
   onClose: () => void;
-  onSubmit?: (entry: DiaryEntry) => void;
+  onSubmit?: (payload: Diary) => void;
 }
 
 export default function AddDiaryEntryModal({
@@ -61,3 +60,11 @@ export default function AddDiaryEntryModal({
     </div>
   );
 }
+
+// import styles from './AddDiaryEntryModal.module.css';
+//import dynamic from 'next/dynamic';
+
+/*
+const FeelingCheckCard = dynamic(
+  () => import('@/components/dashboard/feeling-check-card')
+);*/

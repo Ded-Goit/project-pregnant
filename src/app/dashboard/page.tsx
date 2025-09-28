@@ -3,37 +3,38 @@
 import dynamic from 'next/dynamic';
 import styles from './dashboard.module.css';
 import React, { useEffect, useState } from 'react';
+import type { DashboardResponse } from '../../types/note';
 import axios from 'axios';
-// import SpinnerFlowersLine from '@/components/SpinnerFlowersLine/SpinnerFlowersLine';
-
-axios.defaults.baseURL = 'https://project-pregnant-back.onrender.com';
+import { useAuthStore } from '@/hooks/useAuthStore'; // ✅ підключаємо
 
 const GreetingBlock = dynamic(
   () => import('@/components/GreetingBlock/GreetingBlock')
 );
-
 const StatusBlock = dynamic(
   () => import('@/components/StatusBlock/StatusBlock')
 );
-
 const BabyTodayCard = dynamic(
   () => import('@/components/BabyTodayCard/BabyTodayCard')
 );
-
 const MomTipCard = dynamic(() => import('@/components/MomTipCard/MomTipCard'));
-
 const TasksReminderCard = dynamic(
   () => import('@/components/TasksReminderCard/TasksReminderCard')
 );
-
 const FeelingCheckCard = dynamic(
   () => import('@/components/FeelingCheckCard/FeelingCheckCard')
 );
 
-export default function DashboardPage() {
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false); // тут ваша логіка аутентифікації
-  const [userName, setUserName] = useState<string>('Пані');
+export async function getDashboardData(isAuthenticated: boolean) {
+  const response = await axios.get(
+    isAuthenticated ? '/api/weeks/dashboard' : '/api/weeks/public/dashboard'
+  );
+  return response.data;
+}
 
+export default function DashboardPage() {
+  const { isAuthenticated, user } = useAuthStore(); // ✅ беремо стан із стора
+
+  const [userName, setUserName] = useState<string>('Пані');
   const [weekNumber, setWeekNumber] = useState<number>(5);
   const [daysLeft, setDaysLeft] = useState<number>(250);
 
@@ -48,37 +49,29 @@ export default function DashboardPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Визначте свій спосіб перевірки авторизації користувача
-        // Нижче просто приклад жорсткого коду
-        const auth = false; // або отримати з контексту, cookie тощо
-        setIsAuthenticated(auth);
+        const data: DashboardResponse = await getDashboardData(isAuthenticated);
 
-        const response = await axios.get(
-          auth ? '/api/weeks/dashboard' : '/api/weeks/public/dashboard'
-        );
-        console.log('Отримані дані:', response.data);
-
-        if (response.data) {
-          setUserName(response.data.name);
-          setWeekNumber(response.data.weekNumber);
-          setDaysLeft(response.data.daysLeft);
-          setImage(response.data.baby.image);
-          setBabySize(response.data.baby.babySize);
-          setBabyWeight(response.data.baby.babyWeight);
-          setBabyActivity(response.data.baby.babyActivity);
-          setBabyDevelopment(response.data.baby.babyDevelopment);
-          setMomDailyTips(response.data.baby.momDailyTips);
-          setCategoryIconUrl(response.data.baby.categoryIconUrl);
+        if (data) {
+          setUserName(user?.name || data.name || 'Пані');
+          setWeekNumber(data.weekNumber);
+          setDaysLeft(data.daysLeft);
+          setImage(data.baby.image);
+          setBabySize(data.baby.babySize);
+          setBabyWeight(data.baby.babyWeight);
+          setBabyActivity(data.baby.babyActivity);
+          setBabyDevelopment(data.baby.babyDevelopment);
+          setMomDailyTips(data.baby.momDailyTips);
+          setCategoryIconUrl(data.baby.categoryIconUrl);
         } else {
-          setUserName('Пані'); // якщо ім'я не прийшло
+          setUserName('Пані');
         }
       } catch {
-        setUserName('Пані'); // обробка помилки, якщо не вдалось запитати
+        setUserName('Пані');
       }
     };
 
     fetchData();
-  }, []);
+  }, [isAuthenticated, user]);
 
   return (
     <main className={styles.dashboardGrid}>
@@ -99,8 +92,8 @@ export default function DashboardPage() {
           />
         </div>
         <div className={styles.taskContainer}>
-          <TasksReminderCard isAuthenticated={isAuthenticated} />
-          <FeelingCheckCard isAuthenticated={isAuthenticated} />
+          <TasksReminderCard />
+          <FeelingCheckCard />
         </div>
       </div>
     </main>

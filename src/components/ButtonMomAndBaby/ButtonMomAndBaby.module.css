@@ -1,0 +1,22 @@
+.tabs {
+  display: flex;
+  background: #fefcf7;
+  border-radius: 999px;
+  padding: 4px;
+  width: fit-content;
+}
+
+.tab {
+  border: none;
+  background: transparent;
+  padding: 10px 24px;
+  border-radius: 999px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.active {
+  background: #fdf4e7;
+  font-weight: 500;
+}
