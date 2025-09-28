@@ -27,3 +27,27 @@
   background: var(--color-oasis-light);
   font-weight: 500;
 }
+
+@media screen and (min-width: 768px) {
+  .tabs {
+    width: 704px;
+    height: 50px;
+  }
+
+  .tab {
+    width: 348px;
+    height: 42px;
+  }
+}
+
+@media screen and (min-width: 1440px) {
+  .tabs {
+    width: 572px;
+    height: 54px;
+  }
+
+  .tab {
+    width: 295px;
+    height: 46px;
+  }
+}

@@ -1,5 +1,7 @@
 .container {
   margin: 0 auto;
+  width: 100%;
+  overflow-x: hidden; /* заборонити горизонтальний скрол */
 }
 
 .greetingWeekContainer h2 {

@@ -6,8 +6,9 @@ import { useAuthStore } from '@/hooks/useAuthStore';
 import styles from './JourneyDetailsBaby.module.css';
 import toast from 'react-hot-toast';
 import Preloader from '../Preloader/Preloader';
+import Image from 'next/image';
 
-interface WeekData {
+interface WeekDataForBaby {
   analogy: string | null;
   image: string;
   babyActivity: string;
@@ -21,7 +22,7 @@ interface Props {
 
 export default function JourneyDetailsBaby({ currentWeek }: Props) {
   const { user } = useAuthStore();
-  const [data, setData] = useState<WeekData | null>(null);
+  const [data, setData] = useState<WeekDataForBaby | null>(null);
 
 
 useEffect(() => {
@@ -32,7 +33,7 @@ useEffect(() => {
     async function fetchData() {
       try {
         const res = await nextServer.get(route);
-        setData(res.data.baby ?? null);
+        setData(res.data.baby);
       } catch {
         toast.error("Не вдалося завантажити інформацію по тижню");
       } 
@@ -51,7 +52,12 @@ if (!data) return <div><Preloader /></div>;
         <div className={styles.left}>
           {data.image ? (
             <div className={styles.imageCard}>
-              <img src={data.image} alt={data.analogy ?? 'Week image'} />
+              <Image
+                src={data.image ?? ""}
+                alt={data.analogy ?? "Week image"}
+                width={500} 
+                height={500} 
+/>
             </div>
           ) : (
             <div className={styles.imagePlaceholder}>Немає зображення</div>
@@ -70,7 +76,10 @@ if (!data) return <div><Preloader /></div>;
 
           <div className={styles.factBox}>
             <div>
-              <h3 className={styles.factTitle}>Цікавий факт тижня</h3>
+              <h3 className={styles.factTitle}>
+                <svg className="starShine" width={24} height={24}>
+  <use href="/journeyIcon.svg#star_shine" />
+</svg>Цікавий факт тижня</h3>
               <p className={styles.factText}>{data.interestingFact}</p>
             </div>
           </div>
