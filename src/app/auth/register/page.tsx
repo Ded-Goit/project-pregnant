@@ -108,7 +108,9 @@ export default function RegistrationForm() {
                 </label>
 
                 <Button type="submit" disabled={isSubmitting}>
-                  Зареєструватися
+                  {isSubmitting
+                    ? 'Будь ласка зачекайте ...'
+                    : 'Зареєструватися'}
                 </Button>
               </Form>
             )}
