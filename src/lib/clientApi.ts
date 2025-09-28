@@ -20,7 +20,7 @@ export interface Emotion {
 }
 
 export interface Diary {
-  _id: string;
+  _id?: string;
   title: string;
   emotions: Emotion[];
   descr: string;
