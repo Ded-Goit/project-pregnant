@@ -18,7 +18,7 @@ const ChevronRightIcon = () => (
 
 export default function OnboardingPage() {
   const router = useRouter();
-  const { user: authUser, setUser: setAuthUser, accessToken } = useAuthStore();
+  const { user: authUser, setUser } = useAuthStore();
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -28,12 +28,12 @@ export default function OnboardingPage() {
       return;
     }
 
-    if (!authUser || !accessToken) {
+    if (!authUser) {
       router.push('/login');
       return;
     }
     setIsLoading(false);
-  }, [authUser, accessToken, router]);
+  }, [authUser, router]);
 
   const handleOnboardingSubmit = async (
     formData: OnboardingFormData
@@ -54,16 +54,12 @@ export default function OnboardingPage() {
         updatedAt: new Date().toISOString(),
       };
 
-      setAuthUser(updatedUser);
+      setUser(updatedUser);
 
       // Перенаправляємо на головну сторінку після успішного онбордингу
       router.push('/dashboard');
     } catch (error) {
       console.error('Помилка онбордингу:', error);
-      const errorMessage =
-        error instanceof Error
-          ? error.message
-          : 'Сталася помилка при збереженні даних';
       throw error;
     }
   };
@@ -82,7 +78,7 @@ export default function OnboardingPage() {
     }
   };
 
-  if (!authUser || !accessToken || authUser.onboardingCompleted) {
+  if (!authUser || authUser.onboardingCompleted) {
     return null;
   }
 
