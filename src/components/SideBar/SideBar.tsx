@@ -67,7 +67,7 @@ export default function SideBar({ isOpen, onClose, onLogout }: SidebarProps) {
                   </Link>
                 </li>
                 <li className={styles.navItem}>
-                  <Link href={currentWeek ? `/journey/${currentWeek}` : '#'} className={styles.navLink}>
+                  <Link href={currentWeek ? `/journey/${currentWeek}` : '/journey/1'} className={styles.navLink}>
                     <Image
                       src="/icons/conversion_path.svg"
                       alt="journey icon"
