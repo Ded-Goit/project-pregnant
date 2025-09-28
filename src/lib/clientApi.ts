@@ -60,6 +60,9 @@ export interface User {
   photo: string;
   createdAt: string;
   updatedAt: string;
+  avatar?: string;
+  dueDate?: string;
+  onboardingCompleted?: boolean;
 }
 
 export interface getUserResponse {
