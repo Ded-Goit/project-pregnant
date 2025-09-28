@@ -2,11 +2,11 @@
 
 import React from 'react';
 import styles from './DiaryEntryDetails.module.css';
-import type { DiaryEntry } from '../DiaryEntryCard/DiaryEntryCard';
+import { Diary } from '@/lib/clientApi';
 
 type Props = {
-  entry: DiaryEntry | null;
-  onEdit?: () => void;
+  entry: Diary | undefined;
+  onEdit: (mode: boolean) => void;
   onDelete?: () => void;
 };
 
@@ -15,7 +15,9 @@ export default function DiaryEntryDetails({ entry, onEdit, onDelete }: Props) {
     return (
       <div className="detailsInner">
         <div className="detailsBody">
-          <p className={styles.placeholder}>Наразі записи у щоденнику відстні</p>
+          <p className={styles.placeholder}>
+            Наразі записи у щоденнику відстні
+          </p>
         </div>
       </div>
     );
@@ -36,38 +38,39 @@ export default function DiaryEntryDetails({ entry, onEdit, onDelete }: Props) {
             </div>
           </div>
           <div className={styles.actions}>
-            <button className="btn-icon" aria-label="Редагувати" onClick={onEdit} type="button">🖉</button>
-            <button className="btn-icon" aria-label="Видалити" onClick={onDelete} type="button">🗑</button>
+            <button
+              className="btn-icon"
+              aria-label="Редагувати"
+              onClick={() => onEdit(true)}
+              type="button"
+            >
+              🖉
+            </button>
+            <button
+              className="btn-icon"
+              aria-label="Видалити"
+              onClick={onDelete}
+              type="button"
+            >
+              🗑
+            </button>
           </div>
         </div>
       </header>
 
       <div className="detailsBody">
         <div className={styles.tags}>
-          {entry.tags?.map((t, i) => (
-            <span key={i} className="chip">{t}</span>
+          {entry.emotions?.map((t) => (
+            <span key={t._id} className="chip">
+              {t.title}
+            </span>
           ))}
         </div>
-        <article className={styles.text}>{entry.content}</article>
+        <article className={styles.text}>{entry.descr}</article>
       </div>
     </div>
   );
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // import styles from './DiaryEntryDetails.module.css';
 //import dynamic from 'next/dynamic';

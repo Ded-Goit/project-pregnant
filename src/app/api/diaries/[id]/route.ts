@@ -1,24 +1,23 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { api } from '../api';
+import { api } from '../../api';
 import { cookies } from 'next/headers';
 import { AxiosError } from 'axios';
 
-export async function POST(request: NextRequest) {
-  const body = await request.json();
+type Props = {
+  params: Promise<{ id: string }>;
+};
+
+export async function DELETE(request: NextRequest, { params }: Props) {
+  const { id } = await params;
   const cookieData = await cookies();
   const accessToken = cookieData.get('accessToken')?.value;
 
   try {
-    const response = await api.post('/diaries', body, {
-      headers: { Authorization: ` Bearer ${accessToken}` },
+    const { data } = await api.delete(`/diaries/${id}`, {
+      headers: { Authorization: `Bearer ${accessToken}` },
     });
-    const { data } = response;
-    return NextResponse.json(
-      {
-        data,
-      },
-      { status: data.status }
-    );
+
+    return NextResponse.json(data);
   } catch (error) {
     const err = error as AxiosError;
 
@@ -31,21 +30,19 @@ export async function POST(request: NextRequest) {
   }
 }
 
-export async function GET() {
+export async function PATCH(request: NextRequest, { params }: Props) {
+  const { id } = await params;
+  const body = await request.json();
+
   const cookieData = await cookies();
   const accessToken = cookieData.get('accessToken')?.value;
 
   try {
-    const response = await api.get('/diaries', {
-      headers: { Authorization: ` Bearer ${accessToken}` },
+    const { data } = await api.patch(`/diaries/${id}`, body, {
+      headers: { Authorization: `Bearer ${accessToken}` },
     });
-    const { data } = response;
-    return NextResponse.json(
-      {
-        data,
-      },
-      { status: data.status }
-    );
+
+    return NextResponse.json(data);
   } catch (error) {
     const err = error as AxiosError;
 

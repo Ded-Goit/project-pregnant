@@ -1,17 +1,8 @@
-.card {
-  background: var(--color-white);
-  border: 1px solid var(--color-neutral-lighter);
-  border-radius: 16px;
-  padding: 32px;
-  flex: 1;
-  min-width: 0;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-}
-
 .form {
   display: flex;
   flex-direction: column;
   gap: 32px;
+  width: 100%;
 }
 
 .fields {
@@ -28,7 +19,7 @@
 
 .label {
   font-weight: var(--fw-semibold);
-  color: var(--color-scheme-text);
+  color: var(--color-neutral-darkest);
   font-size: 16px;
   margin-bottom: 4px;
 }
@@ -39,7 +30,7 @@
   border: 1px solid var(--color-neutral-lighter);
   border-radius: 12px;
   font-size: 16px;
-  background: var(--color-white);
+  background: var(--color-neutral-lightest);
   transition: all 0.2s ease;
   width: 100%;
   font-family: inherit;
@@ -91,14 +82,15 @@
   display: flex;
   gap: 16px;
   margin-top: 8px;
+  justify-content: flex-start;
+  width: 100%;
 }
 
-/* Mobile Styles */
-@media (max-width: 767px) {
-  .card {
-    padding: 24px;
-  }
+.actions button {
+  min-width: 160px;
+}
 
+@media (max-width: 767px) {
   .form {
     gap: 24px;
   }
@@ -108,6 +100,37 @@
   }
 
   .actions {
-    flex-direction: column;
+    flex-direction: row;
+    gap: 12px;
+    justify-content: space-between;
+  }
+
+  .actions button {
+    min-width: auto;
+    flex: 1;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .actions {
+    justify-content: flex-end;
+    gap: 16px;
+  }
+
+  .actions button {
+    min-width: 160px;
+    flex: none;
+  }
+}
+
+@media (min-width: 1024px) {
+  .actions {
+    justify-content: flex-end;
+    gap: 16px;
+  }
+
+  .actions button {
+    min-width: 160px;
+    flex: none;
   }
 }

@@ -1,9 +1,9 @@
+import type { NextConfig } from 'next';
 
-
-/** @type {import('next').NextConfig} */
-const nextConfig = {
+const nextConfig: NextConfig = {
   images: {
-    domains: ['ftp.goit.study'], 
+    remotePatterns: [{ protocol: 'https', hostname: 'res.cloudinary.com' }],
+    domains: ['ftp.goit.study'],
   },
 };
 

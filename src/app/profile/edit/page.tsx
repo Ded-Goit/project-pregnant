@@ -3,11 +3,11 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import ProfileEditForm, {
-  ProfileFormData,
-} from '@/components/ProfileEditForm/ProfileEditForm';
+import OnboardingForm, {
+  OnboardingFormData,
+} from '@/components/OnboardingForm/OnboardingForm';
 import { useAuthStore } from '@/hooks/useAuthStore';
-import styles from './profileedit.module.css';
+import styles from './onboarding.module.css';
 
 // Іконка хлібних крихт
 const ChevronRightIcon = () => (
@@ -16,13 +16,18 @@ const ChevronRightIcon = () => (
   </svg>
 );
 
-export default function ProfileEditPage() {
+export default function OnboardingPage() {
   const router = useRouter();
-  const { user: authUser, setUser: setAuthUser } = useAuthStore();
+  const { user: authUser, setUser } = useAuthStore();
   const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    // Перевіряємо, чи користувач вже пройшов онбординг
+    if (authUser?.onboardingCompleted) {
+      router.push('/dashboard');
+      return;
+    }
+
     if (!authUser) {
       router.push('/login');
       return;
@@ -30,81 +35,92 @@ export default function ProfileEditPage() {
     setIsLoading(false);
   }, [authUser, router]);
 
-  const handleProfileUpdate = async (
-    formData: ProfileFormData
+  const handleOnboardingSubmit = async (
+    formData: OnboardingFormData
   ): Promise<void> => {
     try {
-      setError(null);
-
-      // Імітація запиту до API
+      // Імітація запиту до API для онбордингу
       await new Promise((resolve) => setTimeout(resolve, 1000));
 
-      // Оновлюємо дані в store
+      // Оновлюємо дані в store з позначкою про завершений онбординг
       const updatedUser = {
         ...authUser!,
         name: formData.name,
         email: formData.email,
-        gender: formData.childGender || authUser?.gender || '',
+        gender: formData.childGender || '',
+        dueDate: formData.dueDate,
+        avatar: formData.avatarUrl || authUser?.avatar || '',
+        onboardingCompleted: true,
         updatedAt: new Date().toISOString(),
       };
 
-      setAuthUser(updatedUser);
+      setUser(updatedUser); // Використовуємо setUser
 
-      // Повертаємося на сторінку профілю
-      router.push('/profile');
+      // Перенаправляємо на головну сторінку після успішного онбордингу
+      router.push('/dashboard');
     } catch (error) {
-      console.error('Помилка оновлення профілю:', error);
-      const errorMessage =
-        error instanceof Error
-          ? error.message
-          : 'Сталася помилка при оновленні профілю';
-      setError(errorMessage);
+      console.error('Помилка онбордингу:', error);
       throw error;
     }
   };
 
-  if (!authUser) {
+  const handleAvatarUpload = async (file: File): Promise<string> => {
+    try {
+      // Імітація завантаження аватара
+      await new Promise((resolve) => setTimeout(resolve, 500));
+
+      // Тут буде реальний запит до API для завантаження зображення
+      const avatarUrl = URL.createObjectURL(file); // Тимчасове рішення
+      return avatarUrl;
+    } catch (error) {
+      console.error('Помилка завантаження аватара:', error);
+      throw error;
+    }
+  };
+
+  if (!authUser || authUser.onboardingCompleted) {
     return null;
   }
 
   if (isLoading) {
     return (
       <div className={styles.pageWrapper}>
-        <div className={styles.loading}>Завантаження профілю...</div>
+        <div className={styles.loading}>Завантаження...</div>
       </div>
     );
   }
 
-  const formInitialData: ProfileFormData = {
+  const formInitialData: OnboardingFormData = {
     name: authUser.name || '',
     email: authUser.email || '',
-    childGender: authUser.gender || '',
-    dueDate: '2025-07-16',
+    childGender: '',
+    dueDate: '',
+    avatarUrl: authUser.avatar || '',
   };
 
   return (
     <div className={styles.pageWrapper}>
       {/* Breadcrumbs */}
       <nav className={styles.breadcrumbs}>
-        <Link href="/dashboard" className={styles.breadcrumbLink}>
-          Головна
+        <Link href="/" className={styles.breadcrumbLink}>
+          Лелека
         </Link>
         <ChevronRightIcon />
-        <Link href="/profile" className={styles.breadcrumbLink}>
-          Профіль
-        </Link>
-        <ChevronRightIcon />
-        <span className={styles.breadcrumbCurrent}>Редагування профілю</span>
+        <span className={styles.breadcrumbCurrent}>Онбординг</span>
       </nav>
 
       <div className={styles.container}>
-        <h1 className={styles.title}>Редагування профілю</h1>
+        <div className={styles.header}>
+          <h1 className={styles.title}>Ласкаво просимо!</h1>
+          <p className={styles.subtitle}>
+            Заповніть основну інформацію для персоналізації вашого досвіду
+          </p>
+        </div>
 
-        {error && <div className={styles.errorMessage}>{error}</div>}
-
-        <ProfileEditForm
+        <OnboardingForm
           initialData={formInitialData}
-          onSubmit={handleProfileUpdate}
+          onSubmit={handleOnboardingSubmit}
+          onAvatarUpload={handleAvatarUpload}
         />
       </div>
     </div>

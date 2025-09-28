@@ -6,7 +6,9 @@ import { getMe, refresh } from '@/lib/clientApi';
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const setUser = useAuthStore((state) => state.setUser);
-  const logout = useAuthStore((state) => state.logout);
+  const clearIsAuthenticated = useAuthStore(
+    (state) => state.clearIsAuthenticated
+  );
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -16,12 +18,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         const user = await getMe();
         setUser(user);
       } else {
-        logout();
+        clearIsAuthenticated();
       }
     };
 
     fetchUser();
-  }, [logout, setUser]);
+  }, [clearIsAuthenticated, setUser]);
 
   return <>{children}</>;
 }

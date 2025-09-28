@@ -1,22 +1,24 @@
 .wrapper {
   display: flex;
-  justify-content: center;
 }
 
 .section {
-  width: 100%;
-  padding: 139px 0;
+  width: 375px;
+  padding: 221px 0;
+  margin: 0 auto;
 }
 
 @media screen and (min-width: 768px) {
   .section {
-    padding: 197px 0;
+    padding: 280px 0;
+    width: 768px;
   }
 }
 
 @media screen and (min-width: 1440px) {
   .section {
-    padding: 177px 0;
+    padding: 266px 0;
+    width: 100%;
   }
 }
 
@@ -24,6 +26,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  min-width: 320px;
   max-width: 375px;
   padding: 0 20px;
 }
@@ -101,6 +104,7 @@
   font-size: 14px;
   text-align: center;
   width: 176px;
+  margin-top: 24px;
 }
 
 .link {
@@ -117,6 +121,10 @@
 @media screen and (min-width: 1440px) {
   .vision {
     display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 999;
     padding: 0;
   }
 }

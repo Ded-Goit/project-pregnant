@@ -8,19 +8,19 @@ interface AuthState {
   user: User | null;
   isAuthenticated: boolean;
   setUser: (user: User) => void;
-  logout: () => void;
+  clearIsAuthenticated: () => void;
 }
 
 export const useAuthStore = create<AuthState>((set) => ({
   user: null,
   isAuthenticated: false,
   setUser: (user) =>
-    set((state) => ({
+    set(() => ({
       user,
       isAuthenticated: true,
     })),
 
-  logout: () => set({ user: null, isAuthenticated: false }),
+  clearIsAuthenticated: () => set({ user: null, isAuthenticated: false }),
 }));
 
 export function useWeekStore() {
