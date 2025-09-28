@@ -49,7 +49,7 @@ export default function LayoutClient({
         )}
         <main className={styles.mainContent}>
           <Breadcrumbs />
-          {showLogoutModal && <ConfirmationModal onConfirm={handleLogout} />}
+          {/* {showLogoutModal && <ConfirmationModal onConfirm={handleLogout} />} */}
           {children}
         </main>
       </div>

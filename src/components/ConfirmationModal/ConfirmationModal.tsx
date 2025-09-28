@@ -1,36 +1,36 @@
 'use client';
 
-'use client';
-
-import React from 'react';
+import React, { useEffect } from 'react';
 import styles from './ConfirmationModal.module.css';
 
-/**
- * Пропсы тоже делаю опциональными, чтобы не падало там,
- * где пробрасывают только onClose.
- */
 type Props = {
-  open?: boolean;
-  title?: string;
-  message?: string;
-  onClose?: () => void;
+  message: string;
+  onClose: () => void;
   onConfirm?: () => void;
 };
 
 export default function ConfirmationModal({
-  open = true,
-  title = 'Підтвердження',
-  message = 'Видалити цей запис назавжди?',
+  message,
   onClose,
   onConfirm,
 }: Props) {
-  if (!open) return null;
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        onClose();
+      }
+    };
+    document.addEventListener('keydown', handleEscape);
+    return () => document.removeEventListener('keydown', handleEscape);
+  }, [onClose]);
 
   return (
     <div className={styles.backdrop} onClick={onClose}>
       <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
         <header className={styles.header}>
-          <h3>{title}</h3>
+
+          <h3>Підтвердження</h3>
+
           <button className={styles.btn} onClick={onClose} type="button">
             Закрити
           </button>
