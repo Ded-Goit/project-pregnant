@@ -57,6 +57,7 @@ export interface User {
   gender: string;
   _id: string;
   token: string;
+  photo: string;
   createdAt: string;
   updatedAt: string;
 }
