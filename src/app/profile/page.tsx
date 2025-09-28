@@ -62,8 +62,7 @@ export default function ProfilePage() {
     name: 'Ганна',
     email: 'hanna@gmail.com',
     gender: 'female',
-    avatar: '/avatar-image.jpg',
-    dueDate: '2025-07-16',
+    avatar: '',
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
   };
@@ -72,7 +71,7 @@ export default function ProfilePage() {
     name: displayUser.name,
     email: displayUser.email,
     childGender: displayUser.gender,
-    dueDate: displayUser.dueDate || '',
+    dueDate: '',
   };
 
   return (

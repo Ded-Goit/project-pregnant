@@ -9,7 +9,6 @@ import OnboardingForm, {
 import { useAuthStore } from '@/hooks/useAuthStore';
 import styles from './onboarding.module.css';
 
-// Іконка хлібних крихт
 const ChevronRightIcon = () => (
   <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
     <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z" />
@@ -18,16 +17,10 @@ const ChevronRightIcon = () => (
 
 export default function OnboardingPage() {
   const router = useRouter();
-  const { user: authUser, setUser: setAuthUser } = useAuthStore();
+  const { user: authUser, setUser } = useAuthStore();
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Перевіряємо, чи користувач вже пройшов онбординг
-    if (authUser?.onboardingCompleted) {
-      router.push('/dashboard');
-      return;
-    }
-
     if (!authUser) {
       router.push('/login');
       return;
@@ -39,50 +32,41 @@ export default function OnboardingPage() {
     formData: OnboardingFormData
   ): Promise<void> => {
     try {
-      // Імітація запиту до API для онбордингу
       await new Promise((resolve) => setTimeout(resolve, 1000));
 
-      // Оновлюємо дані в store з позначкою про завершений онбординг
+      // Перевіряємо, що authUser не null
+      if (!authUser) {
+        throw new Error('Користувач не авторизований');
+      }
+
       const updatedUser = {
-        ...authUser!,
+        ...authUser,
         name: formData.name,
         email: formData.email,
         gender: formData.childGender || '',
         dueDate: formData.dueDate,
-        avatar: formData.avatarUrl || authUser?.avatar || '',
-        onboardingCompleted: true,
-        updatedAt: new Date().toISOString(),
+        avatar: formData.avatarUrl || '',
       };
 
-      setAuthUser(updatedUser);
-
-      // Перенаправляємо на головну сторінку після успішного онбордингу
+      setUser(updatedUser);
       router.push('/dashboard');
     } catch (error) {
       console.error('Помилка онбордингу:', error);
-      const errorMessage =
-        error instanceof Error
-          ? error.message
-          : 'Сталася помилка при збереженні даних';
       throw error;
     }
   };
 
   const handleAvatarUpload = async (file: File): Promise<string> => {
     try {
-      // Імітація завантаження аватара
       await new Promise((resolve) => setTimeout(resolve, 500));
-
-      // Тут буде реальний запит до API для завантаження зображення
-      const avatarUrl = URL.createObjectURL(file); // Тимчасове рішення
-      return avatarUrl;
+      return URL.createObjectURL(file);
     } catch (error) {
       console.error('Помилка завантаження аватара:', error);
       throw error;
     }
   };
 
-  if (!authUser || authUser.onboardingCompleted) {
+  if (!authUser) {
     return null;
   }
 
@@ -104,7 +88,6 @@ export default function OnboardingPage() {
 
   return (
     <div className={styles.pageWrapper}>
-      {/* Breadcrumbs */}
       <nav className={styles.breadcrumbs}>
         <Link href="/" className={styles.breadcrumbLink}>
           Лелека
