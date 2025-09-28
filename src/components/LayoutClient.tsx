@@ -38,8 +38,8 @@ export default function LayoutClient({
           />
         )}
         <main className={styles.mainContent}>
-          {showLogoutModal && <ConfirmationModal />}
           <Breadcrumbs />
+          {showLogoutModal && <ConfirmationModal />}
           {children}
         </main>
       </div>
