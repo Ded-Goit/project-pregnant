@@ -33,7 +33,7 @@ export default function LayoutClient({
   const handleLogout = async () => {
     await logout();
     clearIsAuthenticated();
-    router.push('/login');
+    router.push('/auth/login');
   };
 
   return (
