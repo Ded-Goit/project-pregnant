@@ -16,7 +16,7 @@ import {
 } from '@/lib/clientApi';
 import { useAuthStore } from '@/hooks/useAuthStore';
 import ConfirmationModal from '@/components/ConfirmationModal/ConfirmationModal';
-import { error } from 'console';
+//import { error } from 'console';
 
 export default function DiaryPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
