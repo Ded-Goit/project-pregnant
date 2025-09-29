@@ -130,9 +130,11 @@ export default function DiaryEntryRoute() {
       </section>
       {isConfirmOpen && (
         <ConfirmationModal
-          message="Видалити цей запис назавжди?"
+          title="Видалити цей запис назавжди?"
           onConfirm={handleDeleteClick}
-          onClose={closeConfirm}
+          onCancel={closeConfirm}
+          cancelButtonText="Скасувати"
+          confirmButtonText="Видалити"
         ></ConfirmationModal>
       )}
       {isModalOpen && (

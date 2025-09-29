@@ -19,7 +19,6 @@ import ConfirmationModal from '@/components/ConfirmationModal/ConfirmationModal'
 
 import { useRouter } from 'next/navigation';
 
-
 export default function DiaryPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isConfirmOpen, setConfirmOpen] = useState(false);
@@ -105,29 +104,9 @@ export default function DiaryPage() {
 
   return (
     <div className={styles.layout} data-theme="pink">
-      <div className={styles.topbar}>
-        <div className={styles.topbarBrand}>
-          <div className={styles.logo} aria-hidden />
-          <span>Лелека</span>
-        </div>
-
-        {/* бургер-иконка справа */}
-        <button className={styles.menuBtn} type="button" aria-label="Меню">
-          <span className={styles.menuIcon} aria-hidden="true">
-            <span className={styles.menuBar}></span>
-          </span>
-        </button>
-      </div>
-
       {/* Main */}
       <main className={styles.main}>
-        <header className={styles.pageHeader}>
-          <div className={styles.breadcrumbs}>
-            <span className={styles.current}>Лелека</span>{' '}
-            <span className={styles.span}>›</span> Щоденник
-          </div>
-          <GreetingBlock userName={user?.name} />
-        </header>
+        <GreetingBlock userName={user?.name} />
 
         <div className={styles.contentRow}>
           {/* LIST — всегда виден (desktop & mobile/tablet) */}
@@ -157,41 +136,13 @@ export default function DiaryPage() {
       )}
       {isConfirmOpen && (
         <ConfirmationModal
-          message="Видалити цей запис назавжди?"
+          title="Видалити цей запис назавжди?"
           onConfirm={handleDeleteClick}
-          onClose={closeConfirm}
+          onCancel={closeConfirm}
+          cancelButtonText="Скасувати"
+          confirmButtonText="Видалити"
         ></ConfirmationModal>
       )}
     </div>
   );
 }
-
-// import styles from "./diary.module.css";
-//import dynamic from 'next/dynamic';
-
-/*const GreetingBlock = dynamic(
-  () => import('@/components/dashboard/greeting-block')
-);
-const StatusBlock = dynamic(
-  () => import('@/components/dashboard/status-block')
-);
-const BabyTodayCard = dynamic(
-  () => import('@/components/dashboard/baby-today-card')
-);
-const MomTipCard = dynamic(() => import('@/components/dashboard/mom-tip-card'));
-const TasksReminderCard = dynamic(
-  () => import('@/components/dashboard/tasks-reminder-card')
-);
-const FeelingCheckCard = dynamic(
-  () => import('@/components/dashboard/feeling-check-card')
-);*/
-
-// export default function DiaryPage() {
-//   return (
-//     <div className={styles.pageWrapper}>
-//       <h1 className={styles.title}>
-//         Блок Сторінка щоденника | DiaryPage | route: /diary
-//       </h1>
-//     </div>
-//   );
-// }
