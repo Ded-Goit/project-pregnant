@@ -6,35 +6,64 @@
   padding: 0 12px;
   box-sizing: border-box;
 }
+
 .backBtn {
   display: inline-flex;
   align-items: center;
   gap: 8px;
   padding: 8px 12px;
   border-radius: 12px;
-  border: 1px solid var(--color-scheme-border, rgba(0,0,0,.15));
+  border: 1px solid var(--color-scheme-border, rgba(0, 0, 0, 0.15));
   background: var(--color-white);
 }
 
 .detailsCard {
   background: var(--color-white);
-  border: 1px solid var(--color-scheme-border, rgba(0,0,0,.15));
+  border: 1px solid var(--color-scheme-border, rgba(0, 0, 0, 0.15));
   border-radius: 20px;
   padding: 8px;
   display: flex;
 }
+
 .detailsInner {
-  background: var(--color-scheme-foreground-alt, var(--color-pastel-pink-light));
+  background: var(
+    --color-scheme-foreground-alt,
+    var(--color-pastel-pink-light)
+  );
   border-radius: 20px;
   flex: 1;
   display: flex;
   flex-direction: column;
 }
-.detailsTop  { display:flex; align-items:center; justify-content:space-between; padding:12px 14px; }
-.detailsBody { padding: 0 16px 14px; height: auto; overflow: visible; }
-.detailsTitle { margin:0; font-size:16px; font-weight:var(--fw-bold); }
-.detailsDate  { font-size:12px; color:var(--color-neutral-dark); }
-.detailsActions { display:flex; gap:8px; }
+
+.detailsTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 14px;
+}
+
+.detailsBody {
+  padding: 0 16px 14px;
+  height: auto;
+  overflow: visible;
+}
+
+.detailsTitle {
+  margin: 0;
+  font-size: 16px;
+  font-weight: var(--fw-bold);
+}
+
+.detailsDate {
+  font-size: 12px;
+  color: var(--color-neutral-dark);
+}
+
+.detailsActions {
+  display: flex;
+  gap: 8px;
+}
 
 /* ------------------- TABLET ------------------- */
 
@@ -43,16 +72,26 @@
     padding: 0 16px;
     margin: 16px 0 24px;
   }
-  .detailsCard  { border-radius: 24px; }
-  .detailsInner { border-radius: 24px; }
-  .detailsTop   { padding: 14px 16px; }
-  .detailsBody  { padding: 0 18px 16px; }
-  .detailsTitle { font-size: 18px; }
+  .detailsCard {
+    border-radius: 24px;
+  }
+  .detailsInner {
+    border-radius: 24px;
+  }
+  .detailsTop {
+    padding: 14px 16px;
+  }
+  .detailsBody {
+    padding: 0 18px 16px;
+  }
+  .detailsTitle {
+    font-size: 18px;
+  }
 }
 
 /* ------------------- COMPUTER ------------------- */
 
-@media screen and (min-width: 1280px) {
+@media screen and (min-width: 1440px) {
   .wrap {
     width: 1064px;
     margin: 24px auto 32px;
@@ -62,6 +101,11 @@
     border-radius: 32px;
     min-height: 400px;
   }
-  .detailsInner { border-radius: 32px; }
-  .detailsBody  { height: calc(100% - 64px); overflow: auto; }
+  .detailsInner {
+    border-radius: 32px;
+  }
+  .detailsBody {
+    height: calc(100% - 64px);
+    overflow: auto;
+  }
 }
