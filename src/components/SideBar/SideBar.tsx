@@ -5,7 +5,6 @@ import styles from './SideBar.module.css';
 import Image from 'next/image';
 import { useAuthStore, useWeekStore } from '@/hooks/useAuthStore';
 
-
 interface SidebarProps {
   isOpen: boolean;
   onClose: () => void;
@@ -15,7 +14,6 @@ interface SidebarProps {
 export default function SideBar({ isOpen, onClose, onLogout }: SidebarProps) {
   const { currentWeek } = useWeekStore();
   const { user, isAuthenticated } = useAuthStore();
-
   // useEffect(() => {
   //   if (isOpen) {
   //     document.body.classList.add('no-scroll');
@@ -67,7 +65,13 @@ export default function SideBar({ isOpen, onClose, onLogout }: SidebarProps) {
                   </Link>
                 </li>
                 <li className={styles.navItem}>
-                  <Link href={currentWeek ? `/journey/${currentWeek}` : '/journey/1'} className={styles.navLink}>
+                  <Link
+                    href={
+                      currentWeek ? `/journey/${currentWeek}` : '/journey/1'
+                    }
+                    className={styles.navLink}
+                    onClick={onClose}
+                  >
                     <Image
                       src="/icons/conversion_path.svg"
                       alt="journey icon"

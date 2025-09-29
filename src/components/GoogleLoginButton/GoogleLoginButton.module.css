@@ -1,85 +1,44 @@
-.button {
-  font-family: var(--font-family);
-  font-weight: 500;
-  font-size: 16px;
-  line-height: 160%;
-  color: var(--color-neutral-darkest); /* ЧІТКИЙ ЧОРНИЙ ТЕКСТ ДЛЯ ВСІХ КНОПОК */
-  border-radius: 100px;
-  border: none;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  display: flex;
+.googleBtn {
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-}
-
-/* Розміри */
-.button.small {
-  padding: 8px 20px;
-  height: 42px;
+  width: 335px;
+  gap: 12px;
+  padding: 10px 16px;
+  border-radius: 8px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  background: #fff;
+  text-decoration: none;
+  color: #202124;
+  font-family: Roboto, Arial, sans-serif;
+  font-weight: 500;
   font-size: 14px;
+  line-height: 1;
+  transition:
+    box-shadow 0.12s,
+    transform 0.06s;
 }
 
-.button.large {
-  padding: 12px 24px;
-  height: 48px;
-  font-size: 16px;
-}
-
-/* Primary кнопка (Зберегти зміни) */
-.button.primary {
-  background: var(--color-pastel-pink-light);
-  border-bottom: 4px solid var(--color-pastel-pink);
-}
-
-.button.primary:hover,
-.button.primary:focus {
-  background: var(--color-white);
-  border-bottom: 4px solid var(--color-neutral-lighter);
-}
-
-.button.primary:active {
-  background: var(--color-pastel-pink);
-  transform: translateY(2px);
-  border-bottom-width: 2px;
-}
-
-/* Secondary кнопка (Відмінити зміни, Завантажити фото) */
-.button.secondary {
-  background: var(--color-neutral-lightest);
-  border-bottom: 4px solid var(--color-neutral-lighter);
-}
-
-.button.secondary:hover,
-.button.secondary:focus {
-  background: var(--color-pastel-pink-lighter);
-  border-bottom: 4px solid var(--color-neutral-lighter);
-}
-
-.button.secondary:active {
-  background: var(--color-neutral-light);
-  transform: translateY(2px);
-  border-bottom-width: 2px;
-}
-
-/* Стан Disabled */
-.button:disabled {
-  opacity: 0.3;
-  cursor: not-allowed;
-  transform: none;
-  border-bottom-width: 4px;
-}
-
-.button:disabled:hover {
-  transform: none;
-}
-
-/* Mobile Styles */
-@media (max-width: 767px) {
-  .button.large {
-    padding: 12px 16px;
-    height: 44px;
-    font-size: 15px;
+@media screen and (min-width: 768px) {
+  .googleBtn {
+    width: 480px;
   }
+}
+
+.googleBtn:active {
+  transform: translateY(1px);
+}
+.googleBtn:hover {
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+.googleIcon {
+  width: 18px;
+  height: 18px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.googleText {
+  white-space: nowrap;
 }

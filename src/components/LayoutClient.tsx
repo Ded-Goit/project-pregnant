@@ -24,7 +24,6 @@ export default function LayoutClient({
   const [showLogoutModal, setShowLogoutModal] = useState(false);
 
   const router = useRouter();
-  // const { user, isAuthenticated } = useAuthStore();
 
   const clearIsAuthenticated = useAuthStore(
     (state) => state.clearIsAuthenticated
@@ -49,7 +48,13 @@ export default function LayoutClient({
         )}
         <main className={styles.mainContent}>
           <Breadcrumbs />
-          {/* {showLogoutModal && <ConfirmationModal onConfirm={handleLogout} />} */}
+          {showLogoutModal && (
+            <ConfirmationModal
+              onConfirm={handleLogout}
+              onClose={() => setShowLogoutModal(false)}
+              message="Ви впевнені, що хочете вийти?"
+            />
+          )}
           {children}
         </main>
       </div>
