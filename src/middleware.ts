@@ -13,8 +13,8 @@ export async function middleware(request: NextRequest) {
   const accessToken = cookiesData.get('accessToken')?.value;
   const refreshToken = cookiesData.get('refreshToken')?.value;
 
-  const isPrivateRoutes = privateRoutes.some((path) =>
-    path.startsWith(pathname)
+  const isPrivateRoutes = privateRoutes.some((route) =>
+    route.startsWith(pathname)
   );
 
   const isPublicRoute = publicRoutes.some((route) =>
@@ -26,7 +26,6 @@ export async function middleware(request: NextRequest) {
       if (refreshToken) {
         try {
           const response = await refreshServer();
-
           const setCookies = response.request['set-cookie'];
 
           if (setCookies) {
