@@ -1,9 +1,14 @@
 .dashboardGrid {
   display: flex;
   flex-direction: column;
-  align-items: center; 
+  align-items: center;
 }
-
+@media screen and (min-width: 1440px) {
+  .dashboardGrid > :first-child {
+    align-self: flex-start;
+    margin-left: 24px;
+  }
+}
 .dashboardContainer {
   display: flex;
   flex-direction: column;
