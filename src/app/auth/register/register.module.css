@@ -17,8 +17,9 @@
 
 @media screen and (min-width: 1440px) {
   .section {
-    padding: 266px 0;
-    width: 100%;
+    padding: 177px 0;
+    width: 720px;
+    margin: 0;
   }
 }
 
@@ -34,6 +35,13 @@
 @media screen and (min-width: 768px) {
   .container {
     max-width: 768px;
+    padding: 0 112px;
+  }
+}
+
+@media screen and (min-width: 1440px) {
+  .container {
+    max-width: 720px;
     padding: 0 112px;
   }
 }
