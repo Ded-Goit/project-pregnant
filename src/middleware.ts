@@ -3,18 +3,22 @@ import { parse } from 'cookie';
 import { cookies } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
 
-const privateRoutes = ['/profile', '/journey', '/diary', '/profile'];
-const publicRoutes = ['/auth/register', '/auth/login', '/'];
+const privateRoutes = ['/profile', '/journey', '/diary'];
+const publicRoutes = ['/auth'];
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   const cookiesData = await cookies();
-  const accessToken = cookiesData.get('cookiesData')?.value;
+  const accessToken = cookiesData.get('accessToken')?.value;
   const refreshToken = cookiesData.get('refreshToken')?.value;
 
   const isPrivateRoutes = privateRoutes.some((path) =>
     path.startsWith(pathname)
+  );
+
+  const isPublicRoute = publicRoutes.some((route) =>
+    pathname.startsWith(route)
   );
 
   if (isPrivateRoutes) {
@@ -74,7 +78,9 @@ export async function middleware(request: NextRequest) {
         new URL('/auth/login', request.nextUrl.origin)
       );
     }
-  } else if (publicRoutes) {
+  }
+
+  if (isPublicRoute) {
     if (accessToken) {
       return NextResponse.redirect(new URL('/', request.nextUrl.origin));
     } else {
@@ -135,10 +141,9 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
-    '/profile',
+    '/profile/:path*',
     '/journey/:path*',
-    '/diary',
-    '/profile',
     '/auth/:path*',
+    '/diary/:path*',
   ],
 };
