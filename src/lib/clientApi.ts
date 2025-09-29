@@ -55,6 +55,10 @@ export interface getDiaryResponse {
   };
 }
 
+export interface getDiaryByIdResponse {
+  data: Diary;
+}
+
 export interface RegisterRequest {
   name: string;
   email: string;
@@ -127,6 +131,11 @@ export const getDiaries = async () => {
 
 export const delDiaries = async (id: string | undefined) => {
   const { data } = await nextServer.delete<getDiaryResponse>(`/diaries/${id}`);
+  return data;
+};
+
+export const GetDiaryRec = async (id: string | undefined) => {
+  const { data } = await nextServer.get<getDiaryByIdResponse>(`/diaries/${id}`);
   return data;
 };
 

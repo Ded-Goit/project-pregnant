@@ -51,8 +51,8 @@ export default function LayoutClient({
           {showLogoutModal && (
             <ConfirmationModal
               onConfirm={handleLogout}
-              onClose={() => setShowLogoutModal(false)}
-              message="Ви впевнені, що хочете вийти?"
+              onCancel={() => setShowLogoutModal(false)}
+              title="Ви впевнені, що хочете вийти?"
             />
           )}
           {children}
