@@ -84,8 +84,8 @@ import { useMediaQuery } from '@/hooks/useMediaQuery';
 
 type Props = {
   title: string;
-  confirmButtonText: string;
-  cancelButtonText: string;
+  confirmButtonText?: string;
+  cancelButtonText?: string;
   onConfirm: () => void;
   onCancel: () => void;
 };
