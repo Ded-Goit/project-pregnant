@@ -1,3 +1,18 @@
+
+
+
+
+
+
+.modal { width:640px; background:var(--color-white); border:1px solid var(--color-scheme-border); border-radius:16px; overflow:hidden; color:var(--color-neutral-darkest); }
+.header { display:flex; align-items:center; justify-content:space-between; padding:12px 16px; border-bottom:1px solid var(--color-scheme-border); }
+.body { max-height:65vh; overflow:auto; padding:16px; }
+.actions { display:flex; justify-content:flex-end; gap:8px; padding:12px 16px; border-top:1px solid var(--color-scheme-border); }
+.btn { padding:8px 12px; border-radius:12px; border:1px solid var(--color-scheme-border); background:var(--color-white); }
+.btnPrimary { background:var(--color-scheme-accent); border-color:var(--color-scheme-accent); color:var(--color-neutral-darkest); }
+
+/* =================== MOBIL =================== */
+
 .modalBackdrop {
   position: fixed;
   top: 0;
@@ -12,7 +27,6 @@
 }
 
 .modalContent {
-  background-color: var(--color-white);
   border-radius: 40px;
   padding: 48px 20px;
   width: 334px;
@@ -20,16 +34,13 @@
   /* max-width: 768px; */
   position: relative;
 
-  @media (min-width: 768px) {
-    width: 704px;
-    height: 755px;
-    padding: 64px 32px;
-  }
-  @media (min-width: 1440px) {
-    width: 768px;
-    height: 785px;
-    padding: 64px;
-  }
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: column;
+  /* gap: 20px; */
+
+  background: var(--color-scheme-background);
 }
 
 .closeButton {
@@ -41,15 +52,12 @@
   border: none;
   background: transparent;
   cursor: pointer;
-
-  @media (min-width: 768px) {
-    top: 36px;
-    right: 36px;
-  }
 }
 
 .modalTitle {
-  font: 700 36px / 120% var(--second-family);
+  font-family: var(--second-family);
+  font-weight: 700;
+  font-size: 36px;
   letter-spacing: 0.01em;
   text-align: center;
   color: var(--color-scheme-text);
@@ -57,15 +65,51 @@
   height: 58px;
   line-height: 1.2;
 
-  @media (min-width: 1440px) {
-    font-size: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: column;
+  gap: 16px;  
+
+  width: 295px;
+  height: 43px;
+
+  margin-bottom: 20px;
+}
+
+/* ------------------- TABLET ------------------- */
+
+@media screen and (min-width: 768px) {
+
+  .modalContent {
+    width: 704px;
+    height: 755px;
+
+    padding: 64px 32px;
+  }
+
+  .closeButton {
+    top: 32px;
+    right: 32px;
+  }
+
+  .modalTitle{
+    width: 640px;
+
+    margin-bottom: 40px;
   }
 }
 
-.backdrop { position:fixed; inset:0; background:var(--opacity-neutral-darkest-40); display:flex; align-items:center; justify-content:center; z-index:50; }
-.modal { width:640px; background:var(--color-white); border:1px solid var(--color-scheme-border); border-radius:16px; overflow:hidden; color:var(--color-neutral-darkest); }
-.header { display:flex; align-items:center; justify-content:space-between; padding:12px 16px; border-bottom:1px solid var(--color-scheme-border); }
-.body { max-height:65vh; overflow:auto; padding:16px; }
-.actions { display:flex; justify-content:flex-end; gap:8px; padding:12px 16px; border-top:1px solid var(--color-scheme-border); }
-.btn { padding:8px 12px; border-radius:12px; border:1px solid var(--color-scheme-border); background:var(--color-white); }
-.btnPrimary { background:var(--color-scheme-accent); border-color:var(--color-scheme-accent); color:var(--color-neutral-darkest); }
+
+/* ------------------- COMPUTER ------------------- */
+
+@media screen and (min-width: 1440px) {
+
+  .modalContent {
+    width: 768px;
+  }
+
+  .modalTitle {
+    font-size: 48px;
+  }
+}

@@ -1,43 +1,103 @@
-.card {
+/* =================== MOBIL =================== */
+
+.card{
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: column;
+  gap: 8px;
+
+  border: 1px solid var(--color-scheme-foreground-alt);
+  border-radius: 16px;
+  width: 303px;
+  height: 91px;
+  padding: 16px 16px;
+
   background: var(--color-scheme-foreground-alt);
-  border-radius: 14px;
-  padding: 12px;
-  border: 1px solid var(--color-scheme-border, rgba(0, 0, 0, 0.12));
 }
 
-.head {
+.head{
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-direction: row;
+  gap: 0px;
+
+  width: 271px;
+  height: 26px;
 }
 
-.title {
-  margin: 0;
-  font-size: 14px;
-  font-weight: var(--fw-bold);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+.title{
+  font-family: var(--font-family);
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--color-scheme-text);
 }
 
-.date {
-  color: var(--color-neutral-dark);
+.date{
+  font-family: var(--font-family);
+  font-weight: 400;
   font-size: 12px;
-  white-space: nowrap;
+  line-height: 1.6;
+  color: var(--color-scheme-text);
 }
 
-.tags {
+.tags{
   display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-direction: row;
   gap: 8px;
-  flex-wrap: wrap;
-  margin-top: 6px;
+
+  width: 271px;
+  height: 25px;
 }
 
-.chip {
-  background: var(--color-white);
-  border: 1px solid var(--color-scheme-border, rgba(0, 0, 0, 0.12));
-  border-radius: 999px;
-  padding: 3px 10px;
-  font-size: 11px;
-  color: var(--color-neutral-darker);
+.chip{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  gap: 0px;
+
+  border: 1px solid var(--opacity-transparent);
+  border-radius: 100px;
+  padding: 2px 12px;
+  width: 119px;
+  height: 25px;
+
+  background: var(--color-scheme-foreground);
+
+  font-family: var(--font-family);
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--color-scheme-text);
 }
+
+/* ------------------- TABLET ------------------- */
+
+@media screen and (min-width: 768px) {
+
+  .card{
+    gap: 24px;
+
+    padding: 16px;
+    width: 672px;
+
+    justify-content: center
+  }
+
+  .head{
+    width: 640px;
+  }
+
+  .tags{
+    width: 640px;
+  }
+
+}
+/* ------------------- COMPUTER ------------------- */
+
+@media screen and (min-width: 1440px) {}

@@ -83,3 +83,18 @@
   text-align: center;
   padding: 16px 0;
 }
+
+
+/* =================== MOBIL =================== */
+
+
+/* ------------------- TABLET ------------------- */
+
+@media screen and (min-width: 768px) {
+}
+
+
+/* ------------------- COMPUTER ------------------- */
+
+@media screen and (min-width: 1440px) {
+}
