@@ -1,17 +1,75 @@
-.component {
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background: var(--opacity-neutral-darkest-40);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+}
+.modalContainer {
   display: flex;
   flex-direction: column;
+  gap: 48px;
+}
+.modal {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  border-radius: 40px;
+  padding: 64px 20px;
+  min-height: auto;
+  width: 335px;
+  background-color: var(--color-scheme-background);
+
+  @media (min-width: 768px) {
+    width: 704px;
+    padding: 64px 32px;
+  }
+  @media (min-width: 1440px) {
+    width: 768px;
+    padding: 64px;
+    height: 338px;
+  }
+}
+.closeBtn {
+  position: absolute;
+  top: 24.5px;
+  right: 24px;
+
+  @media (min-width: 768px) {
+    top: 32px;
+    right: 32px;
+  }
+}
+.body {
+  font-family: var(--second-family);
+  font-weight: 700;
+  font-size: 36px;
+  line-height: 120%;
+  letter-spacing: 0.01em;
+  text-align: center;
+  color: var(--color-scheme-text);
+
+  @media (min-width: 1440px) {
+    font-size: 48px;
+  }
+}
+.actions {
+  display: flex;
+  flex-direction: column;
+  padding: 0 13.5px;
+  gap: 24px;
+
+  @media (min-width: 768px) {
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 0 40px;
+  }
 }
 
-.title {
-  background-color: rgb(179, 201, 214);
+.svg {
+  width: 24px;
+  height: 24px;
 }
-
-
-.backdrop { position:fixed; inset:0; background:var(--opacity-neutral-darkest-40); display:flex; align-items:center; justify-content:center; z-index:50; }
-.modal { width:480px; background:var(--color-white); border:1px solid var(--color-scheme-border); border-radius:16px; overflow:hidden; color:var(--color-neutral-darkest); }
-.header { display:flex; align-items:center; justify-content:space-between; padding:12px 16px; border-bottom:1px solid var(--color-scheme-border); }
-.body { padding:16px; }
-.actions { display:flex; justify-content:flex-end; gap:8px; padding:12px 16px; border-top:1px solid var(--color-scheme-border); }
-.btn { padding:8px 12px; border-radius:12px; border:1px solid var(--color-scheme-border); background:var(--color-white); }
-.btnDanger { background:var(--color-red); border-color:var(--color-red); color:var(--color-white); }
