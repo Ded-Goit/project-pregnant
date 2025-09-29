@@ -87,6 +87,57 @@ export default function TasksReminderCard() {
     });
   };
 
+  const staticTasks: Task[] = [
+    {
+      id: '1',
+      date: new Date().toISOString(),
+      name: 'Звернутись до гінеколога',
+      isDone: false,
+    },
+    {
+      id: '2',
+      date: new Date().toISOString(),
+      name: 'Почати приймати фолієву кислоту',
+      isDone: false,
+    },
+    {
+      id: '3',
+      date: new Date().toISOString(),
+      name: 'Відмовитись від шкідливих звичок',
+      isDone: false,
+    },
+    {
+      id: '4',
+      date: new Date().toISOString(),
+      name: 'Переглянути харчування',
+      isDone: false,
+    },
+    {
+      id: '5',
+      date: new Date().toISOString(),
+      name: 'Дотримуватись легкої фізичної активності',
+      isDone: false,
+    },
+    {
+      id: '6',
+      date: new Date().toISOString(),
+      name: 'Дбати про емоційний стан',
+      isDone: false,
+    },
+    {
+      id: '7',
+      date: new Date().toISOString(),
+      name: 'Подбати про безпеку в авто',
+      isDone: false,
+    },
+    {
+      id: '8',
+      date: new Date().toISOString(),
+      name: 'Повідомити близьких про вагітність',
+      isDone: false,
+    },
+  ];
+
   if (loading && isAuthenticated)
     return (
       <section className={styles.tasksReminderCard}>
@@ -101,6 +152,8 @@ export default function TasksReminderCard() {
       </section>
     );
 
+  const tasksToRender = isAuthenticated ? tasks : staticTasks;
+
   return (
     <section className={styles.tasksReminderCard}>
       <button className={styles.addTaskButton} onClick={handleButtonClick}>
@@ -108,7 +161,7 @@ export default function TasksReminderCard() {
       </button>
       <h3 className={styles.tasksReminderTitle}>Важливі завдання</h3>
       <div className={styles.taskListWrapper}>
-        {tasks.length === 0 && isAuthenticated ? (
+        {tasksToRender.length === 0 && isAuthenticated ? (
           <div className={styles.noTasksMessageContainer}>
             <p className={styles.noTasksMessageTitle}>
               Наразі немає жодних завдань
@@ -127,7 +180,7 @@ export default function TasksReminderCard() {
           </div>
         ) : (
           <ul className={styles.tasksList}>
-            {tasks.map(({ id, date, name, isDone }) => {
+            {tasksToRender.map(({ id, date, name, isDone }) => {
               const taskIdForPatch = id as string;
               return (
                 <li key={taskIdForPatch}>

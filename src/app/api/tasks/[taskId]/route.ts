@@ -5,12 +5,12 @@ import { AxiosError } from 'axios';
 
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { taskId: string } }
+  context: { params: Promise<{ taskId: string }> }
 ) {
   const body = await request.json(); // Отримуємо { isDone: boolean }
   const cookieData = await cookies();
   const accessToken = cookieData.get('accessToken')?.value;
-  const { taskId } = params; // ID завдання
+  const { taskId } = await context.params; // ID завдання
 
   try {
     // 💡 Відправляємо запит на зовнішній бекенд

@@ -27,7 +27,8 @@ const FeelingCheckCard = dynamic(
 
 export async function getDashboardData(isAuthenticated: boolean) {
   const response = await nextServer.get(
-    isAuthenticated ? '/weeks/dashboard' : '/weeks/public/dashboard'
+    isAuthenticated ? '/api/weeks/dashboard' : '/api/public-dashboard',
+    { baseURL: '' } // Use relative path, not the backend baseURL
   );
   return response.data;
 }
@@ -55,26 +56,45 @@ export default function DashboardPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [dashboardData, userData] = await Promise.all([
-          getDashboardData(isAuthenticated),
-          getUserName(),
-        ]);
+        if (isAuthenticated) {
+          const [dashboardData, userData] = await Promise.all([
+            getDashboardData(true),
+            getUserName(),
+          ]);
 
-        if (dashboardData && userData) {
-          setUserName(userData?.data?.name || 'Пані');
-          setWeekNumber(dashboardData.data.data.weekNumber);
-          setDaysLeft(dashboardData.data.data.daysLeft);
-          setImage(dashboardData.data.data.baby.image);
-          setBabySize(dashboardData.data.data.baby.babySize);
-          setBabyWeight(dashboardData.data.data.baby.babyWeight);
-          setBabyActivity(dashboardData.data.data.baby.babyActivity);
-          setBabyDevelopment(dashboardData.data.data.baby.babyDevelopment);
-          setMomDailyTips(dashboardData.data.data.baby.momDailyTips);
-          setCategoryIconUrl(dashboardData.data.data.baby.categoryIconUrl);
+          if (dashboardData && userData) {
+            // Authenticated response has a nested `data.data` structure
+            const data = dashboardData.data.data;
+            setUserName(userData?.data?.name || 'Пані');
+            setWeekNumber(data.weekNumber);
+            setDaysLeft(data.daysLeft);
+            setImage(data.baby.image);
+            setBabySize(data.baby.babySize);
+            setBabyWeight(data.baby.babyWeight);
+            setBabyActivity(data.baby.babyActivity);
+            setBabyDevelopment(data.baby.babyDevelopment);
+            setMomDailyTips(data.baby.momDailyTips);
+            setCategoryIconUrl(data.baby.categoryIconUrl);
+          }
         } else {
-          setUserName('Пані');
+          // Public response has a direct `data` structure
+          const dashboardData = await getDashboardData(false);
+          if (dashboardData) {
+            const data = dashboardData.data;
+            setUserName('Пані'); // Default name for public
+            setWeekNumber(data.weekNumber);
+            setDaysLeft(data.daysLeft);
+            setImage(data.baby.image);
+            setBabySize(data.baby.babySize);
+            setBabyWeight(data.baby.babyWeight);
+            setBabyActivity(data.baby.babyActivity);
+            setBabyDevelopment(data.baby.babyDevelopment);
+            setMomDailyTips(data.baby.momDailyTips);
+            setCategoryIconUrl(data.baby.categoryIconUrl);
+          }
         }
-      } catch {
+      } catch (error) {
+        console.error('Failed to fetch dashboard data:', error);
         setUserName('Пані');
       }
     };
