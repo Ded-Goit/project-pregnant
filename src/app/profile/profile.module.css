@@ -77,7 +77,7 @@
   }
 }
 
-@media (min-width: 768px) and (max-width: 1023px) {
+@media (min-width: 768px) and (max-width: 1439px) {
   .container {
     max-width: 700px;
     padding: 28px 32px;
@@ -89,7 +89,7 @@
   }
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 1440px) {
   .container {
     max-width: 900px;
     padding: 40px;
