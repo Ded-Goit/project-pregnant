@@ -68,4 +68,55 @@
 /* ------------------- COMPUTER ------------------- */
 
 @media screen and (min-width: 1440px) {
+
+  .main{
+    height: 722px;
+    width: 1128px;
+  }
+
+  .pageHeader{
+    height: 45px;
+    width: 600px;
+  }
+
+  .detailsCard{
+    background: var(--color-scheme-foreground);
+    
+    border-radius: 32px;
+    width: 643px;
+    height: 727px;
+
+    margin-top: 32px;
+    margin-left: 32px;
+
+    padding: 24px;
+
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .contentRow{
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: row;
+    gap: 32px;
+
+    /* padding: 32px; */
+    width: 1128px;
+    /* height: 791px; */
+    height: 759px;
+
+    background: var(--color-scheme-background);
+  }
+
+  .listCard{
+    border-radius: 32px;
+    padding: 24px 16px;
+    width: 389px;
+    height: 727px;
+  }
 }

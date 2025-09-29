@@ -47,6 +47,8 @@
 
   width: 303px;
   height: 626px;
+
+  overflow: auto;
 }
 
 /* ------------------- TABLET ------------------- */
@@ -56,6 +58,7 @@
   .header{
     width: 672px;
   }
+
   .body{
     width: 672px;
   }
@@ -65,4 +68,25 @@
 /* ------------------- COMPUTER ------------------- */
 
 @media screen and (min-width: 1440px) {
+
+  .header{
+    width: 357px;
+    height: 28px;
+  }
+
+  .title{
+    font-size: 20px;
+  }
+
+  .tools{
+    width: 125px;
+    height: 26px;
+
+    font-size: 16px;
+  }
+
+  .body{
+    width: 357px;
+    height: 690px;
+  }
 }
