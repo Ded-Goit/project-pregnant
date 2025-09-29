@@ -16,7 +16,9 @@ import {
 } from '@/lib/clientApi';
 import { useAuthStore } from '@/hooks/useAuthStore';
 import ConfirmationModal from '@/components/ConfirmationModal/ConfirmationModal';
-//import { error } from 'console';
+
+import { useRouter } from 'next/navigation';
+
 
 export default function DiaryPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -25,6 +27,7 @@ export default function DiaryPage() {
   const [entries, setEntries] = useState<Diary[]>([]);
   const [selected, setSelected] = useState<Diary | undefined>(undefined);
   const { user } = useAuthStore();
+  const router = useRouter();
   const openModal = (mode: boolean) => {
     setIsEdit(mode);
     setIsModalOpen(true);
@@ -73,6 +76,10 @@ export default function DiaryPage() {
       (entry) => entry._id === id
     );
     setSelected(selectedEntry);
+    if (window.innerWidth < 1440) {
+      router.push(`/diary/${id}`);
+      return;
+    }
   };
 
   const handleDeleteClick = async () => {
