@@ -3,9 +3,10 @@
 import dynamic from 'next/dynamic';
 import styles from './dashboard.module.css';
 import React, { useEffect, useState } from 'react';
-import type { DashboardResponse } from '../../types/note';
-import axios from 'axios';
+// import type { DashboardResponse } from '../../types/note';
+// import axios from 'axios';
 import { useAuthStore } from '@/hooks/useAuthStore'; // ✅ підключаємо
+import { nextServer } from '@/lib/api';
 
 const GreetingBlock = dynamic(
   () => import('@/components/GreetingBlock/GreetingBlock')
@@ -25,9 +26,15 @@ const FeelingCheckCard = dynamic(
 );
 
 export async function getDashboardData(isAuthenticated: boolean) {
-  const response = await axios.get(
-    isAuthenticated ? '/api/weeks/dashboard' : '/api/weeks/public/dashboard'
+  const response = await nextServer.get(
+    isAuthenticated ? '/api/weeks/dashboard' : '/api/public-dashboard',
+    { baseURL: '' } // Use relative path, not the backend baseURL
   );
+  return response.data;
+}
+
+export async function getUserName() {
+  const response = await nextServer.get('/users/currentUser');
   return response.data;
 }
 
@@ -49,23 +56,45 @@ export default function DashboardPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data: DashboardResponse = await getDashboardData(isAuthenticated);
+        if (isAuthenticated) {
+          const [dashboardData, userData] = await Promise.all([
+            getDashboardData(true),
+            getUserName(),
+          ]);
 
-        if (data) {
-          setUserName(user?.name || data.name || 'Пані');
-          setWeekNumber(data.weekNumber);
-          setDaysLeft(data.daysLeft);
-          setImage(data.baby.image);
-          setBabySize(data.baby.babySize);
-          setBabyWeight(data.baby.babyWeight);
-          setBabyActivity(data.baby.babyActivity);
-          setBabyDevelopment(data.baby.babyDevelopment);
-          setMomDailyTips(data.baby.momDailyTips);
-          setCategoryIconUrl(data.baby.categoryIconUrl);
+          if (dashboardData && userData) {
+            // Authenticated response has a nested `data.data` structure
+            const data = dashboardData.data.data;
+            setUserName(userData?.data?.name || 'Пані');
+            setWeekNumber(data.weekNumber);
+            setDaysLeft(data.daysLeft);
+            setImage(data.baby.image);
+            setBabySize(data.baby.babySize);
+            setBabyWeight(data.baby.babyWeight);
+            setBabyActivity(data.baby.babyActivity);
+            setBabyDevelopment(data.baby.babyDevelopment);
+            setMomDailyTips(data.baby.momDailyTips);
+            setCategoryIconUrl(data.baby.categoryIconUrl);
+          }
         } else {
-          setUserName('Пані');
+          // Public response has a direct `data` structure
+          const dashboardData = await getDashboardData(false);
+          if (dashboardData) {
+            const data = dashboardData.data;
+            setUserName('Пані'); // Default name for public
+            setWeekNumber(data.weekNumber);
+            setDaysLeft(data.daysLeft);
+            setImage(data.baby.image);
+            setBabySize(data.baby.babySize);
+            setBabyWeight(data.baby.babyWeight);
+            setBabyActivity(data.baby.babyActivity);
+            setBabyDevelopment(data.baby.babyDevelopment);
+            setMomDailyTips(data.baby.momDailyTips);
+            setCategoryIconUrl(data.baby.categoryIconUrl);
+          }
         }
-      } catch {
+      } catch (error) {
+        console.error('Failed to fetch dashboard data:', error);
         setUserName('Пані');
       }
     };

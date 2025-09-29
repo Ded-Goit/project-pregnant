@@ -1,31 +1,14 @@
-/* .pageWrapper {
-  display: flex;
-  flex-direction: column;
-}
-
-.title {
-  background-color: aquamarine;
-} */
-
 .dashboardGrid {
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* margin: 0 auto; */
-  /* flex-wrap: wrap; */
-  /* gap: 24px; */
-  /* @media (min-width: 1024px) {
-    grid-template-columns: 1fr 1fr; */
-  /* Можна додати конкретні розміри за макетом */
-  /* } */
 }
-
-/* @media (max-width: 1023px) {
-  .block {
-    height: auto;
-    overflow-y: visible;
+@media screen and (min-width: 1440px) {
+  .dashboardGrid > :first-child {
+    align-self: flex-start;
+    margin-left: 24px;
   }
-} */
+}
 
 .dashboardContainer {
   display: flex;
