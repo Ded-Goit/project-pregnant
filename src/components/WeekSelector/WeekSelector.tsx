@@ -1,10 +1,8 @@
 'use client';
 
 import styles from './WeekSelector.module.css';
-import React, { useRef, useEffect, useState } from "react";
-import { nextServer } from '@/lib/api';
-import toast from "react-hot-toast";
-import { useAuthStore } from '@/hooks/useAuthStore';
+import React, { useRef, useEffect} from "react";
+import { useWeekStore } from '@/hooks/useAuthStore';
 
 interface Props {
   total?: number;
@@ -15,26 +13,15 @@ interface Props {
 
 export default function WeekSelector({ total = 42, startAt = 1, onWeekChange }: Props) {
 
-  const [currentWeek, setCurrentWeek] = useState<number | null>(null);
-  const { user } = useAuthStore();
   const containerRef = useRef<HTMLDivElement | null>(null);
 
-  useEffect(() => {
+const { currentWeek } = useWeekStore();
 
-    nextServer.defaults.baseURL = 'https://project-pregnant-back.onrender.com/api';
-    async function loadWeek() {
-
-      try {
-        const route = user ? `/weeks/dashboard` : '/weeks/public/dashboard';
-        const res = await nextServer.get(route);
-        setCurrentWeek(res.data.weekNumber);
-        onWeekChange?.(res.data.weekNumber);
-      } catch {
-        toast.error("Не вдалося завантажити поточний тиждень");
-      }
-    }
-    loadWeek();
-  }, [user, onWeekChange, setCurrentWeek]);
+useEffect(() => {
+  if (currentWeek !== null) {
+    onWeekChange?.(currentWeek);
+  }
+}, [currentWeek, onWeekChange]);
 
 
   

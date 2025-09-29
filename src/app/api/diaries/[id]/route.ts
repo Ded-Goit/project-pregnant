@@ -29,3 +29,28 @@ export async function DELETE(request: NextRequest, { params }: Props) {
     return NextResponse.json({ message: 'Щось пішло не так' }, { status: 500 });
   }
 }
+
+export async function PATCH(request: NextRequest, { params }: Props) {
+  const { id } = await params;
+  const body = await request.json();
+
+  const cookieData = await cookies();
+  const accessToken = cookieData.get('accessToken')?.value;
+
+  try {
+    const { data } = await api.patch(`/diaries/${id}`, body, {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    });
+
+    return NextResponse.json(data);
+  } catch (error) {
+    const err = error as AxiosError;
+
+    if (err.response) {
+      return NextResponse.json(err.response.data, {
+        status: err.response.status,
+      });
+    }
+    return NextResponse.json({ message: 'Щось пішло не так' }, { status: 500 });
+  }
+}

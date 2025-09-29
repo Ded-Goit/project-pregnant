@@ -7,7 +7,7 @@ import { Diary } from '@/lib/clientApi';
 
 type Props = {
   entries: Diary[];
-  onAddClick?: () => void;
+  onAddClick: (mode: boolean) => void;
   onSelect?: (e: React.MouseEvent) => void | Promise<void>;
 };
 
@@ -20,7 +20,7 @@ export default function DiaryList({ entries, onAddClick, onSelect }: Props) {
           <button
             aria-label="Додати"
             className="roundBtn"
-            onClick={onAddClick}
+            onClick={() => onAddClick(false)}
             type="button"
           >
             Новий запис ＋

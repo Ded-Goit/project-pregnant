@@ -18,12 +18,8 @@ const ChevronRightIcon = () => (
 
 export default function OnboardingPage() {
   const router = useRouter();
-  const { user: authUser, setUser: setAuthUser } = useAuthStore();
+  const { user: authUser, setUser } = useAuthStore();
   const [isLoading, setIsLoading] = useState(true);
-
-  // Додано відсутню змінну accessToken
-  const accessToken =
-    typeof window !== 'undefined' ? localStorage.getItem('accessToken') : null;
 
   useEffect(() => {
     // Перевіряємо, чи користувач вже пройшов онбординг
@@ -32,12 +28,12 @@ export default function OnboardingPage() {
       return;
     }
 
-    if (!authUser || !accessToken) {
+    if (!authUser) {
       router.push('/login');
       return;
     }
     setIsLoading(false);
-  }, [authUser, router, accessToken]);
+  }, [authUser, router]);
 
   const handleOnboardingSubmit = async (
     formData: OnboardingFormData
@@ -58,16 +54,12 @@ export default function OnboardingPage() {
         updatedAt: new Date().toISOString(),
       };
 
-      setAuthUser(updatedUser);
+      setUser(updatedUser); // Використовуємо setUser
 
       // Перенаправляємо на головну сторінку після успішного онбордингу
       router.push('/dashboard');
     } catch (error) {
       console.error('Помилка онбордингу:', error);
-      const errorMessage =
-        error instanceof Error
-          ? error.message
-          : 'Сталася помилка при збереженні даних';
       throw error;
     }
   };
@@ -86,7 +78,7 @@ export default function OnboardingPage() {
     }
   };
 
-  if (!authUser || !accessToken || authUser.onboardingCompleted) {
+  if (!authUser || authUser.onboardingCompleted) {
     return null;
   }
 
