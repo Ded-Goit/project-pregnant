@@ -68,7 +68,7 @@ export default function DiaryEntryRoute() {
   return (
     <div className={s.wrap}>
       <button className={s.backBtn} onClick={() => history.back()}>
-        ← До списку
+        До списку
       </button>
       <section className={s.detailsCard}>
         <div className={s.detailsInner}>
