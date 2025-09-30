@@ -11,7 +11,7 @@ interface AddDiaryEntryModalProps {
   onClose: () => void;
   onSubmit?: (e: React.FormEvent<HTMLFormElement>) => void | Promise<void>;
   initialData?: Diary;
-  errorValidation: ErrorValodationProps | null;
+  errorValidation?: ErrorValodationProps | null;
 }
 
 export default function NewAddDiaryEntryModal({
