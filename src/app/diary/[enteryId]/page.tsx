@@ -119,9 +119,9 @@ export default function DiaryEntryRoute() {
             </article>
           </div>
           <div>
-            <ul>
+            <ul className={s.emotionsSection}>
               {diaryRec?.emotions.map((emotion) => (
-                <li key={emotion._id}>{emotion.title}</li>
+                <li className={s.emotions} key={emotion._id}>{emotion.title}</li>
               ))}
             </ul>
           </div>
