@@ -77,10 +77,14 @@ export interface User {
   avatar?: string;
   dueDate?: string;
   onboardingCompleted?: boolean;
+  currentWeek: {
+    weekNumber: number;
+    daysLeft: number;
+  };
 }
 
 export interface getUserResponse {
-  data: User;
+  data: { user: User };
 }
 
 export interface RefreshResponse {
@@ -90,6 +94,39 @@ export interface RefreshResponse {
 export interface LoginRequest {
   email: string;
   password: string;
+}
+
+export interface WeekBabyResponse {
+  data: {
+    _id: string;
+    analogy: string;
+    weekNumber: number;
+    babySize: number;
+    babyWeight: number;
+    image: string;
+    babyActivity: string;
+    babyDevelopment: string;
+    interestingFact: string;
+    momDailyTips: string[];
+  };
+}
+
+interface ComfortTips {
+  _id: string;
+  category: string;
+  tip: string;
+}
+
+export interface WeekMomResponse {
+  data: {
+    feelings: {
+      states: string[];
+      sensationDescr: string;
+    };
+    _id: string;
+    weekNumber: number;
+    comfortTips: ComfortTips[];
+  };
 }
 
 export const register = async (payload: RegisterRequest) => {
@@ -160,4 +197,16 @@ export const updateUserData = async (id: string, data: FormData) => {
     headers: { 'Content-Type': 'multipart/form-data' },
   });
   return res.data;
+};
+
+export const getBabyWeek = async (week: number | string) => {
+  const { data } = await nextServer.get<WeekBabyResponse>(
+    `/weeks/${week}/baby`
+  );
+  return data;
+};
+
+export const getMomWeek = async (week: number | string) => {
+  const { data } = await nextServer.get<WeekMomResponse>(`/weeks/${week}/mom`);
+  return data;
 };

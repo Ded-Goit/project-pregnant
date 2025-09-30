@@ -14,11 +14,12 @@ interface AuthState {
 export const useAuthStore = create<AuthState>((set) => ({
   user: null,
   isAuthenticated: false,
-  setUser: (user) =>
+  setUser: (user) => {
     set(() => ({
       user,
       isAuthenticated: true,
-    })),
+    }));
+  },
 
   clearIsAuthenticated: () => set({ user: null, isAuthenticated: false }),
 }));
@@ -31,10 +32,8 @@ export function useWeekStore() {
     async function fetchWeek() {
       try {
         const route = user ? '/weeks/dashboard' : '/weeks/public/dashboard';
-        // nextServer.defaults.baseURL =
-        //   'https://project-pregnant-back.onrender.com/api';
         const res = await nextServer.get(route);
-        setCurrentWeek(res.data.weekNumber);
+        setCurrentWeek(res.data.data.data.weekNumber);
       } catch {
         toast.error('Не вдалося отримати поточний тиждень');
       }

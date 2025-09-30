@@ -1,43 +1,42 @@
 'use client';
 
 import styles from './WeekSelector.module.css';
-import React, { useRef, useEffect} from "react";
-import { useWeekStore } from '@/hooks/useAuthStore';
+import React, { useRef, useEffect } from 'react';
+import { useAuthStore } from '@/hooks/useAuthStore';
 
 interface Props {
   total?: number;
   startAt?: number;
-  onWeekChange?: (week: number) => void;
+  onWeekChange: (week: number) => void;
+  currentWeek?: number | null;
 }
 
-
-export default function WeekSelector({ total = 42, startAt = 1, onWeekChange }: Props) {
-
+export default function WeekSelector({
+  total = 42,
+  startAt = 1,
+  onWeekChange,
+  currentWeek,
+}: Props) {
   const containerRef = useRef<HTMLDivElement | null>(null);
+  const user = useAuthStore((state) => state.user);
+  const currentUserWeek = user?.currentWeek.weekNumber;
 
-const { currentWeek } = useWeekStore();
+  useEffect(() => {
+    if (currentWeek === 1) return;
+    const el = containerRef.current;
+    const currentCard = el?.querySelector(`[data-week="${currentWeek}"]`);
+    if (currentCard) {
+      (currentCard as HTMLElement).scrollIntoView({
+        behavior: 'smooth',
+        inline: 'center',
+      });
+    }
+  }, [currentWeek]);
 
-useEffect(() => {
-  if (currentWeek !== null) {
-    onWeekChange?.(currentWeek);
-  }
-}, [currentWeek, onWeekChange]);
-
-
-  
-useEffect(() => {
-  if (currentWeek === null) return;
-  const el = containerRef.current;
-  const currentCard = el?.querySelector(`[data-week="${currentWeek}"]`);
-  if (currentCard) {
-    (currentCard as HTMLElement).scrollIntoView({ behavior: "smooth", inline: "center" });
-  }
-}, [currentWeek]);
-  
   const handleWeekClick = (week: number) => {
-    if (!currentWeek) return;
-    if (week <= currentWeek) {
-      onWeekChange?.(week);
+    if (!currentUserWeek) return;
+    if (week <= currentUserWeek) {
+      onWeekChange(week);
     }
   };
 
@@ -55,7 +54,8 @@ useEffect(() => {
           let className = styles.card;
           if (currentWeek !== null) {
             if (n === Number(currentWeek)) className += ` ${styles.current}`;
-            else if (n > Number(currentWeek)) className += ` ${styles.future}`;
+            else if (n > Number(currentUserWeek))
+              className += ` ${styles.future}`;
           }
           return (
             <div
@@ -65,7 +65,9 @@ useEffect(() => {
               role="listitem"
               tabIndex={0}
               onClick={() => handleWeekClick(n)}
-              style={{ cursor: n <= (currentWeek ?? 0) ? "pointer" : "not-allowed" }}
+              style={{
+                cursor: n <= (currentUserWeek ?? 0) ? 'pointer' : 'not-allowed',
+              }}
             >
               <div className={styles.number}>{n}</div>
               <div className={styles.label}>Тиждень</div>
