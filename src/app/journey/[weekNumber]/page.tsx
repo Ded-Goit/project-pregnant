@@ -20,7 +20,7 @@ export default function Page() {
   const router = useRouter();
   const weekChange = (week: number) => {
     setCurrentWeek(week);
-    // router.push(`/journey/${currentWeek}`);
+    router.push(`/journey/${currentWeek}`);
   };
 
   return (

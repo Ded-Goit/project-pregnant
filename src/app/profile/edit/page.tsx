@@ -55,10 +55,12 @@ export default function OnboardingPage() {
       formDataToSend.append('gender', formData.childGender);
 
       // 👇 бекенд чекає дату у форматі ISO
-      formDataToSend.append(
-        'dueDate',
-        new Date(formData.dueDate).toISOString()
-      );
+      const formatDate = (date: string) => {
+  const d = new Date(date);
+  return d.toISOString().split('T')[0];
+};
+
+formDataToSend.append('dueDate', formatDate(formData.dueDate));
 
       // викликаємо API
       const savedUser = await updateUserData(authUser._id, formDataToSend);
