@@ -1,28 +1,30 @@
 'use client';
 
 import React, { useEffect, useRef, useState } from 'react';
-import * as Yup from 'yup';
+// import * as Yup from 'yup';
 import styles from './NewAddDiaryEntryForm.module.css';
 import Button from '../UI/Buttons/Buttons';
 import { Diary } from '@/lib/clientApi';
+import { ErrorValodationProps } from '@/app/diary/page';
 
 interface AddDiaryEntryFormProps {
   onSubmit?: (e: React.FormEvent<HTMLFormElement>) => void | Promise<void>;
   initialData?: Diary;
+  errorValidation: ErrorValodationProps | null;
 }
 
-export const validationSchema = Yup.object().shape({
-  title: Yup.string()
-    .min(3, 'Заголовок має бути не менше 3 символів')
-    .max(255, 'Заголовок занадто довгий')
-    .required('Обов’язкове поле'),
-  emotions: Yup.array()
-    .of(Yup.string())
-    .min(1, 'Оберіть щонайменше одну категорію'),
-  descr: Yup.string()
-    .min(5, 'Запис має бути не менше 5 символів')
-    .required('Обов’язкове поле'),
-});
+// export const validationSchema = Yup.object().shape({
+//   title: Yup.string()
+//     .min(3, 'Заголовок має бути не менше 3 символів')
+//     .max(255, 'Заголовок занадто довгий')
+//     .required('Обов’язкове поле'),
+//   emotions: Yup.array()
+//     .of(Yup.string())
+//     .min(1, 'Оберіть щонайменше одну категорію'),
+//   descr: Yup.string()
+//     .min(5, 'Запис має бути не менше 5 символів')
+//     .required('Обов’язкове поле'),
+// });
 
 type EmotionRecord = {
   id?: string | number;
@@ -127,6 +129,7 @@ const FALLBACK: Option[] = [
 export default function NewAddDiaryEntryForm({
   onSubmit,
   initialData,
+  errorValidation,
 }: AddDiaryEntryFormProps) {
   const [options, setOptions] = useState<Option[]>([]);
   const [selected, setSelected] = useState<string[]>(
@@ -135,7 +138,12 @@ export default function NewAddDiaryEntryForm({
   const [open, setOpen] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
   const [loadError, setLoadError] = useState<string | null>(null);
+  const [fieldData, setFieldData] = useState<Diary | null>(null);
   const comboRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    setFieldData(initialData || null);
+  }, [initialData]);
 
   useEffect(() => {
     let aborted = false;
@@ -253,8 +261,11 @@ export default function NewAddDiaryEntryForm({
           id="title"
           name="title"
           placeholder="Введіть заголовок запису"
-          defaultValue={initialData?.title}
+          defaultValue={fieldData?.title}
         />
+        {errorValidation && errorValidation.field === 'title' && (
+          <div>{errorValidation.message}</div>
+        )}
       </div>
 
       <div className={styles.fieldContainer}>
@@ -361,6 +372,9 @@ export default function NewAddDiaryEntryForm({
         </div>
 
         {loadError && <p className={styles.helperError}>{loadError}</p>}
+        {errorValidation && errorValidation.field === 'emotions' && (
+          <div>{errorValidation.message}</div>
+        )}
       </div>
 
       <div className={styles.ContainerTitle}>
@@ -373,8 +387,11 @@ export default function NewAddDiaryEntryForm({
           name="descr"
           rows={6}
           placeholder="Запишіть, як ви себе відчуваєте"
-          defaultValue={initialData?.descr}
+          defaultValue={fieldData?.descr}
         />
+        {errorValidation && errorValidation.field === 'descr' && (
+          <div>{errorValidation.message}</div>
+        )}
       </div>
 
       <Button type="submit" variant="primary" size="large">
@@ -383,100 +400,3 @@ export default function NewAddDiaryEntryForm({
     </form>
   );
 }
-
-// 'use client';
-
-// import styles from './NewAddDiaryEntryForm.module.css';
-// import React from 'react';
-// import * as Yup from 'yup';
-// import Button from '../UI/Buttons/Buttons';
-
-// interface AddDiaryEntryFormProps {
-//   onSubmit?: (e: React.FormEvent<HTMLFormElement>) => void | Promise<void>;
-// }
-
-// const categoriesOptions = [
-//   'Радість',
-//   'Сум',
-//   'Стрес',
-//   'Спокій',
-//   'Втома',
-//   'Щастя',
-// ];
-
-// const validationSchema = Yup.object().shape({
-//   title: Yup.string()
-//     .min(3, 'Заголовок має бути не менше 3 символів')
-//     .max(255, 'Заголовок занадто довгий')
-//     .required('Обов’язкове поле'),
-//   emotions: Yup.array()
-//     .of(Yup.string())
-//     .min(1, 'Оберіть щонайменше одну категорію'),
-//   descr: Yup.string()
-//     .min(5, 'Запис має бути не менше 5 символів')
-//     .required('Обов’язкове поле'),
-// });
-
-// const ErrorText = ({ children }: { children: React.ReactNode }) => (
-//   <div style={{ color: 'red', fontSize: '0.9rem', marginTop: '4px' }}>
-//     {children}
-//   </div>
-// );
-
-// export default function NewAddDiaryEntryForm({
-//   onSubmit,
-// }: AddDiaryEntryFormProps) {
-//   return (
-//     <form className={styles.diaryForm} onSubmit={onSubmit}>
-//       <div className={styles.fieldContainer}>
-//         <label className={styles.fieldLabel} htmlFor="title">
-//           Заголовок
-//         </label>
-//         <input
-//           className={styles.fieldInput}
-//           type="text"
-//           id="title"
-//           name="title"
-//           placeholder="Введіть заголовок запису "
-//         />
-//       </div>
-
-//       <div className={styles.fieldContainer}>
-//         <label className={styles.fieldLabel} htmlFor="emotions">
-//           Категорії
-//         </label>
-//         <select
-//           className={styles.fieldSelect}
-//           id="emotions"
-//           name="emotions"
-//           multiple
-//           size={categoriesOptions.length}
-//         >
-//           {categoriesOptions.map((option) => (
-//             <option key={option} value={option}>
-//               {option}
-//             </option>
-//           ))}
-//         </select>
-
-//       </div>
-
-//       <div>
-//         <label className={styles.fieldLabel} htmlFor="content">
-//           Запис
-//         </label>
-//         <textarea
-//           className={styles.fieldTextInput}
-//           id="content"
-//           name="descr"
-//           rows={4}
-//           placeholder="Запишіть, як ви себе відчуваєте"
-//         />
-//       </div>
-
-//       <Button type="submit" variant="primary" size="large">
-//         Зберегти
-//       </Button>
-//     </form>
-//   );
-// }
