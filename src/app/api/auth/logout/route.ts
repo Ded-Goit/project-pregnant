@@ -1,24 +1,31 @@
 import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 import { api } from '../../api';
+import { AxiosError } from 'axios';
 
 export async function POST() {
   const cookieData = await cookies();
+  const accessToken = cookieData.get('accessToken')?.value;
 
   try {
-    const { data } = await api.post(
+    await api.post(
       '/auth/logout',
       {},
       {
-        headers: { Cookie: cookieData.toString() },
+        headers: { Authorization: `Bearer ${accessToken}` },
       }
     );
 
     cookieData.delete('accessToken');
     cookieData.delete('refreshToken');
+  } catch (error) {
+    const err = error as AxiosError;
 
-    return NextResponse.json(data);
-  } catch {
-    return NextResponse.json({ error: 401 });
+    if (err.response) {
+      return NextResponse.json(err.response.data, {
+        status: err.response.status,
+      });
+    }
   }
+  return NextResponse.json({ error: 666 });
 }
