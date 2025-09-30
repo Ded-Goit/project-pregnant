@@ -1,25 +1,92 @@
-.header {
+/* =================== MOBIL =================== */
+
+.header{
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 64px;
+  flex-direction: row;
+  gap: 16px;
+
+  width: 303px;
+  height: 25px;
 }
 
-.title {
-  margin: 0;
+.title{
+  font-family: var(--second-family);
+  font-weight: 700;
   font-size: 18px;
-  font-weight: var(--fw-bold);
+  line-height: 1.4;
+  letter-spacing: 0.01em;
+  color: var(--color-scheme-text);
 }
 
-.tools {
+.tools{
   display: flex;
   align-items: center;
+  justify-content: center;
+  flex-direction: row;
   gap: 8px;
-  color: var(--color-neutral-dark);
+
+  border-radius: 100px;
+  width: 114px;
+  height: 24px;
+
+  font-family: var(--font-family);
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--color-scheme-text);
 }
 
-.body {
-  display: grid;
-  row-gap: 16px;
+.body{
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-direction: column;
+  gap: 16px;
+
+  width: 303px;
+  height: 626px;
+
   overflow: auto;
+}
+
+/* ------------------- TABLET ------------------- */
+
+@media screen and (min-width: 768px) {
+
+  .header{
+    width: 672px;
+  }
+
+  .body{
+    width: 672px;
+  }
+}
+
+
+/* ------------------- COMPUTER ------------------- */
+
+@media screen and (min-width: 1440px) {
+
+  .header{
+    width: 357px;
+    height: 28px;
+  }
+
+  .title{
+    font-size: 20px;
+  }
+
+  .tools{
+    width: 125px;
+    height: 26px;
+
+    font-size: 16px;
+  }
+
+  .body{
+    width: 357px;
+    height: 690px;
+  }
 }

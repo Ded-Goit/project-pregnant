@@ -142,7 +142,9 @@ export default function DiaryPage() {
     <div className={styles.layout} data-theme="pink">
       {/* Main */}
       <main className={styles.main}>
-        <GreetingBlock userName={user?.name} />
+        <header className={styles.pageHeader}>
+          <GreetingBlock userName={user?.name} />
+        </header>
 
         <div className={styles.contentRow}>
           {/* LIST — всегда виден (desktop & mobile/tablet) */}

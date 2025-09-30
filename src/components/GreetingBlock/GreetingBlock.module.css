@@ -1,7 +1,27 @@
-.root {
+/* =================== MOBIL =================== */
+.root{
   font-family: var(--second-family);
-  font-size: 26px;
-  font-weight: var(--fw-bold);
-  color: var(--color-neutral-darkest);
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 1.4;
+  letter-spacing: 0.01em;
+  color: var(--color-scheme-text);
+
+  margin-bottom: 0;
   margin: 0;
+}
+
+/* ------------------- TABLET ------------------- */
+
+@media screen and (min-width: 768px) {
+}
+
+
+/* ------------------- COMPUTER ------------------- */
+
+@media screen and (min-width: 1440px) {
+
+  .root{
+    font-size: 32px;
+  }
 }

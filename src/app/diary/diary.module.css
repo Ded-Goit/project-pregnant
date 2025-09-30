@@ -1,78 +1,122 @@
-/* Базовий layout */
-.layout {
-  min-width: 375px;
-  margin: 16px 20px 0;
-  box-sizing: border-box;
+/* =================== MOBIL =================== */
+
+.detailsCard{
+  display: none;
 }
 
-.main {
-  width: 100%;
+.main{
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-direction: column;
+  gap: 0px;
+
+  width: 375px;
+  height: 813px;
+
+  margin-right: 20px;
+  margin-left: 20px;
+  margin-top: 16px;
+  margin-bottom: 32px;
 }
 
-.contentRow {
-  display: block;
+.pageHeader{
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  flex-direction: column;
+  gap: 8px;
+
+  width: 590px;
+  height: 34px;
 }
 
-.listCard {
-  width: 100%;
-  border-radius: 16px;
-  background: var(--color-white);
-  border: 1px solid var(--color-scheme-border, rgba(0, 0, 0, 0.12));
-}
+.listCard{
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-direction: column;
+  gap: 16px;
 
-.detailsCard {
-  display: none; /* приховуємо на мобільних */
+  background: var(--color-scheme-foreground);
+  
+  border-radius: 32px;
+  padding: 24px 16px;
+  width: 335px;
+  height: 715px;
+
+  margin-top: 32px;
 }
 
 /* ------------------- TABLET ------------------- */
 @media screen and (min-width: 768px) {
-  .layout {
-    margin-left: 32px;
+
+  .main{
+    height: 837px;
+    width: 768px;
+
     margin-right: 32px;
+    margin-left: 32px;
   }
 
-  .listCard {
-    border-radius: 20px;
-    padding: 14px;
+  .listCard{
+    width: 704px;
   }
+
 }
 
-/* ------------------- DESKTOP ------------------- */
+/* ------------------- COMPUTER ------------------- */
+
 @media screen and (min-width: 1440px) {
-  .layout {
-    width: 1408px;
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: 312px 1064px;
-    column-gap: 32px;
-    padding: 0;
+
+  .main{
+    height: 722px;
+    width: 1128px;
   }
 
-  .main {
-    width: 1064px;
+  .pageHeader{
+    height: 45px;
+    width: 600px;
   }
 
-  .contentRow {
-    display: grid;
-    grid-template-columns: 389px 1fr;
-    column-gap: 32px;
+  .detailsCard{
+    background: var(--color-scheme-foreground);
+    
+    border-radius: 32px;
+    width: 643px;
     height: 727px;
+
+    margin-top: 32px;
     margin-left: 32px;
-  }
 
-  .listCard {
-    width: 389px;
-    padding: 16px;
-    border-radius: 32px;
-    background: var(--color-white);
-    border: 1px solid var(--color-scheme-border, rgba(0, 0, 0, 0.15));
-  }
+    padding: 24px;
 
-  .detailsCard {
     display: flex;
-    padding: 8px;
-    background: var(--color-white);
-    border: 1px solid var(--color-scheme-border, rgba(0, 0, 0, 0.15));
+    align-items: center;
+    justify-content: flex-start;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .contentRow{
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: row;
+    gap: 32px;
+
+    /* padding: 32px; */
+    width: 1128px;
+    /* height: 791px; */
+    height: 759px;
+
+    background: var(--color-scheme-background);
+  }
+
+  .listCard{
     border-radius: 32px;
+    padding: 24px 16px;
+    width: 389px;
+    height: 727px;
   }
 }

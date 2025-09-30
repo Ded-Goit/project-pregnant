@@ -13,8 +13,8 @@ type Props = {
 export default function DiaryEntryDetails({ entry, onEdit, onDelete }: Props) {
   if (!entry) {
     return (
-      <div className={styles.detailsinner}>
-        <div className={styles.detailsbody}>
+      <div className={styles.detailsInner}>
+        <div>
           <p className={styles.placeholder}>
             Наразі записи у щоденнику відсутні
           </p>
@@ -24,11 +24,20 @@ export default function DiaryEntryDetails({ entry, onEdit, onDelete }: Props) {
   }
 
   return (
-    <div className={styles.detailsinner}>
-      <header className={styles.detailstop}>
+    <div className={styles.detailsInner}>
+      <header>
         <div className={styles.top}>
-          <div>
+          <div className={styles.divTitle}>
             <h3 className={styles.title}>{entry.title}</h3>
+              <button
+              className="btn-icon"
+              aria-label="Редагувати"
+              onClick={() => onEdit(true)}
+              type="button"
+            >✎
+            </button>
+          </div>
+          <div className={styles.actions}>
             <div className={styles.meta}>
               {new Date(entry.createdAt).toLocaleDateString('uk-UA', {
                 year: 'numeric',
@@ -36,37 +45,28 @@ export default function DiaryEntryDetails({ entry, onEdit, onDelete }: Props) {
                 day: 'numeric',
               })}
             </div>
-          </div>
-          <div className={styles.actions}>
-            <button
-              className={styles.btnicon}
-              aria-label="Редагувати"
-              onClick={() => onEdit(true)}
-              type="button"
-            >
-              🖉
-            </button>
+
             <button
               className={styles.btnicon}
               aria-label="Видалити"
               onClick={onDelete}
               type="button"
             >
-              🗑
+              🗑️
             </button>
           </div>
         </div>
       </header>
 
-      <div className={styles.detailsbody}>
-        <div className={styles.tags}>
-          {entry.emotions?.map((t) => (
-            <span key={t._id} className={styles.chip}>
-              {t.title}
-            </span>
-          ))}
-        </div>
+      <div className="detailsBody">
         <article className={styles.text}>{entry.descr}</article>
+          <div className={styles.tags}>
+            {entry.emotions?.map((t) => (
+              <span key={t._id} className={styles.chip}>
+                {t.title}
+              </span>
+            ))}
+        </div>
       </div>
     </div>
   );
