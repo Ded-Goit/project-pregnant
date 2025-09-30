@@ -8,6 +8,7 @@ import OnboardingForm, {
 } from '@/components/OnboardingForm/OnboardingForm';
 import { useAuthStore } from '@/hooks/useAuthStore';
 import styles from './onboarding.module.css';
+import { updateUserData } from '@/lib/clientApi';
 
 // Іконка хлібних крихт
 const ChevronRightIcon = () => (
@@ -43,22 +44,27 @@ export default function OnboardingPage() {
     if (!authUser) return; // підстраховка
 
     try {
-      // Імітація запиту до API
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      const formDataToSend = new FormData();
 
-      const updatedUser = {
-        ...authUser,
-        gender: formData.childGender || '',
-        dueDate: formData.dueDate,
-        avatar:
-          formData.avatar instanceof File
-            ? authUser.avatar || '' // або результат upload (URL)
-            : formData.avatar || authUser.avatar || '',
-        onboardingCompleted: true,
-        updatedAt: new Date().toISOString(),
-      };
+      // 👇 бекенд чекає "photo"
+      if (formData.avatar instanceof File) {
+        formDataToSend.append('photo', formData.avatar);
+      }
 
-      setUser(updatedUser);
+      // 👇 бекенд чекає "gender", а не "childGender"
+      formDataToSend.append('gender', formData.childGender);
+
+      // 👇 бекенд чекає дату у форматі ISO
+      formDataToSend.append(
+        'dueDate',
+        new Date(formData.dueDate).toISOString()
+      );
+
+      // викликаємо API
+      const savedUser = await updateUserData(authUser._id, formDataToSend);
+
+      // ⚡ у відповіді бекенд повертає { status, message, data }
+      setUser(savedUser.data);
 
       router.push('/dashboard');
     } catch (error) {
@@ -90,12 +96,10 @@ export default function OnboardingPage() {
     );
   }
 
-  if (!authUser) return null;
-
   const formInitialData: OnboardingFormValues = {
     childGender: '',
     dueDate: '',
-    avatar: authUser.avatar || '',
+    avatar: authUser?.avatar || '',
   };
 
   return (
