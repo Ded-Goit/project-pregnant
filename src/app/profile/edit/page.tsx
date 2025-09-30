@@ -24,12 +24,12 @@ export default function OnboardingPage() {
   useEffect(() => {
     if (authUser === undefined) return; // ще не завантажилось зі стора
 
-    if (!authUser) {
-      router.push('/login');
-      return;
-    }
+    // if (!authUser) {
+    //   router.push('/login');
+    //   return;
+    // }
 
-    if (authUser.onboardingCompleted) {
+    if (authUser?.onboardingCompleted) {
       router.push('/dashboard');
       return;
     }
@@ -110,13 +110,6 @@ export default function OnboardingPage() {
       </nav>
 
       <div className={styles.container}>
-        <div className={styles.header}>
-          <h1 className={styles.title}>Ласкаво просимо!</h1>
-          <p className={styles.subtitle}>
-            Заповніть основну інформацію для персоналізації вашого досвіду
-          </p>
-        </div>
-
         <OnboardingForm
           initialData={formInitialData}
           onSubmit={handleOnboardingSubmit}
