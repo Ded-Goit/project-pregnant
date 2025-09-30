@@ -4,14 +4,6 @@ import React from 'react';
 import styles from './DiaryEntryCard.module.css';
 import { Diary } from '@/lib/clientApi';
 
-// export type DiaryEntry = {
-//   id: string;
-//   title: string;
-//   createdAt: string; // ISO
-//   tags: string[];
-//   content?: string;
-// };
-
 type Props = {
   entry: Diary;
   onClick?: (e: React.MouseEvent) => void | Promise<void>;
@@ -26,7 +18,7 @@ export default function DiaryEntryCard({ entry, onClick }: Props) {
       </div>
       <div className={styles.tags}>
         {entry.emotions.map((t) => (
-          <span key={t._id} className="chip">
+          <span key={t._id} className={styles.chip}>
             {t.title}
           </span>
         ))}
@@ -34,21 +26,3 @@ export default function DiaryEntryCard({ entry, onClick }: Props) {
     </article>
   );
 }
-
-// import styles from './DiaryEntryCard.module.css';
-//import dynamic from 'next/dynamic';
-
-/*
-const FeelingCheckCard = dynamic(
-  () => import('@/components/dashboard/feeling-check-card')
-);*/
-
-// export default function DiaryEntryCard() {
-//   return (
-//     <div className={styles.component}>
-//       <h1 className={styles.title}>
-//         Відображення одного запису у вигляді картки у списку.
-//       </h1>
-//     </div>
-//   );
-// }

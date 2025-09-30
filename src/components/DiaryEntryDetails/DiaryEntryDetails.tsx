@@ -13,10 +13,10 @@ type Props = {
 export default function DiaryEntryDetails({ entry, onEdit, onDelete }: Props) {
   if (!entry) {
     return (
-      <div className="detailsInner">
-        <div className="detailsBody">
+      <div className={styles.detailsinner}>
+        <div className={styles.detailsbody}>
           <p className={styles.placeholder}>
-            Наразі записи у щоденнику відстні
+            Наразі записи у щоденнику відсутні
           </p>
         </div>
       </div>
@@ -24,8 +24,8 @@ export default function DiaryEntryDetails({ entry, onEdit, onDelete }: Props) {
   }
 
   return (
-    <div className="detailsInner">
-      <header className="detailsTop">
+    <div className={styles.detailsinner}>
+      <header className={styles.detailstop}>
         <div className={styles.top}>
           <div>
             <h3 className={styles.title}>{entry.title}</h3>
@@ -39,7 +39,7 @@ export default function DiaryEntryDetails({ entry, onEdit, onDelete }: Props) {
           </div>
           <div className={styles.actions}>
             <button
-              className="btn-icon"
+              className={styles.btnicon}
               aria-label="Редагувати"
               onClick={() => onEdit(true)}
               type="button"
@@ -47,7 +47,7 @@ export default function DiaryEntryDetails({ entry, onEdit, onDelete }: Props) {
               🖉
             </button>
             <button
-              className="btn-icon"
+              className={styles.btnicon}
               aria-label="Видалити"
               onClick={onDelete}
               type="button"
@@ -58,10 +58,10 @@ export default function DiaryEntryDetails({ entry, onEdit, onDelete }: Props) {
         </div>
       </header>
 
-      <div className="detailsBody">
+      <div className={styles.detailsbody}>
         <div className={styles.tags}>
           {entry.emotions?.map((t) => (
-            <span key={t._id} className="chip">
+            <span key={t._id} className={styles.chip}>
               {t.title}
             </span>
           ))}
@@ -71,22 +71,3 @@ export default function DiaryEntryDetails({ entry, onEdit, onDelete }: Props) {
     </div>
   );
 }
-
-// import styles from './DiaryEntryDetails.module.css';
-//import dynamic from 'next/dynamic';
-
-/*
-const FeelingCheckCard = dynamic(
-  () => import('@/components/dashboard/feeling-check-card')
-);*/
-
-// export default function DiaryEntryDetails() {
-//   return (
-//     <div className={styles.component}>
-//       <h1 className={styles.title}>
-//         Відображає повну інформацію обраного запису. На мобілці/планшеті є
-//         окремою сторінкою.
-//       </h1>
-//     </div>
-//   );
-// }
