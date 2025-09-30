@@ -1,16 +1,25 @@
 @media (min-width: 768px) and (max-width: 1440px) {
-  .trigger { min-height: 48px; }
-  .radioOption { padding: 10px 12px; }
-  .radioLabel  { font-size: 15px; }
+  .trigger {
+    min-height: 48px;
+  }
+  .radioOption {
+    padding: 10px 12px;
+  }
+  .radioLabel {
+    font-size: 15px;
+  }
 }
 
 @media (min-width: 0px) {
-  .diaryForm { position: relative; z-index: 1; }
+  .diaryForm {
+    position: relative;
+    z-index: 1;
+  }
 }
 
 /* =================== MOBIL =================== */
 
-.diaryForm{
+.diaryForm {
   display: flex;
   align-items: center;
   justify-content: flex-start;
@@ -21,7 +30,7 @@
   height: 512px;
 }
 
-.fieldContainer{
+.fieldContainer {
   display: flex;
   align-items: flex-start;
   justify-content: flex-start;
@@ -32,7 +41,7 @@
   height: 77px;
 }
 
-.fieldLabel{
+.fieldLabel {
   font-family: var(--font-family);
   font-weight: 400;
   font-size: 14px;
@@ -41,7 +50,7 @@
 }
 
 .fieldInput,
-.fieldTextInput{
+.fieldTextInput {
   display: flex;
   align-items: center;
   justify-content: flex-start;
@@ -78,19 +87,14 @@
   justify-content: flex-start;
   flex-direction: row;
   gap: 8px;
-
   border: 1px solid var(--opacity-transparent);
   border-radius: 12px;
   width: 295px;
   height: 48px;
-  /* width: 640px;
-  height: 48px; */
-
   background: var(--color-neutral-lightest);
-
   position: relative;
-  overflow: visible;       
-  z-index: 0;  
+  overflow: visible;
+  z-index: 0;
 }
 
 .trigger {
@@ -99,41 +103,35 @@
   display: flex;
   justify-content: space-between;
   text-align: left;
-
   width: 640px;
   height: 48px;
-
   flex-direction: row;
   gap: 8px;
-  align-items: center
+  align-items: center;
 }
-.trigger:hover { background: var(--opacity-neutral-darkest-5); }
+
+.trigger:hover {
+  background: var(--opacity-neutral-darkest-5);
+}
 
 .triggerContent {
-font-family: var(--font-family);
-font-weight: 400;
-font-size: 16px;
-line-height: 1.5;
-color: var(--color-neutral-darkest);
+  font-family: var(--font-family);
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--color-neutral-darkest);
 }
 
-.ContainerTitle{
+.ContainerTitle {
   display: flex;
   align-items: flex-start;
   justify-content: flex-start;
   flex-direction: column;
   gap: 8px;
-
   width: 295px;
   height: 279px;
-    /* width: 640px;
-  height: 282px; */
-
   margin-bottom: 24px;
 }
-
-
-
 
 .placeholder {
   color: var(--color-neutral);
@@ -141,11 +139,14 @@ color: var(--color-neutral-darkest);
 }
 
 .chevron {
-  transition: transform .18s ease;
+  transition: transform 0.18s ease;
   color: var(--color-neutral-darker);
   flex: 0 0 auto;
 }
-.chevronOpen { transform: rotate(180deg); }
+
+.chevronOpen {
+  transform: rotate(180deg);
+}
 
 .chips {
   display: flex;
@@ -162,7 +163,7 @@ color: var(--color-neutral-darkest);
   background: var(--color-scheme-foreground);
   color: var(--color-neutral-darker);
   font-size: 12px;
-  border: 1px solid var(--color-scheme-border, rgba(0,0,0,.15));
+  border: 1px solid var(--color-scheme-border, rgba(0, 0, 0, 0.15));
 }
 
 .chipRemove {
@@ -174,20 +175,26 @@ color: var(--color-neutral-darkest);
   background: var(--color-white);
   color: var(--color-neutral-darkest);
 }
-.chipRemove:hover { background: var(--color-scheme-foreground); }
+
+.chipRemove:hover {
+  background: var(--color-scheme-foreground);
+}
 
 .panel {
   margin-top: 6px;
-  border: 1px solid var(--color-scheme-border, rgba(0,0,0,.15));
+  border: 1px solid var(--color-scheme-border, rgba(0, 0, 0, 0.15));
   border-radius: 8px;
   background: var(--color-white);
   overflow: hidden;
   max-height: 0;
   opacity: 0;
-  transition: max-height .2s ease, opacity .18s ease;
+  transition:
+    max-height 0.2s ease,
+    opacity 0.18s ease;
 }
+
 .panelOpen {
-  max-height: 260px; 
+  max-height: 260px;
   opacity: 1;
 }
 
@@ -195,19 +202,21 @@ color: var(--color-neutral-darkest);
   position: absolute;
   left: 0;
   right: 0;
-  top: calc(100% + 6px);  
-  z-index: 50;              
+  top: calc(100% + 6px);
+  z-index: 50;
   background: var(--color-white);
-  border: 1px solid var(--color-scheme-border, rgba(0,0,0,.15));
+  border: 1px solid var(--color-scheme-border, rgba(0, 0, 0, 0.15));
   border-radius: 8px;
-  box-shadow: 0 10px 24px rgba(0,0,0,.08);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
   overflow: hidden;
 
   /* свернутое состояние */
   pointer-events: none;
   opacity: 0;
   transform: translateY(-4px) scale(0.98);
-  transition: opacity .18s ease, transform .18s ease;
+  transition:
+    opacity 0.18s ease,
+    transform 0.18s ease;
 }
 
 .panelOpen {
@@ -224,24 +233,34 @@ color: var(--color-neutral-darkest);
   row-gap: 8px;
 }
 
-
-.fieldset { border: 0; padding: 0; margin: 0; }
+.fieldset {
+  border: 0;
+  padding: 0;
+  margin: 0;
+}
 
 .radioList {
   display: grid;
   grid-auto-rows: min-content;
   row-gap: 8px;
-  max-height: 220px;            
+  max-height: 220px;
   overflow: auto;
   padding: 8px;
-  border: 1px solid var(--color-scheme-border, rgba(0,0,0,.15));
+  border: 1px solid var(--color-scheme-border, rgba(0, 0, 0, 0.15));
   border-radius: 8px;
   background: var(--color-white);
 }
-.radioList::-webkit-scrollbar { width: 6px; }
-.radioList::-webkit-scrollbar-track { background: transparent; }
+
+.radioList::-webkit-scrollbar {
+  width: 6px;
+}
+
+.radioList::-webkit-scrollbar-track {
+  background: transparent;
+}
+
 .radioList::-webkit-scrollbar-thumb {
-  background: var(--color-scheme-border, rgba(0,0,0,.2));
+  background: var(--color-scheme-border, rgba(0, 0, 0, 0.2));
   border-radius: 999px;
 }
 
@@ -259,14 +278,17 @@ color: var(--color-neutral-darkest);
   border-radius: 8px;
   cursor: pointer;
 }
-.radioOption:hover { background: var(--color-scheme-foreground); }
+
+.radioOption:hover {
+  background: var(--color-scheme-foreground);
+}
 
 .radioControl {
   appearance: none;
   -webkit-appearance: none;
   width: 16px;
   height: 16px;
-  border: 1.5px solid var(--color-scheme-border, rgba(0,0,0,.35));
+  border: 1.5px solid var(--color-scheme-border, rgba(0, 0, 0, 0.35));
   border-radius: 50%;
   background: var(--color-white);
   display: grid;
@@ -274,10 +296,15 @@ color: var(--color-neutral-darkest);
   position: relative;
   outline: none;
 }
+
 .radioControl:focus-visible {
   box-shadow: 0 0 0 3px var(--color-scheme-foreground);
 }
-.radioControl:checked { border-color: var(--color-neutral-darkest); }
+
+.radioControl:checked {
+  border-color: var(--color-neutral-darkest);
+}
+
 .radioControl:checked::after {
   content: '';
   width: 8px;
@@ -290,7 +317,6 @@ color: var(--color-neutral-darkest);
   font-size: 14px;
   color: var(--color-neutral-darker);
 }
-
 
 /* ------------------- TABLET ------------------- */
 
@@ -318,7 +344,6 @@ color: var(--color-neutral-darkest);
     width: 640px;
   }
 }
-
 
 /* ------------------- COMPUTER ------------------- */
 

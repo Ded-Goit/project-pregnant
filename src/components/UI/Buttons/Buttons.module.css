@@ -29,8 +29,8 @@
 
 /* Primary кнопка (Зберегти зміни) */
 .button.primary {
-  background: var(--color-pastel-pink-light);
-  border-bottom: 4px solid var(--color-pastel-pink);
+  background: var(--color-scheme-accent);
+  border-bottom: 4px solid var(--color-scheme-foreground-alt);
 }
 
 .button.primary:hover,
@@ -40,7 +40,7 @@
 }
 
 .button.primary:active {
-  background: var(--color-pastel-pink);
+  background: var(--color-scheme-accent);
   transform: translateY(2px);
   border-bottom-width: 2px;
 }
@@ -53,7 +53,7 @@
 
 .button.secondary:hover,
 .button.secondary:focus {
-  background: var(--color-pastel-pink-lighter);
+  background: var(--color-scheme-foreground-alt);
   border-bottom: 4px solid var(--color-neutral-lighter);
 }
 

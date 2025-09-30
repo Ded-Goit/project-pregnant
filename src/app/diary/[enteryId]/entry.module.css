@@ -8,7 +8,6 @@
   background: var(--color-white);
   cursor: pointer;
   transition: background 0.2s ease;
-
   margin-top: 22px;
   margin-left: 250px;
 }
@@ -20,16 +19,12 @@
 
 .wrap {
   margin: 20 32px;
-
   width: 335px;
   height: 603px;
-
   display: flex;
   align-items: flex-start;
   justify-content: flex-start;
   flex-direction: column;
-  /* gap: 24px; */
-
   background: var(--color-scheme-foreground, #fff4f6);
 }
 
@@ -39,18 +34,16 @@
   justify-content: flex-start;
   flex-direction: column;
   gap: 8px;
-
   width: 287px;
   height: 676px;
 }
 
-.detailsCard{
+.detailsCard {
   display: flex;
   align-items: flex-start;
   justify-content: flex-start;
   flex-direction: row;
   gap: 24px;
-
   border: 0px solid var(--color-scheme-border, rgba(0, 0, 0, 0.15));
   border-radius: 32px;
   padding: 24px;
@@ -66,13 +59,12 @@
   gap: 0px;
 }
 
-.detailsTitleRow{
+.detailsTitleRow {
   display: flex;
   align-items: center;
   justify-content: flex-start;
   flex-direction: row;
   gap: 8px;
-
   width: 310px;
   height: 40px;
 }
@@ -83,7 +75,7 @@
   font-size: 18px;
   line-height: 1.4;
   letter-spacing: 0.01em;
-  color: var(--color-scheme-text) (#000);
+  color: var(--color-scheme-text);
 }
 
 .detailsActions {
@@ -92,7 +84,6 @@
   justify-content: flex-start;
   flex-direction: row;
   gap: 8px;
-
   width: 130px;
   height: 40px;
 }
@@ -102,17 +93,15 @@
   font-weight: 400;
   font-size: 12px;
   line-height: 1.6;
-  color: var(--color-scheme-text) (#000);
+  color: var(--color-scheme-text);
 }
 
-.emotionsSection{
+.emotionsSection {
   display: flex;
   align-items: flex-start;
   justify-content: flex-start;
   flex-direction: row;
   gap: 8px;
-
-  /* width: 160px; */
   height: 27px;
 }
 
@@ -121,7 +110,7 @@
   font-weight: 400;
   font-size: 14px;
   line-height: 1.5;
-  color: var(--color-scheme-text) (#000);
+  color: var(--color-scheme-text);
 }
 
 .emotions {
@@ -130,47 +119,44 @@
   justify-content: flex-start;
   flex-direction: row;
   gap: 0px;
-
   border: 1px solid var(--opacity-transparent, rgba(255, 255, 255, 0));
   border-radius: 100px;
   padding: 4px 10px;
-  /* width: 78px; */
   height: 27px;
-
   background: var(--opacity-neutral-darkest-5, rgba(0, 0, 0, 0.05));
-
   font-family: var(--font-family);
   font-weight: 400;
   font-size: 14px;
   line-height: 1.5;
-  color: var(--color-scheme-text) (#000);
+  color: var(--color-scheme-text);
 }
 
 /* ------------------- TABLET ------------------- */
 @media screen and (min-width: 768px) {
   .wrap {
     justify-content: center;
-
     width: 704px;
     height: 785px;
-
     margin: 32px;
   }
+
   .detailsCard {
-  width: 704px;
+    width: 704px;
   }
+
   .detailsInner {
     width: 656px;
   }
+
   .detailsTop {
     align-items: center;
     flex-direction: row;
     gap: 216px;
-      
     width: 656px;
     height: 40px;
   }
 }
+
 /* ------------------- DESKTOP ------------------- */
 @media screen and (min-width: 1440px) {
   .wrap {

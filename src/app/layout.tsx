@@ -3,12 +3,9 @@ import './globals.css';
 import { AuthProvider } from '@/components/providers/AuthProvider';
 import localFont from 'next/font/local';
 import { Lato, Comfortaa } from 'next/font/google';
-
-// import Header from '@/components/Header/Header';
-// import Breadcrumbs from '@/components/Breadcrumbs/Breadcrumbs';
-// import SideBar from '@/components/SideBar/SideBar';
 import LayoutClient from '@/components/LayoutClient';
 import Preloader from '@/components/Preloader/Preloader';
+import { ThemeProvider } from '@/components/providers/ThemeProvider';
 
 // Fonts...
 const latoGoogle = Lato({
@@ -62,7 +59,7 @@ export const metadata: Metadata = {
       'Ведіть особистий щоденник вагітності, дізнавайтеся про розвиток дитини та отримуйте поради для здоров`я мами.',
     images: [
       {
-        url: '/og-image.png', 
+        url: '/og-image.png',
         width: 1200,
         height: 630,
         alt: 'Щоденник вагітності',
@@ -93,12 +90,14 @@ export default function RootLayout({
       lang="uk"
       className={`${latoGoogle.variable} ${latoLocal.variable} ${comfortaa.variable}`}
     >
-     <body>
-  <Preloader />
-  <AuthProvider>
-    <LayoutClient>{children}</LayoutClient>
-  </AuthProvider>
-</body>
+      <body>
+        <Preloader />
+        <AuthProvider>
+          <ThemeProvider>
+            <LayoutClient>{children}</LayoutClient>
+          </ThemeProvider>
+        </AuthProvider>
+      </body>
     </html>
   );
 }

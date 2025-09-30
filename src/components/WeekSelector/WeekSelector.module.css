@@ -21,7 +21,7 @@
 .card {
   flex: 0 0 auto;
   border-radius: 32px;
-  background: var(--color-oasis-lighter);
+  background: var(--color-scheme-foreground);
   color: var(--color-scheme-text);
   display: flex;
   flex-direction: column;
@@ -60,7 +60,7 @@
   padding: 16px;
   width: 97px;
   height: 87px;
-  background: var(--color-oasis);
+  background: var(--color-scheme-accent);
 }
 
 .future {

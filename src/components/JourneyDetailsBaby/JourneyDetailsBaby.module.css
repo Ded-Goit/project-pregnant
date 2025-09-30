@@ -2,7 +2,7 @@
   border-radius: 32px;
   width: 335px;
   height: 983px;
-  background: var(--color-oasis-lighter);
+  background: var(--color-scheme-foreground);
   margin: 0 auto;
 }
 
@@ -50,7 +50,6 @@
 }
 
 .imageCard {
-  /* border-radius: 24px; */
   width: 287px;
   height: 379px;
   margin-top: 24px;
@@ -146,7 +145,7 @@
   padding: 12px;
   width: 287px;
   height: 119px;
-  background-color: var(--color-oasis-light);
+  background-color: var(--color-scheme-foreground-alt);
   margin-left: 44px;
 }
 

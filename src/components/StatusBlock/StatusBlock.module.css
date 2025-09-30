@@ -30,7 +30,7 @@
   padding: 16px;
   width: 159px;
   height: 105px;
-  background: var(--color-oasis-lighter);
+  background: var(--color-scheme-foreground);
 
   @media (min-width: 768px) {
     width: 336px;
