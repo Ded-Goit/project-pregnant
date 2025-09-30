@@ -251,7 +251,7 @@ export default function NewAddDiaryEntryForm({
           defaultValue={fieldData?.title}
         />
         {errorValidation && errorValidation.field === 'title' && (
-          <div>{errorValidation.message}</div>
+          <div className={styles.ermessage}>{errorValidation.message}</div>
         )}
       </div>
 
