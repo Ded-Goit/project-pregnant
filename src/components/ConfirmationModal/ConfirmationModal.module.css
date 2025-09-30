@@ -19,7 +19,7 @@
   border-radius: 40px;
   padding: 64px 20px;
   width: 335px;
-  background-color: var(--color-scheme-background);
+  background-color: var(--opacity-neutral-darkest-30);
 
   @media (min-width: 768px) {
     width: 704px;
