@@ -10,21 +10,8 @@ import { ErrorValodationProps } from '@/app/diary/page';
 interface AddDiaryEntryFormProps {
   onSubmit?: (e: React.FormEvent<HTMLFormElement>) => void | Promise<void>;
   initialData?: Diary;
-  errorValidation: ErrorValodationProps | null;
+  errorValidation?: ErrorValodationProps | null;
 }
-
-// export const validationSchema = Yup.object().shape({
-//   title: Yup.string()
-//     .min(3, 'Заголовок має бути не менше 3 символів')
-//     .max(255, 'Заголовок занадто довгий')
-//     .required('Обов’язкове поле'),
-//   emotions: Yup.array()
-//     .of(Yup.string())
-//     .min(1, 'Оберіть щонайменше одну категорію'),
-//   descr: Yup.string()
-//     .min(5, 'Запис має бути не менше 5 символів')
-//     .required('Обов’язкове поле'),
-// });
 
 type EmotionRecord = {
   id?: string | number;
