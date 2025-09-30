@@ -14,9 +14,8 @@ export default function DiaryEntryDetails({ entry, onEdit, onDelete }: Props) {
   if (!entry) {
     return (
       <div className={styles.detailsInner}>
-        <div className="detailsBody">
+        <div>
           <p className={styles.placeholder}>
-            Наразі записи у щоденнику відсутні
             Наразі записи у щоденнику відсутні
           </p>
         </div>
@@ -26,7 +25,7 @@ export default function DiaryEntryDetails({ entry, onEdit, onDelete }: Props) {
 
   return (
     <div className={styles.detailsInner}>
-      <header className="detailsTop">
+      <header>
         <div className={styles.top}>
           <div className={styles.divTitle}>
             <h3 className={styles.title}>{entry.title}</h3>
