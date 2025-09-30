@@ -1,7 +1,7 @@
 .dashboardGrid {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
 }
 @media screen and (min-width: 1440px) {
   .dashboardGrid > :first-child {
@@ -13,11 +13,11 @@
   display: flex;
   flex-direction: column;
   width: 375px;
-  align-items: center;  
+  align-items: center;
   padding: 0 20px 32px;
 
   @media (min-width: 768px) {
-    width: 768px;    
+    width: 768px;
   }
   @media (min-width: 1440px) {
     width: 1280px;
@@ -35,7 +35,7 @@
   width: 100%;
 
   @media (min-width: 1440px) {
-    width: 674px;    
+    width: 674px;
   }
 }
 
@@ -47,7 +47,7 @@
 
   @media (min-width: 1440px) {
     width: 422px;
-    height: 789px;    
-    align-items: start;    
-  }  
+    height: 789px;
+    align-items: start;
+  }
 }
