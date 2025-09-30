@@ -1,13 +1,25 @@
-.component {
+.header {
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
 }
 
 .title {
-  background-color: rgb(179, 201, 214);
+  margin: 0;
+  font-size: 18px;
+  font-weight: var(--fw-bold);
 }
 
-.header { display:flex; align-items:center; justify-content:space-between; height:64px; }
-.title { margin:0; font-size:18px; font-weight:var(--fw-bold); }
-.tools { display:flex; align-items:center; gap:8px; color:var(--color-neutral-dark); }
-.body { display:grid; row-gap:16px; overflow:auto; }
+.tools {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--color-neutral-dark);
+}
+
+.body {
+  display: grid;
+  row-gap: 16px;
+  overflow: auto;
+}
