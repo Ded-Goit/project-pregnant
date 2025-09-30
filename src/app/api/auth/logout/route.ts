@@ -7,8 +7,6 @@ export async function POST() {
   const cookieData = await cookies();
   const accessToken = cookieData.get('accessToken')?.value;
 
-  console.log('11111111111111111111111111111', accessToken);
-
   try {
     await api.post(
       '/auth/logout',
