@@ -16,8 +16,26 @@ import {
 } from '@/lib/clientApi';
 import { useAuthStore } from '@/hooks/useAuthStore';
 import ConfirmationModal from '@/components/ConfirmationModal/ConfirmationModal';
-
 import { useRouter } from 'next/navigation';
+import * as Yup from 'yup';
+
+export const validationSchema = Yup.object().shape({
+  title: Yup.string()
+    .min(3, 'Заголовок має бути не менше 3 символів')
+    .max(30, 'Заголовок занадто довгий')
+    .required('Обов’язкове поле'),
+  emotions: Yup.array()
+    .of(Yup.string())
+    .min(1, 'Оберіть щонайменше одну категорію'),
+  descr: Yup.string()
+    .min(5, 'Запис має бути не менше 5 символів')
+    .required('Обов’язкове поле'),
+});
+
+export interface ErrorValodationProps {
+  field?: string;
+  message: string;
+}
 
 export default function DiaryPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -25,13 +43,19 @@ export default function DiaryPage() {
   const [isEdit, setIsEdit] = useState<boolean>(false);
   const [entries, setEntries] = useState<Diary[]>([]);
   const [selected, setSelected] = useState<Diary | undefined>(undefined);
+  const [errorValidation, setErrorValidation] =
+    useState<ErrorValodationProps | null>(null);
   const { user } = useAuthStore();
+
   const router = useRouter();
   const openModal = (mode: boolean) => {
     setIsEdit(mode);
     setIsModalOpen(true);
   };
-  const closeModal = () => setIsModalOpen(false);
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setErrorValidation(null);
+  };
   const openConfirm = () => setConfirmOpen(true);
   const closeConfirm = () => setConfirmOpen(false);
 
@@ -43,6 +67,18 @@ export default function DiaryPage() {
       emotions: fd.getAll('emotions').map((v) => String(v)),
       descr: String(fd.get('descr') ?? ''),
     };
+
+    try {
+      await validationSchema.validate(payload);
+    } catch (err) {
+      if (err instanceof Yup.ValidationError) {
+        setErrorValidation({
+          field: err.path,
+          message: err.message,
+        });
+        return;
+      }
+    }
 
     if (!isEdit) {
       try {
@@ -132,6 +168,7 @@ export default function DiaryPage() {
           onClose={closeModal}
           onSubmit={handleSubmit}
           initialData={isEdit ? selected : undefined}
+          errorValidation={errorValidation}
         ></NewAddDiaryEntryModal>
       )}
       {isConfirmOpen && (
