@@ -1,171 +1,154 @@
-.component {
+.wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.container {
+  padding: 0 20px;
   display: flex;
   flex-direction: column;
+  align-items: center;
+  max-width: 375px;
+  justify-content: center;
+  height: 711px;
 }
 
+.uploadBtn {
+  border-bottom: 4px solid var(--opacity-neutral-darkest-15);
+  border-radius: 100px;
+  padding: 8px 20px;
+  width: 162px;
+  height: 38px;
+
+  background-color: var(--opacity-neutral-darkest-5);
+  font-family: var(--font-lato-google);
+  font-weight: var(--fw-medium);
+  font-size: 14px;
+
+  /* line-height: 22px; */
+  line-height: 160%;
+  color: var(--color-neutral-darkest);
+}
+
+.avatarWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  margin-bottom: 32px;
+}
+.data_selection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  margin-bottom: 32px;
+}
 .title {
-  background-color: rgb(179, 201, 214);
+  margin-top: 0;
+  font-size: 36px;
+  text-align: center;
+
+  font-weight: var(--fw-bold);
+
+  line-height: 1.2;
+  letter-spacing: 0.01em;
+  background-color: var(--color-scheme-text);
 }
 
-.card {
-  background: var(--color-white);
-  border-radius: 20px;
-  padding: 40px;
+.selectWrapper {
+  position: relative;
+  display: inline-block;
   width: 100%;
-  max-width: 500px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 }
 
 .form {
   display: flex;
   flex-direction: column;
-  gap: 32px;
-}
-
-.avatarSection {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 16px;
-  margin-bottom: 16px;
-}
-
-.avatarContainer {
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-  overflow: hidden;
-  background: var(--color-neutral-lightest);
-  border: 3px solid var(--color-pastel-pink);
-}
-
-.avatar {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.avatarPlaceholder {
-  width: 100%;
-  height: 100%;
-  background: var(--color-pastel-pink);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--color-white);
-  font-size: 48px;
-  font-weight: var(--fw-bold);
-  font-family: var(--second-family);
-}
-
-.fileInput {
-  display: none;
-}
-
-.fields {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-}
-
-.inputGroup {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
 }
 
 .label {
-  font-weight: var(--fw-semibold);
-  color: var(--color-scheme-text);
-  font-size: 16px;
-  margin-bottom: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  font-size: 14px;
 }
 
-.input,
-.select {
-  padding: 16px 20px;
-  border: 1px solid var(--color-neutral-lighter);
+.field {
+  border: 2px solid var(--opacity-transparent);
   border-radius: 12px;
-  font-size: 16px;
-  background: var(--color-white);
-  transition: all 0.2s ease;
-  width: 100%;
-  font-family: inherit;
-  box-sizing: border-box;
-  color: var(--color-neutral-darkest);
-}
+  padding: 8px 12px;
+  width: 335px;
+  height: 37px;
+  background: var(--opacity-neutral-darkest-5);
+  appearance: none; /* прибираємо стандартну стрілку */
 
-.input:focus,
-.select:focus {
-  outline: none;
-  border-color: var(--color-pastel-pink);
-  box-shadow: 0 0 0 3px rgba(255, 203, 211, 0.2);
-}
-
-.errorInput {
-  border-color: var(--color-red) !important;
-  box-shadow: 0 0 0 3px rgba(198, 0, 0, 0.1) !important;
-}
-
-.input::placeholder {
-  color: var(--color-neutral);
-}
-
-.input:disabled,
-.select:disabled {
-  background: var(--color-neutral-lightest);
-  cursor: not-allowed;
-  opacity: 0.7;
-}
-
-.select {
-  appearance: none;
-  background-image: url("data:image/svg+xml;charset=UTF-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%237f7f7f'><path d='M7 10l5 5 5-5z'/></svg>");
-  background-repeat: no-repeat;
-  background-position: right 16px center;
-  background-size: 16px;
-  padding-right: 48px;
   cursor: pointer;
 }
 
-.error {
+.placeholder {
+  color: #999;
+}
+
+.field option {
+  color: #111;
+}
+
+.arrow {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%) rotate(0deg);
+  width: 24px;
+  height: 24px;
+  pointer-events: none;
+  background-image: url('/icons/keyboard_arrow_down.svg'); /* твоя іконка */
+  background-size: contain;
+  background-repeat: no-repeat;
+  transition: transform 0.2s ease;
+}
+
+/* коли select у фокусі → обертаємо стрілку */
+.field:focus + .arrow {
+  transform: translateY(-50%) rotate(180deg);
+}
+.errorField {
+  border: 1px solid var(--color-red);
   color: var(--color-red);
+}
+
+.errorField::placeholder {
+  color: var(--color-red);
+}
+
+.error {
   font-size: 12px;
-  font-weight: var(--fw-medium);
-  margin-top: 4px;
+  line-height: 1.6;
+  color: var(--color-red);
 }
 
-.actions {
-  display: flex;
-  justify-content: center;
-  margin-top: 16px;
+.vision {
+  display: none;
 }
 
-.actions button {
-  min-width: 200px;
+@media screen and (min-width: 768px) {
+  .container {
+    max-width: 768px;
+    padding: 0 144px;
+    height: 828px;
+  }
+  .field {
+    width: 480px;
+  }
 }
 
-/* Mobile Styles */
-@media (max-width: 767px) {
-  .card {
-    padding: 24px;
-    border-radius: 16px;
+@media screen and (min-width: 1440px) {
+  .title {
+    font-size: 48px;
   }
-
-  .form {
-    gap: 24px;
-  }
-
-  .avatarContainer {
-    width: 100px;
-    height: 100px;
-  }
-
-  .avatarPlaceholder {
-    font-size: 36px;
-  }
-
-  .fields {
-    gap: 20px;
+  .vision {
+    display: block;
+    padding: 0;
   }
 }

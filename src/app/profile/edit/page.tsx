@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import OnboardingForm, {
-  OnboardingFormData,
+  OnboardingFormValues,
 } from '@/components/OnboardingForm/OnboardingForm';
 import { useAuthStore } from '@/hooks/useAuthStore';
 import styles from './onboarding.module.css';
@@ -22,65 +22,65 @@ export default function OnboardingPage() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Перевіряємо, чи користувач вже пройшов онбординг
-    if (authUser?.onboardingCompleted) {
-      router.push('/dashboard');
-      return;
-    }
+    if (authUser === undefined) return; // ще не завантажилось зі стора
 
     if (!authUser) {
       router.push('/login');
       return;
     }
+
+    if (authUser.onboardingCompleted) {
+      router.push('/dashboard');
+      return;
+    }
+
     setIsLoading(false);
   }, [authUser, router]);
 
   const handleOnboardingSubmit = async (
-    formData: OnboardingFormData
+    formData: OnboardingFormValues
   ): Promise<void> => {
+    if (!authUser) return; // підстраховка
+
     try {
-      // Імітація запиту до API для онбордингу
+      // Імітація запиту до API
       await new Promise((resolve) => setTimeout(resolve, 1000));
 
-      // Оновлюємо дані в store з позначкою про завершений онбординг
       const updatedUser = {
-        ...authUser!,
-        name: formData.name,
-        email: formData.email,
+        ...authUser,
         gender: formData.childGender || '',
         dueDate: formData.dueDate,
-        avatar: formData.avatarUrl || authUser?.avatar || '',
+        avatar:
+          formData.avatar instanceof File
+            ? authUser.avatar || '' // або результат upload (URL)
+            : formData.avatar || authUser.avatar || '',
         onboardingCompleted: true,
         updatedAt: new Date().toISOString(),
       };
 
-      setUser(updatedUser); // Використовуємо setUser
+      setUser(updatedUser);
 
-      // Перенаправляємо на головну сторінку після успішного онбордингу
       router.push('/dashboard');
     } catch (error) {
       console.error('Помилка онбордингу:', error);
-      throw error;
     }
   };
 
   const handleAvatarUpload = async (file: File): Promise<string> => {
     try {
-      // Імітація завантаження аватара
       await new Promise((resolve) => setTimeout(resolve, 500));
 
-      // Тут буде реальний запит до API для завантаження зображення
-      const avatarUrl = URL.createObjectURL(file); // Тимчасове рішення
+      const avatarUrl = URL.createObjectURL(file);
+
+      // опціонально: відкликати URL пізніше, коли зображення не буде потрібно
+      setTimeout(() => URL.revokeObjectURL(avatarUrl), 10_000);
+
       return avatarUrl;
     } catch (error) {
       console.error('Помилка завантаження аватара:', error);
       throw error;
     }
   };
-
-  if (!authUser || authUser.onboardingCompleted) {
-    return null;
-  }
 
   if (isLoading) {
     return (
@@ -90,12 +90,12 @@ export default function OnboardingPage() {
     );
   }
 
-  const formInitialData: OnboardingFormData = {
-    name: authUser.name || '',
-    email: authUser.email || '',
+  if (!authUser) return null;
+
+  const formInitialData: OnboardingFormValues = {
     childGender: '',
     dueDate: '',
-    avatarUrl: authUser.avatar || '',
+    avatar: authUser.avatar || '',
   };
 
   return (

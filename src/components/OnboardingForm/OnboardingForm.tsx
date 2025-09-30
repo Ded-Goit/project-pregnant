@@ -1,36 +1,50 @@
 'use client';
 
-import { useFormik } from 'formik';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import { useState, useRef } from 'react';
+import { useId, useState } from 'react';
 import styles from './OnboardingForm.module.css';
 import Button from '@/components/UI/Buttons/Buttons';
+import Image from 'next/image';
 
-export interface OnboardingFormData {
-  name: string;
-  email: string;
+// Тип значень форми
+export interface OnboardingFormValues {
+  avatar: File | string | null;
   childGender: string;
   dueDate: string;
-  avatarUrl: string;
 }
 
-export interface OnboardingFormProps {
-  initialData: OnboardingFormData;
-  onSubmit: (values: OnboardingFormData) => Promise<void>;
+// Пропси від сторінки
+interface OnboardingFormProps {
+  initialData: OnboardingFormValues;
+  onSubmit: (values: OnboardingFormValues) => Promise<void>;
   onAvatarUpload: (file: File) => Promise<string>;
 }
 
-const validationSchema = Yup.object({
-  name: Yup.string()
-    .required("Ім'я обов'язкове")
-    .max(32, "Ім'я не може перевищувати 32 символи"),
-  email: Yup.string()
-    .email('Невірний формат email')
-    .required("Email обов'язковий"),
-  childGender: Yup.string().required("Стать дитини обов'язкова"),
-  dueDate: Yup.date()
-    .required("Дата пологів обов'язкова")
-    .min(new Date(), 'Дата пологів не може бути в минулому'),
+// Схема валідації Yup
+const OnboardingSchema: Yup.ObjectSchema<OnboardingFormValues> = Yup.object({
+  avatar: Yup.mixed<File | string>()
+    .nullable()
+    .default(null)
+    .test(
+      'fileSize',
+      'Файл занадто великий (макс 2MB)',
+      (value) =>
+        !value ||
+        (value instanceof File && value.size <= 2 * 1024 * 1024) ||
+        typeof value === 'string'
+    )
+    .test(
+      'fileType',
+      'Невірний формат (тільки JPG/PNG)',
+      (value) =>
+        !value ||
+        typeof value === 'string' ||
+        (value instanceof File &&
+          ['image/jpeg', 'image/png'].includes(value.type))
+    ),
+  childGender: Yup.string().required('Оберіть стать дитини'),
+  dueDate: Yup.string().required('Оберіть дату'),
 });
 
 export default function OnboardingForm({
@@ -38,215 +52,146 @@ export default function OnboardingForm({
   onSubmit,
   onAvatarUpload,
 }: OnboardingFormProps) {
-  const [isLoading, setIsLoading] = useState(false);
-  const [avatarPreview, setAvatarPreview] = useState(initialData.avatarUrl);
-  const fileInputRef = useRef<HTMLInputElement>(null);
-
-  const formik = useFormik({
-    initialValues: initialData,
-    validationSchema,
-    enableReinitialize: true,
-    onSubmit: async (values) => {
-      setIsLoading(true);
-      try {
-        await onSubmit(values);
-      } catch (error) {
-        console.error('Помилка збереження:', error);
-        throw error;
-      } finally {
-        setIsLoading(false);
-      }
-    },
-  });
-
-  const handleAvatarChange = async (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const file = event.target.files?.[0];
-    if (!file) return;
-
-    // Валідація файлу
-    if (file.size > 5 * 1024 * 1024) {
-      alert('Максимальний розмір файлу: 5MB');
-      return;
-    }
-    if (!file.type.startsWith('image/')) {
-      alert('Будь ласка, виберіть зображення (JPEG, PNG, WebP)');
-      return;
-    }
-
-    try {
-      // Створюємо попередній перегляд
-      const previewUrl = URL.createObjectURL(file);
-      setAvatarPreview(previewUrl);
-
-      // Завантажуємо на сервер
-      const avatarUrl = await onAvatarUpload(file);
-      formik.setFieldValue('avatarUrl', avatarUrl);
-    } catch (error) {
-      console.error('Помилка завантаження аватара:', error);
-      alert('Помилка завантаження фото. Спробуйте ще раз.');
-    }
-  };
-
-  const triggerFileInput = () => {
-    fileInputRef.current?.click();
-  };
-
-  const getInitials = (name: string) => {
-    return name.charAt(0).toUpperCase();
-  };
+  const fieldId = useId();
+  const [avatarPreview, setAvatarPreview] = useState<string | null>(
+    typeof initialData.avatar === 'string' ? initialData.avatar : null
+  );
 
   return (
-    <div className={styles.card}>
-      <form onSubmit={formik.handleSubmit} className={styles.form} noValidate>
-        {/* Аватар секція */}
-        <div className={styles.avatarSection}>
-          <div className={styles.avatarContainer}>
-            {avatarPreview ? (
-              <img src={avatarPreview} alt="Аватар" className={styles.avatar} />
-            ) : (
-              <div className={styles.avatarPlaceholder}>
-                {getInitials(formik.values.name)}
+    <div className={styles.wrapper}>
+      <div className={styles.container}>
+        <h1 className={styles.title}>Давайте познайомимось ближче</h1>
+
+        <Formik<OnboardingFormValues>
+          initialValues={initialData}
+          validationSchema={OnboardingSchema}
+          onSubmit={onSubmit}
+        >
+          {({ setFieldValue, isSubmitting, errors, touched, values }) => (
+            <Form className={styles.form}>
+              {/* Аватар */}
+              <div className={styles.avatarWrapper}>
+                {avatarPreview ? (
+                  <Image
+                    src={avatarPreview}
+                    alt="Аватар"
+                    width={164}
+                    height={164}
+                    className={styles.avatarPreview}
+                  />
+                ) : (
+                  <Image
+                    src="/auth/avatar-image.webp"
+                    alt="Аватар за замовчуванням"
+                    width={164}
+                    height={164}
+                    className={styles.avatarPreview}
+                  />
+                )}
+
+                <label
+                  htmlFor={`${fieldId}-avatar`}
+                  className={styles.uploadBtn}
+                >
+                  Завантажити фото
+                </label>
+                <input
+                  id={`${fieldId}-avatar`}
+                  name="avatar"
+                  type="file"
+                  accept="image/png, image/jpeg"
+                  onChange={async (e) => {
+                    const file = e.currentTarget.files?.[0] || null;
+                    if (file) {
+                      setFieldValue('avatar', file);
+                      const previewUrl = await onAvatarUpload(file);
+                      setAvatarPreview(previewUrl);
+                    } else {
+                      setFieldValue('avatar', null);
+                      setAvatarPreview(null);
+                    }
+                  }}
+                  style={{ display: 'none' }}
+                />
+                <ErrorMessage
+                  name="avatar"
+                  component="span"
+                  className={styles.error}
+                />
               </div>
-            )}
-          </div>
-          <input
-            ref={fileInputRef}
-            type="file"
-            accept="image/jpeg,image/png,image/webp"
-            onChange={handleAvatarChange}
-            className={styles.fileInput}
-            disabled={isLoading}
-          />
-          <Button
-            type="button"
-            onClick={triggerFileInput}
-            variant="secondary"
-            size="large"
-            disabled={isLoading}
-          >
-            Обрати фото профілю
-          </Button>
-        </div>
 
-        <div className={styles.fields}>
-          {/* Ім'я */}
-          <div className={styles.inputGroup}>
-            <label htmlFor="name" className={styles.label}>
-              Ваше ім&apos;я
-            </label>
-            <input
-              id="name"
-              name="name"
-              type="text"
-              value={formik.values.name}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              className={`${styles.input} ${
-                formik.touched.name && formik.errors.name
-                  ? styles.errorInput
-                  : ''
-              }`}
-              placeholder="Введіть ваше ім'я"
-              disabled={isLoading}
-            />
-            {formik.touched.name && formik.errors.name && (
-              <div className={styles.error}>{formik.errors.name}</div>
-            )}
-          </div>
+              {/* Стать дитини */}
+              <div className={styles.data_selection}>
+                <label
+                  className={styles.label}
+                  htmlFor={`${fieldId}-childGender`}
+                >
+                  Стать дитини
+                  <div className={styles.selectWrapper}>
+                    <Field
+                      as="select"
+                      id={`${fieldId}-childGender`}
+                      name="childGender"
+                      className={`${styles.field} ${
+                        !values.childGender ? styles.placeholder : ''
+                      } ${
+                        touched.childGender && errors.childGender
+                          ? styles.errorField
+                          : ''
+                      }`}
+                    >
+                      <option value="">Оберіть стать</option>
+                      <option value="male">Хлопчик</option>
+                      <option value="female">Дівчинка</option>
+                      <option value="unknown">Ще не знаю</option>
+                    </Field>
+                    <span className={styles.arrow}></span>
+                  </div>
+                  <ErrorMessage
+                    name="childGender"
+                    component="span"
+                    className={styles.error}
+                  />
+                </label>
 
-          {/* Пошта */}
-          <div className={styles.inputGroup}>
-            <label htmlFor="email" className={styles.label}>
-              Електронна пошта
-            </label>
-            <input
-              id="email"
-              name="email"
-              type="email"
-              value={formik.values.email}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              className={`${styles.input} ${
-                formik.touched.email && formik.errors.email
-                  ? styles.errorInput
-                  : ''
-              }`}
-              placeholder="example@gmail.com"
-              disabled={isLoading}
-            />
-            {formik.touched.email && formik.errors.email && (
-              <div className={styles.error}>{formik.errors.email}</div>
-            )}
-          </div>
+                {/* Дата пологів */}
+                <label className={styles.label} htmlFor={`${fieldId}-dueDate`}>
+                  Планова дата пологів
+                  <Field
+                    id={`${fieldId}-dueDate`}
+                    name="dueDate"
+                    type="date"
+                    className={`${styles.field} ${
+                      !values.dueDate ? styles.placeholder : ''
+                    } ${
+                      touched.dueDate && errors.dueDate ? styles.errorField : ''
+                    }`}
+                    placeholder="Оберіть дату"
+                  />
+                  <ErrorMessage
+                    name="dueDate"
+                    component="span"
+                    className={styles.error}
+                  />
+                </label>
+              </div>
 
-          {/* Стать дитини */}
-          <div className={styles.inputGroup}>
-            <label htmlFor="childGender" className={styles.label}>
-              Стать дитини
-            </label>
-            <select
-              id="childGender"
-              name="childGender"
-              value={formik.values.childGender}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              className={`${styles.select} ${
-                formik.touched.childGender && formik.errors.childGender
-                  ? styles.errorInput
-                  : ''
-              }`}
-              disabled={isLoading}
-            >
-              <option value="">Оберіть стать</option>
-              <option value="female">Дівчинка</option>
-              <option value="male">Хлопчик</option>
-              <option value="unknown">Ще не знаю</option>
-            </select>
-            {formik.touched.childGender && formik.errors.childGender && (
-              <div className={styles.error}>{formik.errors.childGender}</div>
-            )}
-          </div>
+              <Button type="submit" disabled={isSubmitting}>
+                Зберегти
+              </Button>
+            </Form>
+          )}
+        </Formik>
+      </div>
 
-          {/* Планова дата пологів */}
-          <div className={styles.inputGroup}>
-            <label htmlFor="dueDate" className={styles.label}>
-              Планова дата пологів
-            </label>
-            <input
-              id="dueDate"
-              name="dueDate"
-              type="date"
-              value={formik.values.dueDate}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              className={`${styles.input} ${
-                formik.touched.dueDate && formik.errors.dueDate
-                  ? styles.errorInput
-                  : ''
-              }`}
-              disabled={isLoading}
-              min={new Date().toISOString().split('T')[0]}
-            />
-            {formik.touched.dueDate && formik.errors.dueDate && (
-              <div className={styles.error}>{formik.errors.dueDate}</div>
-            )}
-          </div>
-        </div>
-
-        {/* Кнопка завершення онбордингу */}
-        <div className={styles.actions}>
-          <Button
-            type="submit"
-            disabled={isLoading || !formik.isValid}
-            variant="primary"
-            size="large"
-          >
-            {isLoading ? 'Збереження...' : 'Почати користування'}
-          </Button>
-        </div>
-      </form>
+      {/* Ілюстрація справа */}
+      <Image
+        className={styles.vision}
+        src="/auth/onboarding.webp"
+        alt=""
+        width={720}
+        height={900}
+      />
     </div>
   );
 }
