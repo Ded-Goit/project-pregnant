@@ -26,7 +26,7 @@ export async function middleware(request: NextRequest) {
       if (refreshToken) {
         try {
           const response = await refreshServer();
-          const setCookies = response.request['set-cookie'];
+          const setCookies = response.headers['set-cookie'];
 
           if (setCookies) {
             const cookiesArray = Array.isArray(setCookies)
@@ -61,12 +61,12 @@ export async function middleware(request: NextRequest) {
                 );
               }
             }
+            return NextResponse.next({
+              headers: {
+                Cookie: setCookies.toString(),
+              },
+            });
           }
-          return NextResponse.next({
-            headers: {
-              Cookie: setCookies.toString(),
-            },
-          });
         } catch {
           return NextResponse.redirect(
             new URL('/auth/login', request.nextUrl.origin)
