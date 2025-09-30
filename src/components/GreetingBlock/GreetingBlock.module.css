@@ -1,24 +1,27 @@
-.greetingBlock {
+/* =================== MOBIL =================== */
+.root{
+  font-family: var(--second-family);
   font-weight: 700;
-  font-family: (--second-family);
   font-size: 24px;
-  line-height: 140%;
+  line-height: 1.4;
   letter-spacing: 0.01em;
   color: var(--color-scheme-text);
-  text-align: center;
-}
-@media (min-width: 768px) {
-  .greetingBlock {
-    text-align: left;
-    padding-left: 16px;
-  }
-}
-@media (min-width: 1440px) {
-  .greetingBlock {
-    font-size: 32px;
-    padding-left: 32px;
-    margin-bottom: 16px;
-  }
+
+  margin-bottom: 0;
+  margin: 0;
 }
 
-.root { font-family: var(--second-family); font-size: 26px; font-weight: var(--fw-bold); color: var(--color-neutral-darkest); margin: 0; }
+/* ------------------- TABLET ------------------- */
+
+@media screen and (min-width: 768px) {
+}
+
+
+/* ------------------- COMPUTER ------------------- */
+
+@media screen and (min-width: 1440px) {
+
+  .root{
+    font-size: 32px;
+  }
+}

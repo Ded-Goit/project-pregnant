@@ -68,20 +68,15 @@ export default function DiaryEntryRoute() {
   return (
     <div className={s.wrap}>
       <button className={s.backBtn} onClick={() => history.back()}>
-        ← До списку
+        До списку
       </button>
       <section className={s.detailsCard}>
         <div className={s.detailsInner}>
           {!diaryRec && <div>Запис не знайдено</div>}
           {diaryRec && (
             <div className={s.detailsTop}>
-              <div>
+              <div className={s.detailsTitleRow}>
                 <h3 className={s.detailsTitle}>{diaryRec?.title}</h3>
-                <div className={s.detailsDate}>
-                  {diaryRec?.createdAt.slice(0, 10)}
-                </div>
-              </div>
-              <div className={s.detailsActions}>
                 <button
                   style={{
                     width: 28,
@@ -89,10 +84,14 @@ export default function DiaryEntryRoute() {
                     borderRadius: 999,
                     border: '1px solid var(--color-scheme-border)',
                   }}
-                  onClick={openModal}
-                >
-                  🖉
+                  onClick={openModal}>
+                  ✎
                 </button>
+              </div>
+              <div className={s.detailsActions}>
+                <div className={s.detailsDate}>
+                  {diaryRec?.createdAt.slice(0, 10)}
+                </div>
                 <button
                   style={{
                     width: 28,
@@ -102,7 +101,7 @@ export default function DiaryEntryRoute() {
                   }}
                   onClick={openConfirm}
                 >
-                  🗑
+                  🗑️
                 </button>
               </div>
             </div>
@@ -120,9 +119,9 @@ export default function DiaryEntryRoute() {
             </article>
           </div>
           <div>
-            <ul>
+            <ul className={s.emotionsSection}>
               {diaryRec?.emotions.map((emotion) => (
-                <li key={emotion._id}>{emotion.title}</li>
+                <li className={s.emotions} key={emotion._id}>{emotion.title}</li>
               ))}
             </ul>
           </div>

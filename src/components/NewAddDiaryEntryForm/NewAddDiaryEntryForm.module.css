@@ -1,63 +1,66 @@
-.diaryForm {
-  display: grid;
-  row-gap: 16px;
+@media (min-width: 768px) and (max-width: 1440px) {
+  .trigger { min-height: 48px; }
+  .radioOption { padding: 10px 12px; }
+  .radioLabel  { font-size: 15px; }
 }
 
-.ContainerTitle{
+@media (min-width: 0px) {
+  .diaryForm { position: relative; z-index: 1; }
+}
+
+/* =================== MOBIL =================== */
+
+.diaryForm{
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: column;
+  gap: 24px;
+
+  width: 295px;
+  height: 512px;
+}
+
+.fieldContainer{
   display: flex;
   align-items: flex-start;
   justify-content: flex-start;
   flex-direction: column;
   gap: 8px;
 
-  width: 640px;
-  height: 282px;
-
-  margin-bottom: 40px;
+  width: 295px;
+  height: 77px;
 }
 
-.fieldContainer {
-    /* display: grid;
-    row-gap: 8px; */
-display: flex;
-align-items: flex-start;
-justify-content: flex-start;
-flex-direction: column;
-gap: 8px;
-
-width: 640px;
-height: 80px;
-}
-
-.fieldLabel {
+.fieldLabel{
   font-family: var(--font-family);
   font-weight: 400;
-  font-size: 16px;
+  font-size: 14px;
   line-height: 1.5;
   color: var(--color-scheme-text);
 }
 
 .fieldInput,
-.fieldTextInput {
-  font-family: var(--font-family);
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 1.5;
-  color: var(--opacity-neutral-darkest-60);
-
-  background: var(--opacity-neutral-darkest-5);
-
-  border: 2px solid var(--opacity-transparent);
-  border-radius: 12px;
-  padding: 8px 12px;
-  width: 640px;
-  height: 40px;
-
+.fieldTextInput{
   display: flex;
   align-items: center;
   justify-content: flex-start;
   flex-direction: row;
   gap: 8px;
+
+  border: 2px solid var(--opacity-transparent);
+  border-radius: 12px;
+  padding: 8px 12px;
+  width: 295px;
+  height: 37px;
+
+  background: var(--opacity-neutral-darkest-5);
+
+  font-family: var(--font-family);
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--opacity-neutral-darkest-60);
 }
 .fieldTextInput {
   resize: vertical;
@@ -68,6 +71,159 @@ height: 80px;
   outline: none;
   box-shadow: 0 0 0 2px var(--color-scheme-foreground);
 }
+
+.combo {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: row;
+  gap: 8px;
+
+  border: 1px solid var(--opacity-transparent);
+  border-radius: 12px;
+  width: 295px;
+  height: 48px;
+  /* width: 640px;
+  height: 48px; */
+
+  background: var(--color-neutral-lightest);
+
+  position: relative;
+  overflow: visible;       
+  z-index: 0;  
+}
+
+.trigger {
+  padding: 8px 12px;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  text-align: left;
+
+  width: 640px;
+  height: 48px;
+
+  flex-direction: row;
+  gap: 8px;
+  align-items: center
+}
+.trigger:hover { background: var(--opacity-neutral-darkest-5); }
+
+.triggerContent {
+font-family: var(--font-family);
+font-weight: 400;
+font-size: 16px;
+line-height: 1.5;
+color: var(--color-neutral-darkest);
+}
+
+.ContainerTitle{
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-direction: column;
+  gap: 8px;
+
+  width: 295px;
+  height: 279px;
+    /* width: 640px;
+  height: 282px; */
+
+  margin-bottom: 24px;
+}
+
+
+
+
+.placeholder {
+  color: var(--color-neutral);
+  font-size: 14px;
+}
+
+.chevron {
+  transition: transform .18s ease;
+  color: var(--color-neutral-darker);
+  flex: 0 0 auto;
+}
+.chevronOpen { transform: rotate(180deg); }
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: var(--color-scheme-foreground);
+  color: var(--color-neutral-darker);
+  font-size: 12px;
+  border: 1px solid var(--color-scheme-border, rgba(0,0,0,.15));
+}
+
+.chipRemove {
+  border: 0;
+  width: 18px;
+  height: 18px;
+  border-radius: 9px;
+  line-height: 1;
+  background: var(--color-white);
+  color: var(--color-neutral-darkest);
+}
+.chipRemove:hover { background: var(--color-scheme-foreground); }
+
+.panel {
+  margin-top: 6px;
+  border: 1px solid var(--color-scheme-border, rgba(0,0,0,.15));
+  border-radius: 8px;
+  background: var(--color-white);
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+  transition: max-height .2s ease, opacity .18s ease;
+}
+.panelOpen {
+  max-height: 260px; 
+  opacity: 1;
+}
+
+.panelOverlay {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(100% + 6px);  
+  z-index: 50;              
+  background: var(--color-white);
+  border: 1px solid var(--color-scheme-border, rgba(0,0,0,.15));
+  border-radius: 8px;
+  box-shadow: 0 10px 24px rgba(0,0,0,.08);
+  overflow: hidden;
+
+  /* свернутое состояние */
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(-4px) scale(0.98);
+  transition: opacity .18s ease, transform .18s ease;
+}
+
+.panelOpen {
+  pointer-events: auto;
+  opacity: 1;
+  transform: none;
+}
+
+.panelOverlay .radioList {
+  max-height: 220px;
+  overflow: auto;
+  padding: 8px;
+  display: grid;
+  row-gap: 8px;
+}
+
 
 .fieldset { border: 0; padding: 0; margin: 0; }
 
@@ -135,146 +291,36 @@ height: 80px;
   color: var(--color-neutral-darker);
 }
 
-/* планшет */
-@media (min-width: 768px) and (max-width: 1279px) {
-  .radioOption { padding: 10px 12px; }
-  .radioLabel  { font-size: 15px; }
+
+/* ------------------- TABLET ------------------- */
+
+@media screen and (min-width: 768px) {
+  .diaryForm {
+    width: 640px;
+    height: 536px;
+  }
+
+  .fieldContainer {
+    width: 640px;
+    height: 77px;
+  }
+
+  .fieldInput,
+  .fieldTextInput {
+    width: 640px;
+  }
+
+  .combo {
+    width: 640px;
+  }
+
+  .ContainerTitle {
+    width: 640px;
+  }
 }
 
 
-.trigger {
-  padding: 8px 12px;
-  border: 1px solid var(--color-scheme-border, rgba(0,0,0,.15));
-  border-radius: 8px;
-  display: flex;
-  justify-content: space-between;
-  text-align: left;
+/* ------------------- COMPUTER ------------------- */
 
-  width: 640px;
-  height: 48px;
-
-align-items: flex-start;
-flex-direction: row;
-gap: 8px;
-}
-.trigger:hover { background: var(--color-scheme-foreground); }
-
-.triggerContent {
-font-family: var(--font-family);
-font-weight: 400;
-font-size: 16px;
-line-height: 1.5;
-color: var(--color-neutral-darkest);
-}
-.placeholder {
-  color: var(--color-neutral);
-  font-size: 14px;
-}
-.chevron {
-  transition: transform .18s ease;
-  color: var(--color-neutral-darker);
-  flex: 0 0 auto;
-}
-.chevronOpen { transform: rotate(180deg); }
-
-.chips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-}
-.chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 4px 8px;
-  border-radius: 999px;
-  background: var(--color-scheme-foreground);
-  color: var(--color-neutral-darker);
-  font-size: 12px;
-  border: 1px solid var(--color-scheme-border, rgba(0,0,0,.15));
-}
-.chipRemove {
-  border: 0;
-  width: 18px;
-  height: 18px;
-  border-radius: 9px;
-  line-height: 1;
-  background: var(--color-white);
-  color: var(--color-neutral-darkest);
-}
-.chipRemove:hover { background: var(--color-scheme-foreground); }
-
-.panel {
-  margin-top: 6px;
-  border: 1px solid var(--color-scheme-border, rgba(0,0,0,.15));
-  border-radius: 8px;
-  background: var(--color-white);
-  overflow: hidden;
-  max-height: 0;
-  opacity: 0;
-  transition: max-height .2s ease, opacity .18s ease;
-}
-.panelOpen {
-  max-height: 260px; 
-  opacity: 1;
-}
-
-@media (min-width: 768px) and (max-width: 1279px) {
-  .trigger { min-height: 48px; }
-}
-
-.combo {
-  position: relative;
-  overflow: visible;       
-  z-index: 0;    
-  
-display: flex;
-align-items: center;
-justify-content: flex-start;
-flex-direction: row;
-gap: 8px;
-
-border: 1px solid var(--opacity-transparent);
-border-radius: 12px;
-width: 640px;
-height: 48px;
-
-background: var(--color-neutral-lightest);
-}
-
-.panelOverlay {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: calc(100% + 6px);  
-  z-index: 50;              
-  background: var(--color-white);
-  border: 1px solid var(--color-scheme-border, rgba(0,0,0,.15));
-  border-radius: 8px;
-  box-shadow: 0 10px 24px rgba(0,0,0,.08);
-  overflow: hidden;
-
-  /* свернутое состояние */
-  pointer-events: none;
-  opacity: 0;
-  transform: translateY(-4px) scale(0.98);
-  transition: opacity .18s ease, transform .18s ease;
-}
-
-.panelOpen {
-  pointer-events: auto;
-  opacity: 1;
-  transform: none;
-}
-
-.panelOverlay .radioList {
-  max-height: 220px;
-  overflow: auto;
-  padding: 8px;
-  display: grid;
-  row-gap: 8px;
-}
-
-@media (min-width: 0px) {
-  .diaryForm { position: relative; z-index: 1; }
+@media screen and (min-width: 1440px) {
 }

@@ -154,3 +154,10 @@ export const getEmotions = async () => {
   const { data } = await nextServer.get<EmotionsResponse>('/emotions');
   return data;
 };
+
+export const updateUserData = async (id: string, data: FormData) => {
+  const res = await nextServer.patch(`/users/updateUserData/${id}`, data, {
+    headers: { 'Content-Type': 'multipart/form-data' },
+  });
+  return res.data;
+};

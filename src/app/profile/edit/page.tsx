@@ -4,10 +4,11 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import OnboardingForm, {
-  OnboardingFormData,
+  OnboardingFormValues,
 } from '@/components/OnboardingForm/OnboardingForm';
 import { useAuthStore } from '@/hooks/useAuthStore';
 import styles from './onboarding.module.css';
+import { updateUserData } from '@/lib/clientApi';
 
 // Іконка хлібних крихт
 const ChevronRightIcon = () => (
@@ -22,65 +23,70 @@ export default function OnboardingPage() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Перевіряємо, чи користувач вже пройшов онбординг
+    if (authUser === undefined) return; // ще не завантажилось зі стора
+
+    // if (!authUser) {
+    //   router.push('/login');
+    //   return;
+    // }
+
     if (authUser?.onboardingCompleted) {
       router.push('/dashboard');
       return;
     }
 
-    if (!authUser) {
-      router.push('/login');
-      return;
-    }
     setIsLoading(false);
   }, [authUser, router]);
 
   const handleOnboardingSubmit = async (
-    formData: OnboardingFormData
+    formData: OnboardingFormValues
   ): Promise<void> => {
+    if (!authUser) return; // підстраховка
+
     try {
-      // Імітація запиту до API для онбордингу
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      const formDataToSend = new FormData();
 
-      // Оновлюємо дані в store з позначкою про завершений онбординг
-      const updatedUser = {
-        ...authUser!,
-        name: formData.name,
-        email: formData.email,
-        gender: formData.childGender || '',
-        dueDate: formData.dueDate,
-        avatar: formData.avatarUrl || authUser?.avatar || '',
-        onboardingCompleted: true,
-        updatedAt: new Date().toISOString(),
-      };
+      // 👇 бекенд чекає "photo"
+      if (formData.avatar instanceof File) {
+        formDataToSend.append('photo', formData.avatar);
+      }
 
-      setUser(updatedUser); // Використовуємо setUser
+      // 👇 бекенд чекає "gender", а не "childGender"
+      formDataToSend.append('gender', formData.childGender);
 
-      // Перенаправляємо на головну сторінку після успішного онбордингу
+      // 👇 бекенд чекає дату у форматі ISO
+      formDataToSend.append(
+        'dueDate',
+        new Date(formData.dueDate).toISOString()
+      );
+
+      // викликаємо API
+      const savedUser = await updateUserData(authUser._id, formDataToSend);
+
+      // ⚡ у відповіді бекенд повертає { status, message, data }
+      setUser(savedUser.data);
+
       router.push('/dashboard');
     } catch (error) {
       console.error('Помилка онбордингу:', error);
-      throw error;
     }
   };
 
   const handleAvatarUpload = async (file: File): Promise<string> => {
     try {
-      // Імітація завантаження аватара
       await new Promise((resolve) => setTimeout(resolve, 500));
 
-      // Тут буде реальний запит до API для завантаження зображення
-      const avatarUrl = URL.createObjectURL(file); // Тимчасове рішення
+      const avatarUrl = URL.createObjectURL(file);
+
+      // опціонально: відкликати URL пізніше, коли зображення не буде потрібно
+      setTimeout(() => URL.revokeObjectURL(avatarUrl), 10_000);
+
       return avatarUrl;
     } catch (error) {
       console.error('Помилка завантаження аватара:', error);
       throw error;
     }
   };
-
-  if (!authUser || authUser.onboardingCompleted) {
-    return null;
-  }
 
   if (isLoading) {
     return (
@@ -90,12 +96,10 @@ export default function OnboardingPage() {
     );
   }
 
-  const formInitialData: OnboardingFormData = {
-    name: authUser.name || '',
-    email: authUser.email || '',
+  const formInitialData: OnboardingFormValues = {
     childGender: '',
     dueDate: '',
-    avatarUrl: authUser.avatar || '',
+    avatar: authUser?.avatar || '',
   };
 
   return (
@@ -110,13 +114,6 @@ export default function OnboardingPage() {
       </nav>
 
       <div className={styles.container}>
-        <div className={styles.header}>
-          <h1 className={styles.title}>Ласкаво просимо!</h1>
-          <p className={styles.subtitle}>
-            Заповніть основну інформацію для персоналізації вашого досвіду
-          </p>
-        </div>
-
         <OnboardingForm
           initialData={formInitialData}
           onSubmit={handleOnboardingSubmit}
