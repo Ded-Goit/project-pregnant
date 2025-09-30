@@ -15,7 +15,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const isAuth = await refresh();
 
       if (isAuth) {
-        const user = await getMe();
+        const { user } = await getMe();
+
         if (user) {
           setUser(user);
         }
