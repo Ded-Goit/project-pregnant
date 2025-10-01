@@ -1,15 +1,16 @@
 'use client';
 
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import styles from './ProfileAvatar.module.css';
 import Button from '@/components/UI/Buttons/Buttons';
+import Image from 'next/image';
 
 interface User {
   _id: string;
   name: string;
   email: string;
   gender: string;
-  avatar?: string;
+  photo?: string;
   createdAt: string;
   updatedAt: string;
 }
@@ -17,14 +18,21 @@ interface User {
 interface ProfileAvatarProps {
   user: User;
   onAvatarChange: (file: File) => Promise<string>;
+  setIsPhoto: (mode: boolean) => void;
 }
 
 export default function ProfileAvatar({
   user,
   onAvatarChange,
+  setIsPhoto,
 }: ProfileAvatarProps) {
   const [isLoading, setIsLoading] = useState(false);
-  const [currentAvatar, setCurrentAvatar] = useState(user.avatar);
+  const [currentAvatar, setCurrentAvatar] = useState(user.photo);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const handleClick = () => {
+    inputRef.current?.click();
+  };
 
   const handleFileChange = async (
     event: React.ChangeEvent<HTMLInputElement>
@@ -45,7 +53,7 @@ export default function ProfileAvatar({
     try {
       const newAvatarUrl = await onAvatarChange(file);
       setCurrentAvatar(newAvatarUrl);
-      event.target.value = '';
+      setIsPhoto(true);
     } catch (error) {
       console.error('Помилка завантаження фото:', error);
       alert('Помилка завантаження фото. Спробуйте ще раз.');
@@ -58,7 +66,7 @@ export default function ProfileAvatar({
     return name ? name.charAt(0).toUpperCase() : 'U';
   };
 
-  const avatarSrc = currentAvatar || user.avatar;
+  const avatarSrc = currentAvatar || user.photo;
   const showAvatar = avatarSrc && avatarSrc !== '';
 
   return (
@@ -66,7 +74,9 @@ export default function ProfileAvatar({
       <div className={styles.avatarSection}>
         <div className={styles.avatarContainer}>
           {showAvatar ? (
-            <img
+            <Image
+              width={132}
+              height={132}
               src={avatarSrc}
               alt={`Аватар ${user.name}`}
               className={styles.avatar}
@@ -104,15 +114,22 @@ export default function ProfileAvatar({
 
         <div className={styles.uploadSection}>
           <input
+            form="profile-form"
             type="file"
             accept="image/jpeg,image/png,image/webp"
             onChange={handleFileChange}
             className={styles.fileInput}
             disabled={isLoading}
             id="avatar-upload"
+            ref={inputRef}
           />
           <label htmlFor="avatar-upload" className={styles.uploadLabel}>
-            <Button variant="secondary" size="large" disabled={isLoading}>
+            <Button
+              variant="secondary"
+              size="large"
+              disabled={isLoading}
+              onClick={handleClick}
+            >
               {isLoading ? 'Завантаження...' : 'Завантажити нове фото'}
             </Button>
           </label>

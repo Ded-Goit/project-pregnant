@@ -7,23 +7,13 @@ import ProfileEditForm, {
 } from '@/components/ProfileEditForm/ProfileEditForm';
 import { useAuthStore } from '@/hooks/useAuthStore';
 import styles from './profile.module.css';
-
-const ChevronRightIcon = () => (
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-    <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z" />
-  </svg>
-);
+import { updateUserDataEdit } from '@/lib/clientApi';
 
 export default function ProfilePage() {
   const { user: authUser } = useAuthStore();
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 500);
-    return () => clearTimeout(timer);
-  }, []);
+  const { setUser } = useAuthStore();
+  const [isLoading, setIsLoading] = useState(false);
+  const [isPhoto, setIsPhoto] = useState(false);
 
   const handleAvatarUpdate = async (file: File): Promise<string> => {
     try {
@@ -35,12 +25,13 @@ export default function ProfilePage() {
     }
   };
 
-  const handleProfileUpdate = async (
-    formData: ProfileFormData
-  ): Promise<void> => {
+  const handleProfileUpdate = async (formData: FormData): Promise<void> => {
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      console.log('Профіль оновлено:', formData);
+      if (authUser) {
+        const { data } = await updateUserDataEdit(authUser?._id, formData);
+        setUser(data);
+        console.log(data);
+      }
     } catch (error) {
       console.error('Помилка оновлення профілю:', error);
       throw error;
@@ -80,11 +71,14 @@ export default function ProfilePage() {
           <ProfileAvatar
             user={displayUser}
             onAvatarChange={handleAvatarUpdate}
+            setIsPhoto={setIsPhoto}
           />
 
           <ProfileEditForm
             initialData={formInitialData}
             onSubmit={handleProfileUpdate}
+            isPhoto={isPhoto}
+            setIsPhoto={setIsPhoto}
           />
         </div>
       </div>
