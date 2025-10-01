@@ -1,6 +1,6 @@
 .tabs {
   display: flex;
-  background-color: var(--color-oasis-lighter);
+  background-color: var(--color-scheme-foreground);
   border: 1px solid rgba(255, 255, 255, 0);
   border-radius: 100px;
   margin: 0 auto;
@@ -24,7 +24,7 @@
 }
 
 .active {
-  background: var(--color-oasis-light);
+  background: var(--color-scheme-foreground-alt);
   font-weight: 500;
 }
 

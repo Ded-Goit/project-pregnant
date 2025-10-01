@@ -5,7 +5,7 @@
   padding: 24px;
   width: 311px;
   height: auto;
-  background-color: var(--color-oasis-lighter);
+  background-color: var(--color-scheme-foreground);
   margin-bottom: 32px;
 
   @media (min-width: 768px) {

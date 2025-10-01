@@ -15,8 +15,8 @@
 }
 
 .link:active {
-  border-bottom: 1px solid var(--color-pastel-pink);
-  color: var(--color-pastel-pink);
+  border-bottom: 1px solid var(--color-scheme-accent);
+  color: var(--color-scheme-accent);
 }
 
 .link[disabled] {

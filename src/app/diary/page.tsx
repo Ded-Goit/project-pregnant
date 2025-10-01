@@ -139,7 +139,7 @@ export default function DiaryPage() {
   }, [setEntries]);
 
   return (
-    <div className={styles.layout} data-theme="pink">
+    <div className={styles.layout}>
       {/* Main */}
       <main className={styles.main}>
         <header className={styles.pageHeader}>

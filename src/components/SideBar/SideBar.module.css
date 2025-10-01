@@ -1,7 +1,7 @@
 .backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.5);
+  background: var(--opacity-neutral-darkest-50);
   z-index: 40;
 }
 
@@ -11,7 +11,7 @@
   left: 0;
   width: 300px;
   height: 100dvh;
-  background: white;
+  background: var(--color-scheme-background);
   transform: translateX(-100%);
   transition: transform 0.3s ease-in-out;
   z-index: 50;
@@ -38,7 +38,7 @@
   font-weight: 400;
   font-size: 14px;
   line-height: 1.5;
-  color: #000;
+  color: var(--color-neutral-darkest);
   margin: 0 16px;
 }
 
@@ -48,10 +48,10 @@
 }
 .navItem:focus,
 .navItem:hover {
-  background-color: #fff4f6;
+  background-color: var(--color-scheme-foreground);
 }
 .navItem:active {
-  background-color: #ffcbd3;
+  background-color: var(--color-scheme-accent);
 }
 
 .navLink {
