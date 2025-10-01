@@ -9,6 +9,8 @@ import ConfirmationModal from './ConfirmationModal/ConfirmationModal';
 import { usePathname, useRouter } from 'next/navigation';
 import { useAuthStore } from '@/hooks/useAuthStore';
 import { logout } from '@/lib/clientApi';
+import axios from 'axios';
+import toast, { Toaster } from 'react-hot-toast';
 
 export default function LayoutClient({
   children,
@@ -30,10 +32,26 @@ export default function LayoutClient({
   );
 
   const handleLogout = async () => {
-    await logout();
-    clearIsAuthenticated();
-    setShowLogoutModal(false);
-    router.push('/auth/login');
+    try {
+      await logout();
+    } catch (e: unknown) {
+      if (axios.isAxiosError(e)) {
+        const status = e.response?.status;
+        const message = e.response?.data?.message || 'Помилка на сервері';
+
+        if (status === 401) {
+          toast.error('Сесія вже завершена');
+        } else {
+          toast.error(`Вихід із системи не вдався: ${message}`);
+        }
+      } else {
+        toast.error("Не вдалося з'єднатися з сервером");
+      }
+    } finally {
+      clearIsAuthenticated();
+      setShowLogoutModal(false);
+      router.push('/auth/login');
+    }
   };
 
   return (
@@ -58,6 +76,7 @@ export default function LayoutClient({
           )}
           {children}
         </main>
+        <Toaster></Toaster>
       </div>
     </>
   );
