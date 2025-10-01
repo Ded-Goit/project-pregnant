@@ -106,6 +106,27 @@ figure {
   }
 }
 
+.container {
+  margin: 0 auto;
+  padding-left: 20px;
+  padding-right: 20px;
+  max-width: 100%;
+}
+
+@media (min-width: 768px) {
+  .container {
+    padding-left: 32px;
+    padding-right: 32px;
+    max-width: 768px;
+  }
+}
+
+@media (min-width: 1440px) {
+  .container {
+    max-width: 1440px;
+  }
+}
+
 /* === Fonts Variables === */
 :root {
   /* Google Fonts (400, 700, 900) + Local Fonts (500, 600) */
