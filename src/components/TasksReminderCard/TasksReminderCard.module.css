@@ -82,9 +82,9 @@
 .taskListWrapper::-webkit-scrollbar-thumb {
   width: 10px;
   height: 56px;
-  background-color: var(--color-oasis);
+  background-color: var(--color-scheme-accent);
   border-radius: 4px;
-  border: 2px solid var(--color-oasis);
+  border: 2px solid var(--color-scheme-accent);
   background-clip: content-box;
 }
 
