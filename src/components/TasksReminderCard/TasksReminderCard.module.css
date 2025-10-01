@@ -97,7 +97,7 @@
 .groupTitle {
   font: 400 14px / 150% var(--second-family);
   color: var(--color-scheme-text);
-  margin-bottom: 8px 0;
+  margin: 8px 0;
 }
 
 .taskDate {
