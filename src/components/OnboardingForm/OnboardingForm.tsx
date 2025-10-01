@@ -140,10 +140,12 @@ export default function OnboardingForm({
                           : ''
                       }`}
                     >
-                      <option value="">Оберіть стать</option>
-                      <option value="male">Хлопчик</option>
-                      <option value="female">Дівчинка</option>
-                      <option value="unknown">Ще не знаю</option>
+                      <option value="" disabled>
+                        Оберіть стать
+                      </option>
+                      <option value="boy">Хлопчик</option>
+                      <option value="girl">Дівчинка</option>
+                      <option value="I don`t know yet">Ще не знаю</option>
                     </Field>
                     <span className={styles.arrow}></span>
                   </div>
