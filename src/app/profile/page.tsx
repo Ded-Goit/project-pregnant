@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import ProfileAvatar from '@/components/ProfileAvatar/ProfileAvatar';
 import ProfileEditForm, {
   ProfileFormData,
@@ -8,6 +8,7 @@ import ProfileEditForm, {
 import { useAuthStore } from '@/hooks/useAuthStore';
 import styles from './profile.module.css';
 import { updateUserDataEdit } from '@/lib/clientApi';
+import Loading from '../loading';
 
 export default function ProfilePage() {
   const { user: authUser } = useAuthStore();
@@ -28,22 +29,20 @@ export default function ProfilePage() {
   const handleProfileUpdate = async (formData: FormData): Promise<void> => {
     try {
       if (authUser) {
+        setIsLoading(true);
         const { data } = await updateUserDataEdit(authUser?._id, formData);
         setUser(data);
-        console.log(data);
       }
     } catch (error) {
       console.error('Помилка оновлення профілю:', error);
       throw error;
+    } finally {
+      setIsLoading(false);
     }
   };
 
   if (isLoading) {
-    return (
-      <div className={styles.pageWrapper}>
-        <div className={styles.loading}>Завантаження...</div>
-      </div>
-    );
+    return <Loading></Loading>;
   }
 
   const displayUser = authUser || {
