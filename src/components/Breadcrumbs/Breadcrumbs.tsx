@@ -3,9 +3,11 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import styles from './Breadcrumbs.module.css';
+import { useWeekStore } from '@/hooks/useAuthStore';
 
 export default function Breadcrumbs() {
   const pathname = usePathname();
+  const { currentWeek } = useWeekStore();
 
   // Розбиваємо шлях на сегменти
   const segments = pathname.split('/').filter(Boolean);
@@ -39,7 +41,7 @@ export default function Breadcrumbs() {
 
         {segments.map((segment, index) => {
           // шлях до поточного сегмента
-          const href = '/' + segments.slice(0, index + 1).join('/');
+          let href = '/' + segments.slice(0, index + 1).join('/');
 
           // робимо "читабельну" назву
           const nameMap: Record<string, string> = {
@@ -52,6 +54,10 @@ export default function Breadcrumbs() {
 
           // якщо останній — не робимо посилання
           const isLast = index === segments.length - 1;
+
+          if (segment === 'journey' && currentWeek) {
+            href = `/journey/${currentWeek}`;
+          }
 
           return (
             <li key={href}>
