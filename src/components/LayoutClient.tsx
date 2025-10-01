@@ -50,7 +50,7 @@ export default function LayoutClient({
     } finally {
       clearIsAuthenticated();
       setShowLogoutModal(false);
-      router.push('/auth/login');
+      router.push('/');
     }
   };
 
