@@ -251,7 +251,7 @@ export default function NewAddDiaryEntryForm({
           defaultValue={fieldData?.title}
         />
         {errorValidation && errorValidation.field === 'title' && (
-          <div>{errorValidation.message}</div>
+          <div className={styles.meser}>{errorValidation.message}</div>
         )}
       </div>
 
@@ -360,7 +360,7 @@ export default function NewAddDiaryEntryForm({
 
         {loadError && <p className={styles.helperError}>{loadError}</p>}
         {errorValidation && errorValidation.field === 'emotions' && (
-          <div>{errorValidation.message}</div>
+          <div className={styles.meser}>{errorValidation.message}</div>
         )}
       </div>
 
@@ -377,7 +377,7 @@ export default function NewAddDiaryEntryForm({
           defaultValue={fieldData?.descr}
         />
         {errorValidation && errorValidation.field === 'descr' && (
-          <div>{errorValidation.message}</div>
+          <div className={styles.meser}>{errorValidation.message}</div>
         )}
       </div>
 

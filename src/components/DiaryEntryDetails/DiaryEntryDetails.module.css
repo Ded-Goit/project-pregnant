@@ -1,17 +1,14 @@
 /* =================== MOBIL =================== */
 
-
 /* ------------------- TABLET ------------------- */
 
 @media screen and (min-width: 768px) {
 }
 
-
 /* ------------------- COMPUTER ------------------- */
 
 @media screen and (min-width: 1440px) {
-
-  .detailsInner{
+  .detailsInner {
     display: flex;
     align-items: flex-start;
     justify-content: flex-start;
@@ -22,7 +19,7 @@
     height: 318px;
   }
 
-  .top{
+  .top {
     display: flex;
     align-items: center;
     flex-direction: row;
@@ -33,7 +30,7 @@
     height: 40px;
   }
 
-  .divTitle{
+  .divTitle {
     display: flex;
     align-items: center;
     justify-content: flex-start;
@@ -44,7 +41,7 @@
     height: 40px;
   }
 
-  .title{
+  .title {
     font-family: var(--second-family);
     font-weight: 700;
     font-size: 20px;
@@ -53,17 +50,15 @@
     color: var(--color-scheme-text);
   }
 
-  .actions{
+  .actions {
     display: flex;
     align-items: center;
     justify-content: flex-start;
     flex-direction: row;
     gap: 8px;
-
-
   }
 
-  .meta{
+  .meta {
     font-family: var(--font-family);
     font-weight: 400;
     font-size: 14px;
@@ -71,15 +66,15 @@
     color: var(--color-scheme-text);
   }
 
-  .text{
+  .text {
     font-family: var(--font-family);
-      font-weight: 400;
-      font-size: 16px;
-      line-height: 1.5;
-      color: var(--color-scheme-text);
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 1.5;
+    color: var(--color-scheme-text);
   }
 
-  .tags{
+  .tags {
     display: flex;
     align-items: flex-start;
     justify-content: flex-start;
@@ -91,7 +86,7 @@
     height: 30px;
   }
 
-  .chip{
+  .chip {
     display: flex;
     align-items: flex-start;
     justify-content: flex-start;
@@ -111,10 +106,10 @@
     line-height: 1.5;
     color: var(--color-scheme-text);
 
-    overflow: hidden;
+    /*overflow: hidden;*/
   }
 
-  .placeholder{
+  .placeholder {
     font-family: var(--second-family);
     font-weight: 700;
     font-size: 20px;
@@ -124,7 +119,5 @@
 
     margin-left: 93px;
     margin-right: 93px;
-    
   }
-
 }

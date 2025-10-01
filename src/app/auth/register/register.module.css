@@ -50,13 +50,11 @@
   margin-top: 0;
   margin-bottom: 32px;
   text-align: center;
-
   font-weight: var(--fw-bold);
   font-size: 36px;
-
   line-height: 1.2;
   letter-spacing: 0.01em;
-  background-color: var(--color-scheme-text);
+  color: var(--color-scheme-text);
 }
 
 .form {
