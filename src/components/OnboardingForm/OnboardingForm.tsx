@@ -82,7 +82,7 @@ export default function OnboardingForm({
                     />
                   ) : (
                     <Image
-                      src="/auth/avatar_image.webp"
+                      src="/avatar_image.webp"
                       alt="Аватар за замовчуванням"
                       width={164}
                       height={164}
@@ -191,7 +191,7 @@ export default function OnboardingForm({
       {/* Ілюстрація справа */}
       <Image
         className={styles.vision}
-        src="/auth/onboarding_image.webp"
+        src="/onboarding_image.webp"
         alt=""
         width={720}
         height={900}
