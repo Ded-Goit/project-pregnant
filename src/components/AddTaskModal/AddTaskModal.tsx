@@ -6,6 +6,7 @@ import React, { useEffect } from 'react';
 import AddTaskForm from '../AddTaskForm/AddTaskForm';
 import { Task } from '../../types/note';
 import Image from 'next/image';
+import { MdClose } from 'react-icons/md';
 
 interface AddTaskModalProps {
   isEdit?: boolean;
@@ -44,7 +45,7 @@ export default function AddTaskModal({
           className={styles.closeButton}
           aria-label="Close modal"
         >
-          <Image src="/close.png" alt="Close" width={24} height={24} />
+          <MdClose className={styles.svg} />
         </button>
         <h2 className={styles.modalTitle}>Нове завдання</h2>
         <AddTaskForm
