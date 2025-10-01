@@ -1,12 +1,13 @@
 'use client';
 
-import styles from './TasksReminderCard.module.css';
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { MdAddCircleOutline } from 'react-icons/md';
+
+import styles from './TasksReminderCard.module.css';
 import { useAuthStore } from '@/hooks/useAuthStore';
 import AddTaskModal from '../AddTaskModal/AddTaskModal';
 import { Task } from '../../types/note';
-import Image from 'next/image';
 import Button from '../UI/Buttons/Buttons';
 import SpinnerFlowersLine from '../SpinnerFlowersLine/SpinnerFlowersLine';
 import { nextServer } from '@/lib/api';
@@ -15,12 +16,13 @@ type ApiTask = Task & { _id: string };
 
 export default function TasksReminderCard() {
   const { isAuthenticated } = useAuthStore();
+  const router = useRouter();
+
   const [tasks, setTasks] = useState<Task[]>([]);
+  const [updatingTasks, setUpdatingTasks] = useState<Set<string>>(new Set());
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
-
-  const router = useRouter();
 
   useEffect(() => {
     if (!isAuthenticated) {
@@ -29,13 +31,10 @@ export default function TasksReminderCard() {
     }
     nextServer
       .get('/tasks')
-      .then((response) => {
-        const fetchedTasks = response.data.data.data as ApiTask[];
-        const normalizedTasks: Task[] = fetchedTasks.map((task) => ({
-          ...task,
-          id: task._id,
-        }));
-        setTasks(normalizedTasks);
+      .then((res) => {
+        const fetchedTasks = res.data.data.data as ApiTask[];
+        const normalized = fetchedTasks.map((t) => ({ ...t, id: t._id }));
+        setTasks(normalized);
         setLoading(false);
       })
       .catch((err) => {
@@ -45,14 +44,13 @@ export default function TasksReminderCard() {
   }, [isAuthenticated]);
 
   const handleButtonClick = () => {
-    if (!isAuthenticated) {
-      router.push('/auth/register');
-    } else {
-      setModalOpen(true);
-    }
+    if (!isAuthenticated) router.push('/auth/register');
+    else setModalOpen(true);
   };
 
   const handleCheckboxChange = (taskId: string, isDone: boolean) => {
+    setUpdatingTasks((prev) => new Set(prev).add(taskId));
+
     nextServer
       .patch(`/tasks/${taskId}`, { isDone })
       .then(() => {
@@ -60,28 +58,27 @@ export default function TasksReminderCard() {
           prev.map((t) => (t.id === taskId ? { ...t, isDone } : t))
         );
       })
-      .catch((err) => {
-        alert(err.message);
+      .catch((err) => alert(err.message))
+      .finally(() => {
+        setUpdatingTasks((prev) => {
+          const newSet = new Set(prev);
+          newSet.delete(taskId);
+          return newSet;
+        });
       });
   };
+
   const closeAddTaskModal = () => setModalOpen(false);
 
-  const formatDate = (dateString: string) => {
-    const d = new Date(dateString);
-    const day = String(d.getDate()).padStart(2, '0');
-    const month = String(d.getMonth() + 1).padStart(2, '0');
-    return `${day}.${month}`;
+  const formatDate = (dateStr: string) => {
+    const d = new Date(dateStr);
+    return `${`${d.getDate()}`.padStart(2, '0')}.${`${d.getMonth() + 1}`.padStart(2, '0')}`;
   };
 
   const addTaskToList = (task: Task) => {
     setTasks((prev) => {
-      const newTask: Task = {
-        ...task,
-        id: (task as ApiTask)._id || task.id,
-      };
-
-      const updatedTasks = [...prev, newTask];
-      return updatedTasks.sort(
+      const newTask: Task = { ...task, id: (task as ApiTask)._id || task.id };
+      return [...prev, newTask].sort(
         (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
       );
     });
@@ -138,6 +135,25 @@ export default function TasksReminderCard() {
     },
   ];
 
+  const tasksToRender = isAuthenticated ? tasks : staticTasks;
+
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const weekLater = new Date(today);
+  weekLater.setDate(today.getDate() + 7);
+
+  const tasksToday = tasksToRender.filter((t) => {
+    const d = new Date(t.date);
+    d.setHours(0, 0, 0, 0);
+    return d.getTime() === today.getTime();
+  });
+
+  const tasksNextWeek = tasksToRender.filter((t) => {
+    const d = new Date(t.date);
+    d.setHours(0, 0, 0, 0);
+    return d > today && d <= weekLater;
+  });
+
   if (loading && isAuthenticated)
     return (
       <section className={styles.tasksReminderCard}>
@@ -152,14 +168,18 @@ export default function TasksReminderCard() {
       </section>
     );
 
-  const tasksToRender = isAuthenticated ? tasks : staticTasks;
-
   return (
     <section className={styles.tasksReminderCard}>
-      <button className={styles.addTaskButton} onClick={handleButtonClick}>
-        <Image src="/vector.png" alt="Додати завдання" width={24} height={24} />
+      <button
+        className={styles.addTaskButton}
+        onClick={handleButtonClick}
+        aria-label="Додати завдання"
+      >
+        <MdAddCircleOutline className={styles.svg} />
       </button>
+
       <h3 className={styles.tasksReminderTitle}>Важливі завдання</h3>
+
       <div className={styles.taskListWrapper}>
         {tasksToRender.length === 0 && isAuthenticated ? (
           <div className={styles.noTasksMessageContainer}>
@@ -173,40 +193,86 @@ export default function TasksReminderCard() {
               variant="primary"
               size="large"
               onClick={handleButtonClick}
-              style={{ width: '173px', height: '42px' }}
+              style={{ width: 173, height: 42 }}
             >
               Додати завдання
             </Button>
           </div>
         ) : (
-          <ul className={styles.tasksList}>
-            {tasksToRender.map(({ id, date, name, isDone }) => {
-              const taskIdForPatch = id as string;
-              return (
-                <li key={taskIdForPatch}>
-                  <p className={styles.taskDate}>{formatDate(date)}</p>
-                  <label className={styles.taskLabel}>
-                    <input
-                      type="checkbox"
-                      checked={isDone}
-                      onChange={(e) =>
-                        handleCheckboxChange(taskIdForPatch, e.target.checked)
-                      }
-                    />
-                    <span className={styles.customCheckbox}></span>
-                    <span className={styles.checkmark}>{name}</span>
-                  </label>
-                </li>
-              );
-            })}
-          </ul>
+          <>
+            <h4 className={styles.groupTitle}>Сьогодні</h4>
+            {tasksToday.length ? (
+              <ul className={styles.tasksList}>
+                {tasksToday.map(({ id, date, name, isDone }) => (
+                  <li key={id} className={styles.taskItem}>
+                    <p className={styles.taskDate}>{formatDate(date)}</p>
+                    <label className={styles.taskLabel}>
+                      <input
+                        type="checkbox"
+                        checked={isDone}
+                        onChange={(e) =>
+                          handleCheckboxChange(id, e.target.checked)
+                        }
+                      />
+                      <span className={styles.customCheckbox}></span>
+                      <span
+                        className={`${styles.taskNameWrapper} ${isDone ? styles.done : ''}`}
+                      >
+                        {/* Текст завдання стає прозорим, якщо оновлюється */}
+                        <span
+                          className={
+                            updatingTasks.has(id) ? styles.taskNameHidden : ''
+                          }
+                        >
+                          {name}
+                        </span>
+                        {updatingTasks.has(id) && (
+                          <span className={styles.taskLoader}>
+                            <SpinnerFlowersLine />
+                          </span>
+                        )}
+                      </span>
+                    </label>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className={styles.noTasksMessage}>Завдань на сьогодні немає</p>
+            )}
+
+            <h4 className={styles.groupTitle}>Найближчий тиждень</h4>
+            {tasksNextWeek.length ? (
+              <ul className={styles.tasksList}>
+                {tasksNextWeek.map(({ id, date, name, isDone }) => (
+                  <li key={id}>
+                    <p className={styles.taskDate}>{formatDate(date)}</p>
+                    <label className={styles.taskLabel}>
+                      <input
+                        type="checkbox"
+                        checked={isDone}
+                        onChange={(e) =>
+                          handleCheckboxChange(id, e.target.checked)
+                        }
+                      />
+                      <span className={styles.customCheckbox}></span>
+                      <span className={styles.checkmark}>{name}</span>
+                    </label>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className={styles.noTasksMessage}>
+                Завдань на найближчий тиждень немає
+              </p>
+            )}
+          </>
         )}
       </div>
+
       {modalOpen && (
         <AddTaskModal
           onClose={closeAddTaskModal}
           onSubmit={async (task: Task) => {
-            console.log('Task received from form:', task);
             addTaskToList(task);
             closeAddTaskModal();
           }}

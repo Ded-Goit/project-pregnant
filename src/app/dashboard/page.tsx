@@ -39,9 +39,9 @@ export async function getUserName() {
 }
 
 export default function DashboardPage() {
-  const { isAuthenticated, user } = useAuthStore(); // ✅ беремо стан із стора
-
-  const [userName, setUserName] = useState<string>('Пані');
+  const { isAuthenticated } = useAuthStore(); // ✅ беремо стан із стора
+  const { user } = useAuthStore();
+  // const [userName, setUserName] = useState<string>('Пані');
   const [weekNumber, setWeekNumber] = useState<number>(5);
   const [daysLeft, setDaysLeft] = useState<number>(250);
 
@@ -65,7 +65,7 @@ export default function DashboardPage() {
           if (dashboardData && userData) {
             // Authenticated response has a nested `data.data` structure
             const data = dashboardData.data.data;
-            setUserName(userData?.data?.name || 'Пані');
+            // setUserName(userData?.name || 'Пані');
             setWeekNumber(data.weekNumber);
             setDaysLeft(data.daysLeft);
             setImage(data.baby.image);
@@ -81,7 +81,7 @@ export default function DashboardPage() {
           const dashboardData = await getDashboardData(false);
           if (dashboardData) {
             const data = dashboardData.data;
-            setUserName('Пані'); // Default name for public
+            // setUserName('Пані'); // Default name for public
             setWeekNumber(data.weekNumber);
             setDaysLeft(data.daysLeft);
             setImage(data.baby.image);
@@ -95,7 +95,7 @@ export default function DashboardPage() {
         }
       } catch (error) {
         console.error('Failed to fetch dashboard data:', error);
-        setUserName('Пані');
+        // setUserName('Пані');
       }
     };
 
@@ -104,7 +104,7 @@ export default function DashboardPage() {
 
   return (
     <main className={styles.dashboardGrid}>
-      <GreetingBlock userName={userName} />
+      <GreetingBlock userName={user?.name} />
       <div className={styles.dashboardContainer}>
         <div className={styles.statusContainer}>
           <StatusBlock weekNumber={weekNumber} daysLeft={daysLeft} />
