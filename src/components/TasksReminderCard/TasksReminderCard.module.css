@@ -10,8 +10,8 @@
 
   @media (min-width: 768px) {
     width: 704px;
-    /* height: 671px; */
   }
+
   @media (min-width: 1440px) {
     width: 390px;
     height: 499px;
@@ -49,6 +49,7 @@
   height: 105px;
   gap: 8px;
 }
+
 .noTasksMessageTitle {
   font: 700 14px / 160% var(--font-family);
   color: var(--color-scheme-text);
@@ -97,7 +98,7 @@
 .groupTitle {
   font: 400 14px / 150% var(--second-family);
   color: var(--color-scheme-text);
-  margin-bottom: 8px 0;
+  margin-bottom: 8px;
 }
 
 .taskDate {
