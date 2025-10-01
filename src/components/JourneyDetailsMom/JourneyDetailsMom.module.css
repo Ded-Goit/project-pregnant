@@ -15,7 +15,7 @@
   flex-direction: column;
   border-radius: 32px;
   width: 311px;
-  background-color: var(--color-oasis-lighter);
+  background-color: var(--color-scheme-foreground);
   overflow: auto;
   padding: 24px;
   margin: 0 auto;
@@ -87,7 +87,7 @@
 .advice {
   border-radius: 32px;
   width: 311px;
-  background-color: var(--color-oasis-lighter);
+  background-color: var(--color-scheme-foreground);
   display: flex;
   flex-direction: column;
   gap: 8px;
