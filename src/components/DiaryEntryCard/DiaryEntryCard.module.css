@@ -9,9 +9,9 @@
   border: 1px solid var(--color-scheme-foreground-alt);
   border-radius: 16px;
   width: 303px;
-  height: 91px;
+  height: auto;
   padding: 16px 16px;
-  background: var(--color-scheme-foreground-alt);
+  background-color: var(--color-scheme-foreground-alt);
 }
 
 .head {
@@ -47,7 +47,8 @@
   flex-direction: row;
   gap: 8px;
   width: 271px;
-  height: 25px;
+  height: auto;
+  flex-wrap: wrap;
 }
 
 .chip {
@@ -91,7 +92,7 @@
 @media screen and (min-width: 1440px) {
   .card {
     width: 357px;
-    height: 97px;
+    height: auto;
   }
 
   .head {
