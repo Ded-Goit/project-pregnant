@@ -129,8 +129,8 @@ export default function ProfileEditForm({
             disabled={isLoading}
           >
             <option value="">Оберіть стать</option>
-            <option value="female">Дівчинка</option>
-            <option value="male">Хлопчик</option>
+            <option value="girl">Дівчинка</option>
+            <option value="boy">Хлопчик</option>
           </select>
           {formik.touched.childGender && formik.errors.childGender && (
             <div className={styles.error}>{formik.errors.childGender}</div>

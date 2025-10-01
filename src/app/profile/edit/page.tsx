@@ -2,20 +2,21 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import Link from 'next/link';
 import OnboardingForm, {
   OnboardingFormValues,
 } from '@/components/OnboardingForm/OnboardingForm';
 import { useAuthStore } from '@/hooks/useAuthStore';
 import styles from './onboarding.module.css';
 import { updateUserData } from '@/lib/clientApi';
+import toast from 'react-hot-toast';
+import { Toaster } from 'react-hot-toast';
+import { AxiosError } from 'axios';
 
-// Іконка хлібних крихт
-const ChevronRightIcon = () => (
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-    <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z" />
-  </svg>
-);
+interface AxiosErrorResponse {
+  status: number;
+  message: { context?: { message?: string } }[];
+  data?: unknown;
+}
 
 export default function OnboardingPage() {
   const router = useRouter();
@@ -23,12 +24,7 @@ export default function OnboardingPage() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    if (authUser === undefined) return; // ще не завантажилось зі стора
-
-    // if (!authUser) {
-    //   router.push('/login');
-    //   return;
-    // }
+    if (authUser === undefined) return;
 
     if (authUser?.onboardingCompleted) {
       router.push('/dashboard');
@@ -41,36 +37,51 @@ export default function OnboardingPage() {
   const handleOnboardingSubmit = async (
     formData: OnboardingFormValues
   ): Promise<void> => {
-    if (!authUser) return; // підстраховка
+    console.log(formData);
+
+    if (!authUser) return;
 
     try {
       const formDataToSend = new FormData();
 
-      // 👇 бекенд чекає "photo"
       if (formData.avatar instanceof File) {
         formDataToSend.append('photo', formData.avatar);
       }
 
-      // 👇 бекенд чекає "gender", а не "childGender"
       formDataToSend.append('gender', formData.childGender);
 
-      // 👇 бекенд чекає дату у форматі ISO
       const formatDate = (date: string) => {
-  const d = new Date(date);
-  return d.toISOString().split('T')[0];
-};
+        const d = new Date(date);
+        return d.toISOString().split('T')[0];
+      };
 
-formDataToSend.append('dueDate', formatDate(formData.dueDate));
+      formDataToSend.append('dueDate', formatDate(formData.dueDate));
 
-      // викликаємо API
       const savedUser = await updateUserData(authUser._id, formDataToSend);
 
-      // ⚡ у відповіді бекенд повертає { status, message, data }
       setUser(savedUser.data);
 
       router.push('/dashboard');
-    } catch (error) {
-      console.error('Помилка онбордингу:', error);
+    } catch (error: unknown) {
+      if (
+        error &&
+        typeof error === 'object' &&
+        'isAxiosError' in error &&
+        (error as AxiosError).isAxiosError
+      ) {
+        const axiosError = error as AxiosError;
+
+        const responseData = axiosError.response?.data as AxiosErrorResponse;
+        const axiosMessage = responseData?.message;
+
+        const text = Array.isArray(axiosMessage)
+          ? (axiosMessage[0]?.context?.message ?? 'Помилка')
+          : (axiosMessage ?? 'Помилка');
+
+        toast.error(text);
+      } else {
+        toast.error('Щось пішло не так');
+      }
     }
   };
 
@@ -106,15 +117,6 @@ formDataToSend.append('dueDate', formatDate(formData.dueDate));
 
   return (
     <div className={styles.pageWrapper}>
-      {/* Breadcrumbs */}
-      <nav className={styles.breadcrumbs}>
-        <Link href="/" className={styles.breadcrumbLink}>
-          Лелека
-        </Link>
-        <ChevronRightIcon />
-        <span className={styles.breadcrumbCurrent}>Онбординг</span>
-      </nav>
-
       <div className={styles.container}>
         <OnboardingForm
           initialData={formInitialData}
@@ -122,6 +124,7 @@ formDataToSend.append('dueDate', formatDate(formData.dueDate));
           onAvatarUpload={handleAvatarUpload}
         />
       </div>
+      <Toaster></Toaster>
     </div>
   );
 }
