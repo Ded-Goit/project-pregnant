@@ -193,7 +193,13 @@ export const getEmotions = async () => {
 };
 
 export const updateUserData = async (id: string, data: FormData) => {
-  const res = await nextServer.patch(`/users/updateUserData/${id}`, data, {
+  // console.log({ id, data });
+  // console.log('FormData values:');
+  // data.forEach((value, key) => {
+  //   console.log(key, value);
+  // });
+
+  const res = await nextServer.patch(`/users/onboarding/${id}`, data, {
     headers: { 'Content-Type': 'multipart/form-data' },
   });
   return res.data;

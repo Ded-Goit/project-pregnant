@@ -75,12 +75,6 @@ export default function ProfilePage() {
 
   return (
     <div className={styles.pageWrapper}>
-      <nav className={styles.breadcrumbs}>
-        <span className={styles.breadcrumbText}>Лелека</span>
-        <ChevronRightIcon />
-        <span className={styles.breadcrumbCurrent}>Профіль</span>
-      </nav>
-
       <div className={styles.container}>
         <div className={styles.content}>
           <ProfileAvatar

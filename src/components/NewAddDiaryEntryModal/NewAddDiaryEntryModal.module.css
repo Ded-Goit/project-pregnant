@@ -46,6 +46,7 @@
   width: 100vw;
   height: 100vh;
   background-color: var(--color-oasis-lightest);
+  background-color: green;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -59,7 +60,6 @@
   height: 695px;
   /* max-width: 768px; */
   position: relative;
-
   display: flex;
   align-items: center;
   justify-content: flex-start;
@@ -67,6 +67,7 @@
   /* gap: 20px; */
 
   background: var(--color-scheme-background);
+  background-color: red;
 }
 
 .closeButton {
