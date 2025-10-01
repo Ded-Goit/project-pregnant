@@ -15,7 +15,9 @@ export interface ProfileFormData {
 
 export interface ProfileEditFormProps {
   initialData: ProfileFormData;
-  onSubmit: (values: ProfileFormData) => Promise<void>;
+  onSubmit: (formData: FormData) => Promise<void>;
+  isPhoto: boolean;
+  setIsPhoto: (mode: boolean) => void;
 }
 
 const validationSchema = Yup.object({
@@ -32,8 +34,11 @@ const validationSchema = Yup.object({
 export default function ProfileEditForm({
   initialData,
   onSubmit,
+  isPhoto,
+  setIsPhoto,
 }: ProfileEditFormProps) {
   const [isLoading, setIsLoading] = useState(false);
+  console.log(isPhoto);
 
   const formik = useFormik({
     initialValues: initialData,
@@ -42,7 +47,17 @@ export default function ProfileEditForm({
     onSubmit: async (values) => {
       setIsLoading(true);
       try {
-        await onSubmit(values);
+        const form = document.getElementById('profile-form') as HTMLFormElement;
+        const formData = new FormData(form);
+        const fileInput = document.getElementById(
+          'avatar-upload'
+        ) as HTMLInputElement;
+
+        if (fileInput?.files?.[0]) {
+          formData.append('photo', fileInput.files[0]);
+        }
+
+        await onSubmit(formData);
       } catch (error) {
         console.error('Помилка збереження:', error);
         throw error;
@@ -54,6 +69,13 @@ export default function ProfileEditForm({
 
   const handleCancel = () => {
     formik.resetForm({ values: initialData });
+    const fileInput = document.getElementById(
+      'avatar-upload'
+    ) as HTMLInputElement;
+    if (fileInput) {
+      fileInput.value = '';
+    }
+    setIsPhoto(false);
   };
 
   const hasChanges =
@@ -63,7 +85,12 @@ export default function ProfileEditForm({
     formik.values.dueDate !== initialData.dueDate;
 
   return (
-    <form onSubmit={formik.handleSubmit} className={styles.form} noValidate>
+    <form
+      onSubmit={formik.handleSubmit}
+      className={styles.form}
+      noValidate
+      id="profile-form"
+    >
       <div className={styles.fields}>
         <div className={styles.inputGroup}>
           <label htmlFor="name" className={styles.label}>
@@ -128,7 +155,7 @@ export default function ProfileEditForm({
             }`}
             disabled={isLoading}
           >
-            <option value="">Оберіть стать</option>
+            <option value="I don`t know yet">Оберіть стать</option>
             <option value="girl">Дівчинка</option>
             <option value="boy">Хлопчик</option>
           </select>
@@ -165,7 +192,7 @@ export default function ProfileEditForm({
         <Button
           type="button"
           onClick={handleCancel}
-          disabled={!hasChanges || isLoading}
+          disabled={isPhoto === true || hasChanges === true ? false : true}
           variant="secondary"
           size="large"
         >
@@ -173,7 +200,7 @@ export default function ProfileEditForm({
         </Button>
         <Button
           type="submit"
-          disabled={isLoading || !hasChanges}
+          disabled={isPhoto === true || hasChanges === true ? false : true}
           variant="primary"
           size="large"
         >
