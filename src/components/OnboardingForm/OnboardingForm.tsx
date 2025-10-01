@@ -71,23 +71,25 @@ export default function OnboardingForm({
             <Form className={styles.form}>
               {/* Аватар */}
               <div className={styles.avatarWrapper}>
-                {avatarPreview ? (
-                  <Image
-                    src={avatarPreview}
-                    alt="Аватар"
-                    width={164}
-                    height={164}
-                    className={styles.avatarPreview}
-                  />
-                ) : (
-                  <Image
-                    src="/auth/avatar-image.webp"
-                    alt="Аватар за замовчуванням"
-                    width={164}
-                    height={164}
-                    className={styles.avatarPreview}
-                  />
-                )}
+                <div className={styles.avatarImage}>
+                  {avatarPreview ? (
+                    <Image
+                      src={avatarPreview}
+                      alt="Аватар"
+                      width={164}
+                      height={164}
+                      className={styles.avatarPreview}
+                    />
+                  ) : (
+                    <Image
+                      src="/auth/avatar_image.webp"
+                      alt="Аватар за замовчуванням"
+                      width={164}
+                      height={164}
+                      className={styles.avatarPreview}
+                    />
+                  )}
+                </div>
 
                 <label
                   htmlFor={`${fieldId}-avatar`}
@@ -189,7 +191,7 @@ export default function OnboardingForm({
       {/* Ілюстрація справа */}
       <Image
         className={styles.vision}
-        src="/auth/onboarding.webp"
+        src="/auth/onboarding_image.webp"
         alt=""
         width={720}
         height={900}

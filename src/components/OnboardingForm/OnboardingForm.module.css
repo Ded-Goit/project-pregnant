@@ -37,6 +37,14 @@
   gap: 24px;
   margin-bottom: 32px;
 }
+
+.avatarImage {
+  width: 164px;
+  height: 164px;
+  border-radius: 50%;
+  overflow: hidden;
+  display: inline-block;
+}
 .data_selection {
   display: flex;
   flex-direction: column;
@@ -53,7 +61,7 @@
 
   line-height: 1.2;
   letter-spacing: 0.01em;
-  background-color: var(--color-scheme-text);
+  color: var(--color-scheme-text);
 }
 
 .selectWrapper {
