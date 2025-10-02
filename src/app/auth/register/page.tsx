@@ -125,14 +125,14 @@ export default function RegistrationForm() {
             </Link>
           </p>
         </div>
+        <Image
+          className={styles.vision}
+          src="/auth/register.webp"
+          alt=""
+          width={720}
+          height={900}
+        />
       </section>
-      <Image
-        className={styles.vision}
-        src="/auth/register.webp"
-        alt=""
-        width={720}
-        height={900}
-      />
     </div>
   );
 }

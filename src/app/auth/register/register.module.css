@@ -17,8 +17,11 @@
 
 @media screen and (min-width: 1440px) {
   .section {
-    padding: 177px 0;
-    width: 720px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    width: 100%;
     margin: 0;
   }
 }
@@ -127,10 +130,6 @@
 @media screen and (min-width: 1440px) {
   .vision {
     display: block;
-    position: absolute;
-    top: 0;
-    right: 0;
-    z-index: 999;
     padding: 0;
   }
 }
