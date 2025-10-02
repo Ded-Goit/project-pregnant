@@ -32,9 +32,12 @@ export function useWeekStore() {
 
   useEffect(() => {
     async function fetchWeek() {
+      if (!user) {
+        setCurrentWeek(null);
+        return;
+      }
       try {
-        const route = user ? '/weeks/dashboard' : '/weeks/public/dashboard';
-        const res = await nextServer.get(route);
+        const res = await nextServer.get('/weeks/dashboard');
         setCurrentWeek(res.data.data.data.weekNumber);
       } catch {
         toast.error('Не вдалося отримати поточний тиждень');

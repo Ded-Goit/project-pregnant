@@ -115,7 +115,11 @@ export default function SideBar({ isOpen, onClose, onLogout }: SidebarProps) {
             ) : (
               <>
                 <li className={styles.navItem}>
-                  <Link href="/auth/register" className={styles.navLink}>
+                  <Link
+                    href="/auth/register"
+                    className={styles.navLink}
+                    onClick={onClose}
+                  >
                     <Image
                       src="/icons/today.svg"
                       alt="calendar icon"
@@ -180,7 +184,12 @@ export default function SideBar({ isOpen, onClose, onLogout }: SidebarProps) {
                 </div>
               </div>
               {/* LOGOUT BTN */}
-              <button onClick={onLogout}>
+              <button
+                onClick={() => {
+                  onLogout();
+                  onClose();
+                }}
+              >
                 <Image
                   src="/icons/logout.svg"
                   alt="logout icon"
@@ -191,10 +200,18 @@ export default function SideBar({ isOpen, onClose, onLogout }: SidebarProps) {
             </>
           ) : (
             <>
-              <Link href="/auth/login" className={styles.bottomLink}>
+              <Link
+                href="/auth/login"
+                className={styles.bottomLink}
+                onClick={onClose}
+              >
                 Увійти
               </Link>
-              <Link href="/auth/register" className={styles.bottomLink}>
+              <Link
+                href="/auth/register"
+                className={styles.bottomLink}
+                onClick={onClose}
+              >
                 Зареєструватися
               </Link>
             </>
