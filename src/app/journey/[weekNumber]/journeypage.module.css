@@ -1,6 +1,6 @@
 .container {
   margin: 0 auto;
-  width: 100%;
+  max-width: 1128px;
   overflow-x: hidden; /* заборонити горизонтальний скрол */
 }
 
