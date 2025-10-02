@@ -94,14 +94,14 @@ export default function LoginForm() {
             </Link>
           </p>
         </div>
+        <Image
+          className={styles.vision}
+          src="/auth/login.webp"
+          alt=""
+          width={720}
+          height={900}
+        />
       </section>
-      <Image
-        className={styles.vision}
-        src="/auth/login.webp"
-        alt=""
-        width={720}
-        height={900}
-      />
     </div>
   );
 }
