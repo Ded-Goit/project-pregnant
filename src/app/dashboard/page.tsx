@@ -103,7 +103,7 @@ export default function DashboardPage() {
   }, [isAuthenticated, user]);
 
   return (
-    <main className={styles.dashboardGrid}>
+    <div className={styles.dashboardGrid}>
       <GreetingBlock userName={user?.name} />
       <div className={styles.dashboardContainer}>
         <div className={styles.statusContainer}>
@@ -125,6 +125,6 @@ export default function DashboardPage() {
           <FeelingCheckCard />
         </div>
       </div>
-    </main>
+    </div>
   );
 }

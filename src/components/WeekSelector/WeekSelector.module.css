@@ -3,7 +3,7 @@
 }
 
 .wrapper {
-  width: 100%;
+  max-width: 1228px;
   box-sizing: border-box;
   overflow: auto;
   margin-top: 24px;
