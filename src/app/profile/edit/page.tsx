@@ -37,8 +37,6 @@ export default function OnboardingPage() {
   const handleOnboardingSubmit = async (
     formData: OnboardingFormValues
   ): Promise<void> => {
-    console.log(formData);
-
     if (!authUser) return;
 
     try {
@@ -59,7 +57,8 @@ export default function OnboardingPage() {
 
       const savedUser = await updateUserData(authUser._id, formDataToSend);
 
-      setUser(savedUser.data);
+      setUser(savedUser.data.user);
+      // console.log(savedUser.data);
 
       router.push('/dashboard');
     } catch (error: unknown) {
