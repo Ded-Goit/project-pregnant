@@ -11,12 +11,16 @@ interface AuthState {
   setUser: (user: User) => void;
   clearIsAuthenticated: () => void;
   setAuthLoading: (loading: boolean) => void;
+  activeTab: 'baby' | 'mom';
+  setActiveTab: (tab: 'baby' | 'mom') => void;
 }
 
 export const useAuthStore = create<AuthState>((set) => ({
   user: null,
   isAuthenticated: false,
   isAuthLoading: true,
+  activeTab: 'baby',
+  setActiveTab: (tab) => set({ activeTab: tab }),
   setUser: (user) =>
     set(() => ({
       user,
