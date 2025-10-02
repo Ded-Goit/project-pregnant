@@ -140,12 +140,8 @@ export default function DiaryPage() {
 
   return (
     <div className={styles.layout}>
-      {/* Main */}
-      <main className={styles.main}>
-        <header className={styles.pageHeader}>
-          <GreetingBlock userName={user?.name} />
-        </header>
-
+      <GreetingBlock userName={user?.name} />
+      <div className={styles.main}>
         <div className={styles.contentRow}>
           {/* LIST — всегда виден (desktop & mobile/tablet) */}
           <section className={styles.listCard}>
@@ -164,7 +160,7 @@ export default function DiaryPage() {
             />
           </section>
         </div>
-      </main>
+      </div>
       {isModalOpen && (
         <NewAddDiaryEntryModal
           onClose={closeModal}

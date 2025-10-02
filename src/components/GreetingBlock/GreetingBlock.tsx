@@ -26,7 +26,7 @@ export default function GreetingBlock({ userName }: GreetingBlockProps) {
   const greetingChoice = userName || 'майбутня мама';
 
   return (
-    <h1 className={styles.root}>
+    <h1 className={styles.title}>
       {greeting}, {greetingChoice}!
     </h1>
   );

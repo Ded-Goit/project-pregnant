@@ -1,5 +1,7 @@
 /* =================== MOBIL =================== */
-
+.layout {
+  margin: 0 auto;
+}
 .detailsCard {
   background-color: var(--color-scheme-foreground);
   display: none;
@@ -63,6 +65,7 @@
   .main {
     height: 722px;
     width: 1128px;
+    margin: 0 auto;
   }
 
   .pageHeader {
