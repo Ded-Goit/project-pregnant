@@ -19,7 +19,7 @@ export default function WeekSelector({
 }: Props) {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const user = useAuthStore((state) => state.user);
-  const currentUserWeek = user?.currentWeek.weekNumber;
+  const currentUserWeek = user?.currentWeek?.weekNumber;
 
   useEffect(() => {
     if (currentWeek === 1) return;
