@@ -38,7 +38,6 @@ export default function ProfileEditForm({
   setIsPhoto,
 }: ProfileEditFormProps) {
   const [isLoading, setIsLoading] = useState(false);
-  console.log(isPhoto);
 
   const formik = useFormik({
     initialValues: initialData,

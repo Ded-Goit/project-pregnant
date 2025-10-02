@@ -3,23 +3,23 @@
 import styles from './WeekSelector.module.css';
 import React, { useRef, useEffect } from 'react';
 import { useAuthStore } from '@/hooks/useAuthStore';
+import { useRouter } from 'next/navigation';
 
 interface Props {
   total?: number;
   startAt?: number;
-  onWeekChange: (week: number) => void;
   currentWeek?: number | null;
 }
 
 export default function WeekSelector({
   total = 42,
   startAt = 1,
-  onWeekChange,
   currentWeek,
 }: Props) {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const user = useAuthStore((state) => state.user);
-  const currentUserWeek = user?.currentWeek.weekNumber;
+  const currentUserWeek = user?.currentWeek?.weekNumber ?? 1;
+  const router = useRouter();
 
   useEffect(() => {
     if (currentWeek === 1) return;
@@ -36,7 +36,7 @@ export default function WeekSelector({
   const handleWeekClick = (week: number) => {
     if (!currentUserWeek) return;
     if (week <= currentUserWeek) {
-      onWeekChange(week);
+      router.push(`/journey/${week}`);
     }
   };
 

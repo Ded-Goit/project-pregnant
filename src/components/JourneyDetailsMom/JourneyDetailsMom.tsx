@@ -29,7 +29,7 @@ export default function JourneyDetailsBaby({ currentWeek }: Props) {
   const [data, setData] = useState<WeekDataForMom | null>(null);
 
   useEffect(() => {
-    const route = user?.currentWeek.weekNumber ? `${currentWeek}` : 'public';
+    const route = user?.currentWeek?.weekNumber ? `${currentWeek}` : 'public';
 
     async function fetchData() {
       try {

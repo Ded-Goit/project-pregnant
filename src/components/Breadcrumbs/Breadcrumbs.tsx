@@ -41,7 +41,7 @@ export default function Breadcrumbs() {
 
         {segments.map((segment, index) => {
           // шлях до поточного сегмента
-          let href = '/' + segments.slice(0, index + 1).join('/');
+          const href = '/' + segments.slice(0, index + 1).join('/');
 
           // робимо "читабельну" назву
           const nameMap: Record<string, string> = {
@@ -55,9 +55,9 @@ export default function Breadcrumbs() {
           // якщо останній — не робимо посилання
           const isLast = index === segments.length - 1;
 
-          if (segment === 'journey' && currentWeek) {
-            href = `/journey/${currentWeek}`;
-          }
+          // if (segment === 'journey' && currentWeek) {
+          //   href = `/journey/${currentWeek}`;
+          // }
 
           return (
             <li key={href}>

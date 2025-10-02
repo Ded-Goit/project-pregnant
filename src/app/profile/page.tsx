@@ -31,7 +31,8 @@ export default function ProfilePage() {
       if (authUser) {
         setIsLoading(true);
         const { data } = await updateUserDataEdit(authUser?._id, formData);
-        setUser(data);
+
+        setUser(data.user);
       }
     } catch (error) {
       console.error('Помилка оновлення профілю:', error);
@@ -62,6 +63,10 @@ export default function ProfilePage() {
     childGender: displayUser.gender,
     dueDate: displayUser.dueDate || '',
   };
+
+  if (!displayUser) {
+    return <Loading />;
+  }
 
   return (
     <div className={styles.pageWrapper}>
